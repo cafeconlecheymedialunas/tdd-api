@@ -1,0 +1,22 @@
+{
+  "name": "sisu-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://fernandobriozzo@github.com/renabap/sisu-core.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renabap/sisu-core/issues"
+  },
+  "homepage": "https://github.com/renabap/sisu-core#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
