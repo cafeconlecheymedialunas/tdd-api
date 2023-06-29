@@ -1,4 +1,4 @@
-export interface UserInterface{
+export interface UserInterface {
     name: string
     email: string
     password:string
@@ -6,13 +6,13 @@ export interface UserInterface{
     roles?:Role[]
 }
 
-export interface Role{
+export interface Role {
     id: number,
     name: string,
     permissions: Permission[]
 }
 
-export interface Permission{
+export interface Permission {
     id: string
     name:Array<'create_user'|'delete_user','login',''>
 }

@@ -1,46 +1,52 @@
 
 
-import { UserRepositoryInterface } from "../interfaces/UserRepositoryInterface"
+import { UserRepositoryInterface } from "../interfaces/repositories/UserRepositoryInterface"
 import { Role, UserInterface } from "../types/user.types"
-import { User } from "../entities/User"
+import { User } from "../entities/User.entity"
 
-/*
-list: []
-,getAll() : UserInterface[]
-getById(id:number): UserInterface
-add(user:UserInterface[]): void
-delete(id:number): void
-update(id:number,user:UserInterface) : void*/
 export class UserMockRepository implements UserRepositoryInterface {
-    #list: Array<User> = []
+    list: Array<User> = [];
 
+    getAll = (): User[] => {
+        return this.list
+    };
+  
+    getById = (id:number) : User => {
+        this.list.find((elem)=> elem.id === id)
+        return this.list[0]
+    }
 
-
-    add = (user:UserInterface): void => {
- 
+    add = (user: User): false | User => {
         const id = this.generateId()
-        const newUser = new User(user.email,user.password,user.name,[],id)
-        this.#list.push(newUser)
-    }
 
-    delete = (email:string) => {
-        this.#list = this.#list.filter(item => item.email !== email);
-    }
+        const newUser = new User (
+            user.name,
+            user.email,
+            user.password,
+            id
+        )
 
-    getAll = () => {
-      return this.#list
-    }
+        this.list.push(newUser);
 
+        return newUser
+
+    }
     
-    getById = (id:number) => {
-        return this.#list.filter((elem)=> elem.id === id)
+    delete = (id:number): void => {
+        this.list = this.list.filter(item => item.id !== id);
     }
 
-    update = (id:number) => {
-        return this.#list.filter((elem)=> elem.id === id)
-    }
-    generateId() {
-        const uint32 = window.crypto.getRandomValues(new Uint32Array(1))[0];
-        return uint32;
-    }
+    update = (id: number, user: UserInterface): void => {
+        const index = this.list.findIndex((elem) => elem.id === id);
+        if (index !== -1) {
+          this.list[index] = user;
+        }
+    };
+
+    generateId(): number {
+        const timestamp = Date.now();
+        const random = Math.floor(Math.random() * 1000000); // Número aleatorio entre 0 y 999999
+        const uniqueNumber = timestamp + random;
+        return uniqueNumber;
+      }
 }
