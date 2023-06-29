@@ -49,4 +49,12 @@ export class UserMockRepository implements UserRepositoryInterface {
         const uniqueNumber = timestamp + random;
         return uniqueNumber;
       }
+
+      getUserByEmail = (email:string): User | undefined => {
+          console.log(this.list)
+        const user = this.list.find(function (elem) {
+            return elem.email === email
+        })
+        return user
+    };
 }

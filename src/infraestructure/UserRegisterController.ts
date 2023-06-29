@@ -11,12 +11,14 @@ export class UserRegisterController {
   private readonly hash
   constructor (res: Response) {
     this.res = res
-    this.service = new RegisterUserUseCase(new UserMockRepository())
+    this.service = new RegisterUserUseCase(new UserMockRepository()) //TODO
     this.hash = new HashPasswordUseCase(bcrypt)
+
   }
 
-  register ({ name, email, password }: { name: string, email: string, password: string }): Response {
-    const newUser = this.service.register({ name, email, password })
+  async register ({ name, email, password }: { name: string, email: string, password: string }): Promise<Response> {
+    const passwordHash = await this.hash.hash(password)
+    const newUser = this.service.register({ name, email, password: passwordHash })
 
     return this.res.status(200).json(newUser)
   }
