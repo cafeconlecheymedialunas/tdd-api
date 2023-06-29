@@ -14,6 +14,8 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface {
 
   register ({ name, email, password }: UserInterface): HttpCustomResponse {
     if (email === '' || password === '' || name === '') return HttpCustomResponse.forbidden()
+    if (this.repository.getUserByEmail(email) !== undefined) return HttpCustomResponse.internalServerError()
+
     const newUser = this.repository.add({ name, email, password }) 
     return HttpCustomResponse.ok(newUser)
   }
@@ -21,4 +23,5 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface {
   auth (email: string, password: string): boolean {
     return false
   }
+
 }

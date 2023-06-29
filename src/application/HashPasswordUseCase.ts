@@ -2,14 +2,14 @@ import { HashPasswordUseCaseInterface } from "../domain/interfaces/useCases/Hash
 
 export class HashPasswordUseCase implements HashPasswordUseCaseInterface {
     bcrypt
-    constructor(bcrypt){
+    constructor(bcrypt : any) {
         this.bcrypt = bcrypt
     }
-    hash(password:string):Promise<string>{
-        return const match = await bcrypt.hash(password);
+    async hash(password:string):Promise<string>{
+        return await this.bcrypt.hash(password, 10);
     }
 
-    verify(password:string,hashedPassword:string):Promise<string>{
-        return const match = await bcrypt.compare(password, hashedPassword);
+    async verify(password:string,hashedPassword:string):Promise<boolean>{
+        return await this.bcrypt.compare(password, hashedPassword);
     }
 }

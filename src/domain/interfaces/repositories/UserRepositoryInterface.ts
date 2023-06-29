@@ -7,7 +7,6 @@ export interface UserRepositoryInterface{
     add(user:User): false | User
     delete(id:number): void
     update(id:number,user:User) : void
-    // TODO
-    generateId():number
-
+    generateId():number // TODO
+    getUserByEmail(email:string) : User | undefined
 }

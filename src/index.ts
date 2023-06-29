@@ -13,10 +13,11 @@ app.use(express.json())
 const router = Router()
 
 router.post('/register', function (req, res) {
-  console.log("body", req.body)
   const userController = new UserRegisterController(res)
   userController.register(req.body)
 })
+
+
 app.use(router)
 
 app.listen(app.get('port'), () => {
