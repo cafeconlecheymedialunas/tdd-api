@@ -17,7 +17,7 @@ export class UserRegisterController {
 
   async register({ name, email, password }: { name: string, email: string, password: string }): Promise<Response> {
     
-    const newUser = this.service.register({ name, email, password: passwordHash })
+    const newUser = this.service.register({ name, email, password })
     return this.res.status(200).json(newUser) //TODO
   }
 
