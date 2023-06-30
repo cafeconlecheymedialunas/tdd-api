@@ -8,6 +8,6 @@ export interface UserRepositoryInterface {
     delete(id: number): void
     update(id: number, user: User): void
     generateId(): number // TODO
-    getUserByEmail(email: string): User | undefined
-    getUserByEmailAndPassword(email: string, password: string): User | undefined
+    getUserByEmail(email: string): Promise<User | undefined>
+    getUserByEmailAndPassword(email: string, password: string): Promise<User | undefined>
 }

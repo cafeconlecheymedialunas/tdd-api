@@ -12,9 +12,10 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface {
     this.repository = repository
   }
 
-  register({ name, email, password }: UserInterface): HttpCustomResponse {
+  async register({ name, email, password }: UserInterface): Promise<HttpCustomResponse> {
     if (email === '' || password === '' || name === '') return HttpCustomResponse.forbidden()
-    if (this.repository.getUserByEmail(email) !== undefined) return HttpCustomResponse.internalServerError()
+    const user = await this.repository.getUserByEmail(email);
+    if ( user !== undefined) return HttpCustomResponse.internalServerError()
 
     const newUser = this.repository.add({ name, email, password })
     return HttpCustomResponse.ok(newUser)

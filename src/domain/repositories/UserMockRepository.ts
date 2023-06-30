@@ -79,17 +79,35 @@ export class UserMockRepository implements UserRepositoryInterface {
         return uniqueNumber;
     }
 
-    getUserByEmail = (email: string): User | undefined => {
-        const user = this.list.find(function (elem) {
-            return elem.email === email
-        })
-        return user
+    async getUserByEmail(email: string): Promise<User | undefined> {
+        try {
+          
+            this.list = await this.readUsersFile();
+           
+            const user  = this.list.find(function (elem) {
+                return elem.email === email
+            })
+            return (user !== undefined) ? user : undefined
+          } catch (error) {
+            console.log(error)
+            return undefined
+          }
+        
+     
     };
 
-    getUserByEmailAndPassword = (email: string, password: string): User | undefined => {
-        let foundUser = this.getUserByEmail(email);
-        if (foundUser?.password == password) return foundUser
-        else return undefined
+    async getUserByEmailAndPassword(email: string, passwordHashed: string): Promise<User | undefined> {
+        
+        try {
+
+            let foundUser = await this.getUserByEmail(email);
+            return (foundUser?.password == passwordHashed)?foundUser:undefined
+          } catch (error) {
+            console.log(error)
+            return undefined
+          }
+        
+      
     }
 
 
