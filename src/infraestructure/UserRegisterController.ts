@@ -3,7 +3,7 @@ import { UserMockRepository } from '../domain/repositories/UserMockRepository'
 import { HttpCustomResponse } from '../domain/types/http-response'
 import { type Response } from 'express'
 import bcrypt from "bcrypt"
-import { HashPasswordService } from '../application/HashPasswordService'
+import { HashPasswordService } from '../application/services/HashPasswordService'
 
 export class UserRegisterController {
   private readonly service
@@ -17,8 +17,8 @@ export class UserRegisterController {
 
   async register({ name, email, password }: { name: string, email: string, password: string }): Promise<Response> {
     
-    const newUser = this.service.register({ name, email, password })
-    return this.res.status(200).json(newUser) //TODO
+    const response = this.service.register({ name, email, password })
+    return this.res.status(200).json(response) //TODO
   }
 
 }

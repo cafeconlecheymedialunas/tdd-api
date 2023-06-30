@@ -4,7 +4,7 @@ import { type UserRepositoryInterface } from '../domain/interfaces/repositories/
 import { type RegisterUseCaseInterface } from '../domain/interfaces/useCases/RegisterUseCaseInterface'
 import { HttpCustomResponse } from '../domain/types/http-response'
 import { type UserInterface } from '../domain/types/user.types'
-import { HashPasswordService } from './HashPasswordService'
+import { HashPasswordService } from './services/HashPasswordService'
 
 export class RegisterUserUseCase implements RegisterUseCaseInterface {
   private readonly repository: UserRepositoryInterface

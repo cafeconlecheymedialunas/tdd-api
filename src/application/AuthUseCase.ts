@@ -2,7 +2,7 @@ import { UserRepositoryInterface } from "../domain/interfaces/repositories/UserR
 import { HashPasswordServiceInterface } from "../domain/interfaces/services/HashPasswordServiceInterface";
 import { JwtGenerateServiceInterface } from "../domain/interfaces/services/JwtGenerateServiceInterface";
 import { HttpCustomResponse } from "../domain/types/http-response";
-import { HashPasswordService } from "./HashPasswordService";
+import { HashPasswordService } from "./services/HashPasswordService";
 
 export class AuthUseCase {
   private readonly repository: UserRepositoryInterface

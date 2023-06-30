@@ -1,5 +1,5 @@
-import { JwtGenerateServiceInterface } from "../domain/interfaces/services/JwtGenerateServiceInterface";
-import { Payload } from "../domain/types/response";
+import { JwtGenerateServiceInterface } from "../../domain/interfaces/services/JwtGenerateServiceInterface";
+import { Payload } from "../../domain/types/response";
 
 export class JwtGenerateService implements JwtGenerateServiceInterface {
     jwt

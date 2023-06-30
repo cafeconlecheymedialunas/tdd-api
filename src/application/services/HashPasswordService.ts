@@ -1,4 +1,4 @@
-import { HashPasswordServiceInterface } from "../domain/interfaces/services/HashPasswordServiceInterface";
+import { HashPasswordServiceInterface } from "../../domain/interfaces/services/HashPasswordServiceInterface";
 
 export class HashPasswordService implements HashPasswordServiceInterface {
     bcrypt
