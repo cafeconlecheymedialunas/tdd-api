@@ -1,4 +1,4 @@
-import { Role, UserInterface} from "../types/user.types"
+import { Role, UserInterface } from "../types/user.types"
 
 export class User {
     name: string
@@ -7,7 +7,7 @@ export class User {
     id?: number
     roles?: Array<Role>
 
-    constructor(name:string,email:string,password:string,id:number,roles?:Role[]) {
+    constructor(name: string, email: string, password: string, id: number, roles?: Role[]) {
         this.name = name;
         this.email = email;
         this.password = password;

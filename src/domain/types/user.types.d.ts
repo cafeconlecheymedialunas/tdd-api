@@ -1,9 +1,9 @@
 export interface UserInterface {
     name: string
     email: string
-    password:string
+    password: string
     id?: number
-    roles?:Role[]
+    roles?: Role[]
 }
 
 export interface Role {
@@ -14,7 +14,7 @@ export interface Role {
 
 export interface Permission {
     id: string
-    name:Array<'create_user'|'delete_user','login',''>
+    name: Array<'create_user' | 'delete_user', 'login', ''>
 }
 
 export type UserRequired = Pick<User, "name" | "password" | "email">;
