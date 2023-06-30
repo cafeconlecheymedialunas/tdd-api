@@ -1,7 +1,7 @@
-import { JwtGenerateUseCaseInterface } from "../domain/interfaces/useCases/JwtGenerateUseCaseInterface";
+import { JwtGenerateServiceInterface } from "../domain/interfaces/services/JwtGenerateServiceInterface";
 import { Payload } from "../domain/types/response";
 
-export class JwtGenerateUseCase implements JwtGenerateUseCaseInterface {
+export class JwtGenerateService implements JwtGenerateServiceInterface {
     jwt
     constructor(jwt: any) {
         this.jwt = jwt;

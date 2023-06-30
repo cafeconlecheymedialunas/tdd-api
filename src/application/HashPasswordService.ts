@@ -1,6 +1,6 @@
-import { HashPasswordUseCaseInterface } from "../domain/interfaces/useCases/HashPasswordUseCaseInterface";
+import { HashPasswordServiceInterface } from "../domain/interfaces/services/HashPasswordServiceInterface";
 
-export class HashPasswordUseCase implements HashPasswordUseCaseInterface {
+export class HashPasswordService implements HashPasswordServiceInterface {
     bcrypt
     constructor(bcrypt: any) {
         this.bcrypt = bcrypt

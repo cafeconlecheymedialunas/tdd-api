@@ -1,15 +1,15 @@
 import { UserRepositoryInterface } from "../domain/interfaces/repositories/UserRepositoryInterface";
-import { HashPasswordUseCaseInterface } from "../domain/interfaces/useCases/HashPasswordUseCaseInterface";
-import { JwtGenerateUseCaseInterface } from "../domain/interfaces/useCases/JwtGenerateUseCaseInterface";
+import { HashPasswordServiceInterface } from "../domain/interfaces/services/HashPasswordServiceInterface";
+import { JwtGenerateServiceInterface } from "../domain/interfaces/services/JwtGenerateServiceInterface";
 import { HttpCustomResponse } from "../domain/types/http-response";
-import { HashPasswordUseCase } from "./HashPasswordUseCase";
+import { HashPasswordService } from "./HashPasswordService";
 
 export class AuthUseCase {
   private readonly repository: UserRepositoryInterface
-  private readonly hashService: HashPasswordUseCaseInterface
-  private readonly jwt:JwtGenerateUseCaseInterface
+  private readonly hashService: HashPasswordServiceInterface
+  private readonly jwt:JwtGenerateServiceInterface
   
-  constructor(repository: UserRepositoryInterface, hashService: HashPasswordUseCaseInterface, jwt: JwtGenerateUseCaseInterface) {
+  constructor(repository: UserRepositoryInterface, hashService: HashPasswordServiceInterface, jwt: JwtGenerateServiceInterface) {
     this.repository = repository
     this.hashService = hashService
     this.jwt = jwt
