@@ -17,6 +17,7 @@ export class AuthUseCase {
 
   async login(email: string, password: string): Promise<HttpCustomResponse> {
     const user = await this.repository.getUserByEmail(email);
+    console.log(user)
     if (user === undefined) {
       return HttpCustomResponse.notFound()
     }
