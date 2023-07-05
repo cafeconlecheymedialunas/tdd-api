@@ -11,7 +11,7 @@ export class HashPasswordService implements HashPasswordServiceInterface {
         this.saltRounds = saltRounds
     }
 
-    hash = async (password:string) => {
+    async hash(password:string){
         try {
         
           const salt = await this.bcrypt.genSalt(this.saltRounds)

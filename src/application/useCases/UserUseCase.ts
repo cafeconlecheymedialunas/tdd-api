@@ -1,5 +1,5 @@
-import { User } from "../domain/entities/User.entity";
-import { UserRepositoryInterface } from "../domain/interfaces/repositories/UserRepositoryInterface";
+import { User } from "../../domain/entities/User.entity";
+import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface";
 
 export class UserUseCase {
     private readonly repository: UserRepositoryInterface

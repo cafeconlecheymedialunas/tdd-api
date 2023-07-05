@@ -1,10 +1,10 @@
-import { UserRepositoryInterface } from "../interfaces/repositories/UserRepositoryInterface"
-import { UserInterface } from "../types/user.types"
-import { User } from "../entities/User.entity"
+import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
+import { UserInterface } from "../../domain/types/user.types"
+import { User } from "../../domain/entities/User.entity"
 import fs from 'fs';
-import { RoleInterface, RolesNames } from "../types/roles.types";
-import { Role } from "../entities/Role.entity";
-import { rolesDefaults } from "../types/roles.types";
+import { RoleInterface, RolesNames } from "../../domain/types/roles.types";
+import { Role } from "../../domain/entities/Role.entity";
+import { rolesDefaults } from "../../domain/types/roles.types";
 export class UserMockRepository implements UserRepositoryInterface {
   list: User[] = [];
   dataFilePath = __dirname + '/data.json'
@@ -98,7 +98,9 @@ export class UserMockRepository implements UserRepositoryInterface {
     try {
       this.list = await this.readUsersFile();
       const index = this.list.findIndex(item => item.id === id);
-      this.list[index] = user;
+      this.list[index].email = user.email
+      this.list[index].name = user.name
+      this.list[index].password = user.password
       await this.writeUsersFile(this.list);
       return
     } catch (error) {

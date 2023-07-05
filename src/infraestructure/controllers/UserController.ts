@@ -1,7 +1,7 @@
 
 import { Response } from "express"
-import { UserUseCase } from "../../application/UserUseCase"
-import { UserMockRepository } from "../../domain/repositories/UserMockRepository"
+import { UserUseCase } from "../../application/useCases/UserUseCase"
+import { UserMockRepository } from "../repositories/UserMockRepository"
 
 export class UserController {
     private readonly service

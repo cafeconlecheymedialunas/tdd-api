@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
 import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
 import { Permission } from '../../domain/entities/Permission.entity';
-export const checkRolesAndPermissions = (routePermissions:Permission[]) => {
+export default function checkRolesAndPermissions(routePermissions:Permission[]) {
     return async  (req: Request, res: Response, next: NextFunction) => {
         try {
       
