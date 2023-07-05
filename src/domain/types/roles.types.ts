@@ -30,7 +30,7 @@ export interface PermissionInterface {
     id: number
     name: PermissionsNames
 }
-const getUser = new Permission(names.ADD_USER, 1)
+export const getUser = new Permission(names.ADD_USER, 1)
 const getUsers = new Permission(names.GET_USERS, 2)
 const addUser = new Permission(names.GET_USER, 3)
 const updateUser = new Permission(names.UPDATE_USER, 4)
