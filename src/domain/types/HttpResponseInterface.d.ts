@@ -1,7 +1,7 @@
 import { type Payload } from './response'
 
 export interface HttpResponseInterface {
-  message?: string
   status: number
+  message?: string
   data?: Object
 }

@@ -2,12 +2,12 @@ import { User } from "../../entities/User.entity";
 
 export interface UserRepositoryInterface {
     list: User[];
-    getAll(): User[]
-    getById(id: number): User
+    getAll(): Promise<User[]>
+    getById(id: number): Promise<User | undefined>
     add(user: User): Promise<false | User>
-    delete(id: number): void
-    update(id: number, user: User): void
+    delete(id: number): Promise<boolean>
+    update(id: number, user: User): Promise<void>
     generateId(): number // TODO
     getUserByEmail(email: string): Promise<User | undefined>
-    getUserByEmailAndPassword(email: string, password: string): Promise<User | undefined>
+    
 }

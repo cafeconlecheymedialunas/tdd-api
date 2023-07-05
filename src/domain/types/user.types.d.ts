@@ -1,20 +1,18 @@
+import { Role } from "../entities/Role.entity"
+import { RolesNames } from "./roles.types"
+
 export interface UserInterface {
     name: string
     email: string
     password: string
     id?: number
-    roles?: Role[]
+    roles: Role[]
 }
 
-export interface Role {
-    id: number,
-    name: string,
-    permissions: Permission[]
-}
 
-export interface Permission {
-    id: string
-    name: Array<'create_user' | 'delete_user', 'login', ''>
-}
+
+
+
+
 
 export type UserRequired = Pick<User, "name" | "password" | "email">;

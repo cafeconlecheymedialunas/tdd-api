@@ -1,6 +1,8 @@
 
 
 export interface HashPasswordServiceInterface {
-    hash(password: string, salt: number): Promise<string>
+    readonly saltRounds: number
+    readonly  bcrypt:any
+    hash(password: string): Promise<string | false>
     verify(password: string, passwordHash: string): Promise<boolean>
 }
