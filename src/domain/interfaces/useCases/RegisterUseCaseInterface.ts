@@ -5,5 +5,4 @@ import { type UserInterface } from '../../types/user.types'
 
 export interface RegisterUseCaseInterface {
   register: ({ name, email, password,roles }: UserInterface) => HttpCustomResponse
-
 }

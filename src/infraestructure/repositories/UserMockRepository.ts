@@ -2,19 +2,18 @@ import { UserRepositoryInterface } from "../../domain/interfaces/repositories/Us
 import { UserInterface } from "../../domain/types/user.types"
 import { User } from "../../domain/entities/User.entity"
 import fs from 'fs';
-import { RoleInterface, RolesNames } from "../../domain/types/roles.types";
 import { Role } from "../../domain/entities/Role.entity";
 import { rolesDefaults } from "../../domain/types/roles.types";
 export class UserMockRepository implements UserRepositoryInterface {
   list: User[] = [];
   dataFilePath = __dirname + '/data.json'
-  
+
   async getAll(): Promise<User[]> {
     try {
       this.list = await this.readUsersFile();
       return this.list
     } catch (error) {
-     
+
       return []
     }
   };
@@ -34,16 +33,9 @@ export class UserMockRepository implements UserRepositoryInterface {
 
   async add(user: UserInterface): Promise<false | User> {
     try {
-
-
       const id = this.generateId()
-     const selectedRoles:Role[] = this.selectRoles(user.roles)
-    
-     
-        
+      const selectedRoles: Role[] = this.selectRoles(user.roles)
 
-      
-     
       const newUser = new User(
         user.name,
         user.email,
@@ -60,24 +52,24 @@ export class UserMockRepository implements UserRepositoryInterface {
     }
   }
 
-  selectRoles(roleParams:any):Role[] {
+  selectRoles(roleParams: any): Role[] {
     const uniqueRolesParams = [...new Set(roleParams)]
-  
-      const selectedRoles:Role[] = []
-      
-      let roles = Object.values(rolesDefaults);
-    
-      roles.forEach((role) => {
-        uniqueRolesParams.forEach((elem) => {
-          if (elem === role.name.toString()) {
-            selectedRoles.push(role)
-          }
-        })
-      })
-    return selectedRoles;
- }
 
-  async delete (id: number): Promise<boolean> {
+    const selectedRoles: Role[] = []
+
+    let roles = Object.values(rolesDefaults);
+
+    roles.forEach((role) => {
+      uniqueRolesParams.forEach((elem) => {
+        if (elem === role.name.toString()) {
+          selectedRoles.push(role)
+        }
+      })
+    })
+    return selectedRoles;
+  }
+
+  async delete(id: number): Promise<boolean> {
     try {
       const list = await this.readUsersFile();
       const index = list.findIndex(item => item.id === id);
@@ -94,7 +86,7 @@ export class UserMockRepository implements UserRepositoryInterface {
     }
   }
 
- async update (id: number, user: UserInterface): Promise<void> {
+  async update(id: number, user: UserInterface): Promise<void> {
     try {
       this.list = await this.readUsersFile();
       const index = this.list.findIndex(item => item.id === id);
@@ -105,7 +97,7 @@ export class UserMockRepository implements UserRepositoryInterface {
       return
     } catch (error) {
       console.log(error)
-      return 
+      return
     }
   }
 
@@ -121,7 +113,7 @@ export class UserMockRepository implements UserRepositoryInterface {
       this.list = await this.readUsersFile();
 
       return this.list.find(function (User) { return User.email === emailParam })
-    
+
 
     } catch (error) {
       console.log(error)
@@ -129,9 +121,7 @@ export class UserMockRepository implements UserRepositoryInterface {
     }
   };
 
-
-
-  readUsersFile = async (): Promise<any[]> => {
+  async readUsersFile(): Promise<any[]> {
     try {
       const data = await fs.promises.readFile(this.dataFilePath, 'utf8');
       return JSON.parse(data);
@@ -141,7 +131,7 @@ export class UserMockRepository implements UserRepositoryInterface {
     }
   };
 
-  writeUsersFile = async (data: any[]): Promise<void> => {
+  async writeUsersFile(data: any[]): Promise<void> {
     try {
       await fs.promises.writeFile(this.dataFilePath, JSON.stringify(data));
     } catch (error) {
