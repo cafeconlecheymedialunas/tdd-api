@@ -10,9 +10,4 @@ export interface UserInterface {
 }
 
 
-
-
-
-
-
 export type UserRequired = Pick<User, "name" | "password" | "email">;

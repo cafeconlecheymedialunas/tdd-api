@@ -6,8 +6,8 @@ import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/J
 export class LoginUseCase {
   private readonly repository: UserRepositoryInterface
   private readonly hashService: HashPasswordServiceInterface
-  private readonly jwt:JsonWebTokenServiceInterface
-  
+  private readonly jwt: JsonWebTokenServiceInterface
+
   constructor(repository: UserRepositoryInterface, hashService: HashPasswordServiceInterface, jwt: JsonWebTokenServiceInterface) {
     this.repository = repository
     this.hashService = hashService
@@ -16,7 +16,7 @@ export class LoginUseCase {
 
   async login(email: string, password: string): Promise<false | object> {
     const user = await this.repository.getUserByEmail(email);
-    
+
     if (user === undefined) {
       return false
     }
@@ -25,12 +25,12 @@ export class LoginUseCase {
     if (!passwordMatch) {
       return false
     }
-    let  permissions = user.roles.flatMap((elem) => {
+    let permissions = user.roles.flatMap((elem) => {
       return elem.permissions
-   })
-    const payload = { id:user.id, permissions}
-    const token = this.jwt.generate(payload, '1h');
-  
+    })
+    const payload = { id: user.id, permissions }
+    const token = this.jwt.generateToken(payload, '1h');
+
 
     return {
       token,
@@ -38,7 +38,7 @@ export class LoginUseCase {
         id: user.id,
         permissions
       }
-     
+
     }
   }
 

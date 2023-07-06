@@ -10,8 +10,6 @@ const hashPasswordService = new HashPasswordService(bcrypt)
 const userRepository = new UserMockRepository();
 const registerUseCase = new RegisterUserUseCase(userRepository, hashPasswordService)
 
-
-
 export default async function registerController(req: Request, res: Response): Promise<Response> {
     const { name, email, password,roles } = req.body
     const result = await registerUseCase.register({ name, email, password,roles })

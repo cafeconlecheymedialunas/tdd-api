@@ -7,10 +7,9 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     private jwt
     constructor(jwt: any) {
         this.jwt = jwt;
-        
     }
 
-    generate(payload: Payload, expiresIn: string): string {
+    generateToken(payload: Payload, expiresIn: string): string {
         const token = this.jwt.sign(payload, config.SECRET_KEY, { expiresIn });
         return token
     }
