@@ -1,44 +1,27 @@
 
 import { Permission } from "../entities/Permission.entity"
 import { Role } from "../entities/Role.entity"
-
-
-export enum names {
-    ADD_USER = 'add_user',
-    GET_USER = 'get_user',
-    GET_USERS = 'get_users',
-    UPDATE_USER = 'update_user',
-    DELETE_USER = 'delete_user',
-    ADMIN = 'admin',
-    USER = 'user',
-    EDITOR = 'editor'
-}
-export type PermissionsNames = names.ADD_USER | names.GET_USER | names.GET_USERS | names.UPDATE_USER | names.DELETE_USER
-
-export type RolesNames = names.ADMIN| names.EDITOR | names.USER
-
-export type RolesIds = 1 | 2 | 3
-
-
 export interface RoleInterface {
-    id: RolesIds,
-    name: RolesNames,
+    id: number,
+    name: string,
     permissions: Permission[]
 }
 
 export interface PermissionInterface {
     id: number
-    name: PermissionsNames
+    route: string,
+    method : string
 }
-export const getUser = new Permission(names.ADD_USER, 1)
-const getUsers = new Permission(names.GET_USERS, 2)
-const addUser = new Permission(names.GET_USER, 3)
-const updateUser = new Permission(names.UPDATE_USER, 4)
-const deleteUser = new Permission(names.DELETE_USER, 5)
 
-const admin = new Role(names.ADMIN, 1, [getUser, getUsers, addUser, updateUser , deleteUser]);
-const editor = new Role(names.EDITOR, 2, [addUser, getUser, getUsers]);
-const user = new Role(names.USER, 3, [getUser, getUsers]);
+export const getUsers= new Permission('users', 'GET', 1);
+export const getUser = new Permission('users/:id', 'GET', 2);
+export const addUser = new Permission('users', 'POST', 3);
+export const updateUser = new Permission('users', 'PUT', 4);
+export const deleteUser = new Permission('users', 'DELETE', 5);
+
+export const admin = new Role('admin', 1, [getUser, getUsers, addUser, updateUser , deleteUser]);
+export const editor = new Role('editor', 2, [addUser, getUser, getUsers]);
+export const user = new Role('user', 3, [getUser, getUsers]);
 
 export let rolesDefaults = {
     admin: admin,
