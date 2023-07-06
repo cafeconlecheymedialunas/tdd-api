@@ -1,27 +1,18 @@
-import express, { Router } from 'express'
-import 'dotenv/config'
 import cors from 'cors'
-import { UserRegisterController } from './infraestructure/UserRegisterController'
+import express from "express"
+import router from './infraestructure/routes'
+import bodyParser from 'body-parser'
+import config from './config'
 
-const app = express()
-const DEFAULT_PORT = 3000
-const PORT = process.env.PORT ?? DEFAULT_PORT
-app.set('port', PORT)
+const app = express();
+
+app.set('port', config.PORT)
 app.use(cors())
 app.use(express.json())
-
-const router = Router()
-
-router.post('/register', function (req, res) {
-  const userController = new UserRegisterController(res)
-  userController.register(req.body)
-})
-
-
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(router)
 
 app.listen(app.get('port'), () => {
-  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-  console.log('Server Started on port: ' + app.get('port'))
+  console.log(`Server Started on port:${app.get('port')}`)
 })
 export { app }

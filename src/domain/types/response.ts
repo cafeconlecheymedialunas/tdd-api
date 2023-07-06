@@ -1,4 +1,5 @@
-import { type Permission } from './user.types'
+import { Permission } from "../entities/Permission.entity"
+
 export interface Payload {
   id: number
   permissions: Permission[]
