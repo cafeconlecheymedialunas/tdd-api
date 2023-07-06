@@ -1,13 +1,14 @@
-import { PermissionsNames, RoleInterface, RolesIds, RolesNames } from "../types/roles.types";
+
+import { RoleInterface } from "../types/roles.types";
 import { Permission } from "./Permission.entity";
 
 
 export class Role implements RoleInterface{
-    name: RolesNames
-    id: RolesIds
+    name: string
+    id: number
     permissions: Permission[]
 
-    constructor(name: RolesNames, id: RolesIds, permissions: Permission[]) {
+    constructor(name: string, id: number, permissions: Permission[]) {
         this.name = name;
         this.id = id
         this.permissions = permissions

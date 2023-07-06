@@ -1,13 +1,16 @@
-import { PermissionInterface, PermissionsNames, RoleInterface, RolesIds, RolesNames } from "../types/roles.types";
+import { PermissionInterface } from "../types/roles.types";
+
 
 
 export class Permission implements PermissionInterface{
     id: number
-    name: PermissionsNames
+    route: string
+    method:string
 
-    constructor(name: PermissionsNames, id: number) {
-        this.name = name;
+    constructor(route:string,method:string,id: number) {
+        this.route = route;
         this.id = id
+        this.method = method
     }
 
 }
