@@ -2,7 +2,6 @@ import { UserRepositoryInterface } from "../../domain/interfaces/repositories/Us
 import { UserInterface } from "../../domain/types/user.types"
 import { User } from "../../domain/entities/User.entity"
 import fs from 'fs';
-import { RoleInterface, RolesNames } from "../../domain/types/roles.types";
 import { Role } from "../../domain/entities/Role.entity";
 import { rolesDefaults } from "../../domain/types/roles.types";
 export class UserMockRepository implements UserRepositoryInterface {
