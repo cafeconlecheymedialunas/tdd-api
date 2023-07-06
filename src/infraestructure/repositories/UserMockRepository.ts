@@ -1,13 +1,16 @@
 import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
-import { UserInterface } from "../../domain/types/user.types"
 import { User } from "../../domain/entities/User.entity"
 import fs from 'fs';
 import { Role } from "../../domain/entities/Role.entity";
-import { rolesDefaults } from "../../domain/types/roles.types";
+import { UserDto } from "../../application/dtos/UserDto";
+import { Permission } from "../../domain/entities/Permission.entity";
 export class UserMockRepository implements UserRepositoryInterface {
   list: User[] = [];
   dataFilePath = __dirname + '/data.json'
+  id: number = 0
 
+
+ 
   async getAll(): Promise<User[]> {
     try {
       this.list = await this.readUsersFile();
@@ -31,42 +34,35 @@ export class UserMockRepository implements UserRepositoryInterface {
     }
   }
 
-  async add(user: UserInterface): Promise<false | User> {
+  async add(user: {id:number,name:string,password:string,email:string,roles:number[]}): Promise<false | User> {
     try {
       const id = this.generateId()
-      const selectedRoles: Role[] = this.selectRoles(user.roles)
 
-      const newUser = new User(
+
+      const newUser = new UserDto(
         user.name,
         user.email,
         user.password,
         id,
-        selectedRoles
+        this.getRoles(user.roles),
+        this.getPermissions(user.roles)
       )
-      this.list = await this.readUsersFile();
-      this.list.push(newUser);
-      await this.writeUsersFile(this.list);
+      
       return newUser
     } catch (error) {
       return false
     }
   }
 
-  selectRoles(roleParams: any): Role[] {
-    const uniqueRolesParams = [...new Set(roleParams)]
-
-    const selectedRoles: Role[] = []
-
-    let roles = Object.values(rolesDefaults);
-
-    roles.forEach((role) => {
-      uniqueRolesParams.forEach((elem) => {
-        if (elem === role.name.toString()) {
-          selectedRoles.push(role)
-        }
-      })
-    })
-    return selectedRoles;
+  async getRoles(roles:number[]):Role[] {
+    this.list = await this.readUsersFile();
+    this.list.push(newUser);
+    await this.writeUsersFile(this.list);
+  }
+  async getPermissions(roles:number[]):Permission[] {
+    this.list = await this.readUsersFile();
+    this.list.push(newUser);
+    await this.writeUsersFile(this.list);
   }
 
   async delete(id: number): Promise<boolean> {
