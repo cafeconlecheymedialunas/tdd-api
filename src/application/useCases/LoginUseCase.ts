@@ -1,4 +1,3 @@
-import config from "../../config";
 import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface";
 import { HashPasswordServiceInterface } from "../../domain/interfaces/services/HashPasswordServiceInterface";
 import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/JsonWebTokenServiceInterface";

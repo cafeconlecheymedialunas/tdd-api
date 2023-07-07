@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import checkJwtTokenIsValid from "../middlewares/CheckJwtTokenIsValid";
 import { pruebaController } from "../controllers/prueba.controller";
 import CheckUserPermissions from "../middlewares/CheckUserPermissions";
