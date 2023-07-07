@@ -5,7 +5,8 @@ import fs from 'fs';
 import { Role } from "../../domain/entities/Role.entity";
 import { rolesDefaults } from "../../domain/types/roles.types";
 import { UserDto } from "../../application/dtos/UserDto";
-export class RoleMockRepository implements RoleMockRepositoryInterface {
+import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface";
+export class RoleMockRepository implements RoleRepositoryInterface {
   list: User[] = [];
   dataFilePath = __dirname + '/data.json'
 

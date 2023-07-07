@@ -1,4 +1,4 @@
-import { PermissionInterface } from "../types/roles.types";
+import { PermissionInterface } from "../interfaces/entities/PermissionInterface";
 
 
 

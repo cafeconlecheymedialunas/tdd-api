@@ -1,5 +1,5 @@
 
-import { UserInterface } from "../types/user.types"
+import { UserInterface } from "../interfaces/entities/UserInterface"
 import { Role } from "./Role.entity"
 
 export class User implements UserInterface {
