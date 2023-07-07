@@ -2,12 +2,13 @@ import { UserRepositoryInterface } from "../../domain/interfaces/repositories/Us
 import { User } from "../../domain/entities/User.entity"
 
 import { MockRepository } from "./MockRepository";
+import { RoleMockRepository } from "./RoleMockRepository";
 export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
   list: User[] = [];
   collection = 'users'
 
 
-
+  
 
 
   async getAll(): Promise<User[]> {
@@ -46,6 +47,8 @@ export class UserMockRepository extends MockRepository implements UserRepository
         id
       )
 
+      const rolesRepository  = new RoleMockRepository()
+      console.log(await rolesRepository.getByIdList(user.roles)) 
       this.list.push(newUser);
       await this.writeFile(this.collection, this.list);
       return newUser

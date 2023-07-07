@@ -13,6 +13,7 @@ export class MockRepository {
         try {
 
             const filePath = `${__dirname}/${fileName}.json`
+            console.log(filePath)
             const data = await fs.promises.readFile(filePath, 'utf8');
             return JSON.parse(data);
         } catch (error) {

@@ -13,7 +13,6 @@ export default function checkJwtTokenIsValid(req: Request, res: Response, next: 
         if (decodedToken.exp && decodedToken.exp < currentTime) {
             throw new Error('Token has expired');
         }
-        console.log(token)
 
         next();
     } catch (err) {

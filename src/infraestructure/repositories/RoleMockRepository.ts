@@ -1,46 +1,63 @@
-import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
-import { UserInterface } from "../../domain/types/user.types"
-import { User } from "../../domain/entities/User.entity"
-import fs from 'fs';
+
+
+
+
+import { RoleDto } from "../../application/dtos/RoleDto";
+import { Permission } from "../../domain/entities/Permission.entity";
 import { Role } from "../../domain/entities/Role.entity";
-import { rolesDefaults } from "../../domain/types/roles.types";
-import { UserDto } from "../../application/dtos/UserDto";
+
 import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface";
-export class RoleMockRepository implements RoleRepositoryInterface {
-  list: User[] = [];
-  dataFilePath = __dirname + '/data.json'
+
+import { MockRepository } from "./MockRepository";
+export class RoleMockRepository extends MockRepository implements RoleRepositoryInterface {
+  list: Role[] = [];
+  collection = 'roles'
 
  
 
-  async getById(id: number): Promise<User | undefined> {
+  async getById(id: number): Promise<Role | undefined> {
     try {
-      this.list = await this.readUsersFile();
-      const user = this.list.find(function (elem) {
+      this.list = await this.readFile(this.collection);
+      const role = this.list.find(function (elem) {
         return elem.id === id
       })
-      return (user !== undefined) ? user : undefined
+      return (role !== undefined) ? role : undefined
     } catch (error) {
       console.log(error)
       return undefined
     }
   }
 
-  async add(user: UserInterface): Promise<false | User> {
+
+  async getByIdList(ids: number[]): Promise<Role[] | undefined> {
+    try {
+      this.list = await this.readFile(this.collection);
+      let roles = this.list.filter(function(item) {
+        return ids.indexOf(item.id) != -1;
+      });
+      
+      return (roles !== undefined) ? roles : undefined
+    } catch (error) {
+      console.log(error)
+      return undefined
+    }
+  }
+  async add(role: {name:string,permissions:Permission[]}): Promise<false | Role> {
     try {
       const id = this.generateId()
-      const selectedRoles: Role[] = this.selectRoles(user.roles)
+     
 
-      const newUser = new UserDto(
-        user.name,
-        user.email,
-        user.password,
+      const newRole = new Role(
         id,
-        selectedRoles
+        role.name,
+        role.permissions
       )
-      this.list = await this.readUsersFile();
-      this.list.push(newUser);
-      await this.writeUsersFile(this.list);
-      return newUser
+      this.list = await this.readFile(this.collection);
+      this.list.push(newRole);
+      await this.writeFile(this.collection, this.list);
+      
+      
+      return newRole
     } catch (error) {
       return false
     }
