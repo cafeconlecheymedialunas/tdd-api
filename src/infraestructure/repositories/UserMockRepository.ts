@@ -3,6 +3,7 @@ import { User } from "../../domain/entities/User.entity"
 
 import { MockRepository } from "./MockRepository";
 import { RoleMockRepository } from "./RoleMockRepository";
+import { UserDto } from "../../application/dtos/UserDto";
 export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
   list: User[] = [];
   collection = 'users'
@@ -35,7 +36,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
     }
   }
 
-  async add(user: { name: string, password: string, email: string, roles: number[] }): Promise<false | User> {
+  async add(user: { name: string, password: string, email: string, roles: number[] }): Promise<false | UserDto> {
     try {
       const id = this.generateId()
       this.list = await this.readFile(this.collection);
@@ -46,12 +47,22 @@ export class UserMockRepository extends MockRepository implements UserRepository
         user.password,
         id
       )
-
-      const rolesRepository  = new RoleMockRepository()
-      console.log(await rolesRepository.getByIdList(user.roles)) 
       this.list.push(newUser);
       await this.writeFile(this.collection, this.list);
-      return newUser
+
+      const rolesRepository = new RoleMockRepository()
+      let  roles = await rolesRepository.getByIdList(user.roles)
+      if(!roles) return false
+     
+      const dto = new UserDto(
+        id,
+        user.name,
+        user.email,
+        roles
+        
+      )
+   
+      return dto
     } catch (error) {
       return false
     }

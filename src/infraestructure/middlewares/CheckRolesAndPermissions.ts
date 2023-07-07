@@ -1,26 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
+import { CheckUserPermissionsUseCase } from '../../application/useCases/CheckUserPermissionsUseCase';
 import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
-import { Permission } from '../../domain/entities/Permission.entity';
+import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissionsService';
+import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
+
 export default function checkRolesAndPermissions() {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
+
+            const token = req.headers.authorization?.split(' ')[1]
+         
             const route = req.baseUrl;
             const method = req.method;
             
-
-            const jsonWebTokenService = new JsonWebTokenService(jsonwebtoken);
-            const token = req.headers.authorization?.split(' ')[1]
-            if (!token) {
-                throw new Error("Token is invalid")
+            if (!token || !route || !method) {
+                throw new Error("Not valid")
             }
-          
-            const routePermissions = new Permission(route,method,1)
-                
-                
-            const decodedToken = await jsonWebTokenService.decode(token, routePermissions)
-            if (!decodedToken) {
-                throw new Error("Token is invalid")
+            
+            const checkUserPermisionsUseCase = new CheckUserPermissionsUseCase(new JsonWebTokenService(jsonwebtoken), new CheckRoutePermissionsService(new PermissionMockRepository()))
+            const check = checkUserPermisionsUseCase.check(route, method, token)
+            console.log(check)
+            if (!check) {
+                throw new Error('User Permissions required not valid')
             }
             next();
         } catch (err) {
