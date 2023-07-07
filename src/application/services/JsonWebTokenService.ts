@@ -1,8 +1,6 @@
 import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/JsonWebTokenServiceInterface";
 import { Payload } from "../../domain/types/response";
 import config from "../../config";
-import { decode } from "jsonwebtoken";
-import { Permission } from "../../domain/entities/Permission.entity";
 export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     private jwt
     constructor(jwt: any) {
@@ -19,23 +17,23 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
         return check
     }
 
-    async decode(token: string): Promise<Payload | false>{
+    async decode(token: string): Promise<Payload | false> {
         const tokenCleaned = token?.split(' ')[1];
-        let $return:boolean | object = false;
+        let $return: boolean | object = false;
         if (!tokenCleaned) {
             $return = false
         }
-        this.jwt.verify(token, config.SECRET_KEY, function(err:Error, decoded:any) {
+        this.jwt.verify(token, config.SECRET_KEY, function (err: Error, decoded: any) {
             if (err) {
                 $return = false
             }
             console.log(decoded)
             $return = {
                 id: decoded.id,
-                permissions:decoded.permissions
+                permissions: decoded.permissions
             }
-        }); 
-        
+        });
+
         return $return
     }
 }

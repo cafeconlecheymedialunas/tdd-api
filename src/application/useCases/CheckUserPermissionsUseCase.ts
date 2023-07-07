@@ -1,13 +1,6 @@
-
-import { type User } from '../../domain/entities/User.entity'
-import { type UserRepositoryInterface } from '../../domain/interfaces/repositories/UserRepositoryInterface'
 import { CheckRoutePermissionInterface } from '../../domain/interfaces/services/CheckRoutePermissionsInterface'
-import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordServiceInterface'
 import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface'
 import { CheckUserPermissionsUseCaseInterface } from '../../domain/interfaces/useCases/CheckUserPermissionsUseCaseInterface'
-import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/RegisterUseCaseInterface'
-import { UserDto } from '../dtos/UserDto'
-
 
 export class CheckUserPermissionsUseCase implements CheckUserPermissionsUseCaseInterface {
   private readonly jsonWebTokenService: JsonWebTokenServiceInterface

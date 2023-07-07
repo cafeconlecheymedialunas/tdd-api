@@ -21,7 +21,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
 
       return []
     }
-  };
+  }
 
   async getById(id: number): Promise<User | undefined> {
     try {
@@ -51,7 +51,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
       await this.writeFile(this.collection, this.list);
 
       const rolesRepository = new RoleMockRepository()
-      let  roles = await rolesRepository.getByIdList(user.roles)
+      const  roles = await rolesRepository.getByIdList(user.roles)
       if(!roles) return false
      
       const dto = new UserDto(
@@ -120,7 +120,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
       console.log(error)
       return undefined
     }
-  };
+  }
 
 
 }

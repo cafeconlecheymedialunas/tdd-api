@@ -20,7 +20,7 @@ export class MockRepository {
             console.error('Error al leer el archivo de usuarios:', error);
             throw error;
         }
-    };
+    }
 
     async writeFile(fileName: string,data: any[]): Promise<void> {
         try {
@@ -30,5 +30,5 @@ export class MockRepository {
             console.error('Error al escribir en el archivo de usuarios:', error);
             throw error;
         }
-    };
+    }
 }
