@@ -5,7 +5,7 @@ import { JsonWebTokenService } from '../../application/services/JsonWebTokenServ
 import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissionsService';
 import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 
-export default function checkRolesAndPermissions() {
+export default function CheckUserPermissions() {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
 
