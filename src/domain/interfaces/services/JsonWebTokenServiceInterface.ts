@@ -4,5 +4,5 @@ import { Payload } from "../../types/response";
 export interface JsonWebTokenServiceInterface {
     generateToken(payload: object,expiresIn:string): string;
     check(jwt: string): boolean;
-    decode(token:string,permissions:Permission[]):Promise<Payload | false>
+    decode(token:string,permission:Permission):Promise<Payload | false>
 }

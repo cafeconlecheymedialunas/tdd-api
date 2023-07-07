@@ -1,19 +1,19 @@
 import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
 import { User } from "../../domain/entities/User.entity"
-import fs from 'fs';
-import { Role } from "../../domain/entities/Role.entity";
-import { UserDto } from "../../application/dtos/UserDto";
-import { Permission } from "../../domain/entities/Permission.entity";
-export class UserMockRepository implements UserRepositoryInterface {
+
+import { MockRepository } from "./MockRepository";
+export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
   list: User[] = [];
-  dataFilePath = __dirname + '/data.json'
-  id: number = 0
+  collection = 'users'
 
 
- 
+
+
+
   async getAll(): Promise<User[]> {
     try {
-      this.list = await this.readUsersFile();
+      this.list = await this.readFile(this.collection);
+
       return this.list
     } catch (error) {
 
@@ -23,7 +23,7 @@ export class UserMockRepository implements UserRepositoryInterface {
 
   async getById(id: number): Promise<User | undefined> {
     try {
-      this.list = await this.readUsersFile();
+      this.list = await this.readFile(this.collection);
       const user = this.list.find(function (elem) {
         return elem.id === id
       })
@@ -34,44 +34,35 @@ export class UserMockRepository implements UserRepositoryInterface {
     }
   }
 
-  async add(user: {id:number,name:string,password:string,email:string,roles:number[]}): Promise<false | User> {
+  async add(user: { name: string, password: string, email: string, roles: number[] }): Promise<false | User> {
     try {
       const id = this.generateId()
+      this.list = await this.readFile(this.collection);
 
-
-      const newUser = new UserDto(
+      const newUser = new User(
         user.name,
         user.email,
         user.password,
-        id,
-        this.getRoles(user.roles),
-        this.getPermissions(user.roles)
+        id
       )
-      
+
+      this.list.push(newUser);
+      await this.writeFile(this.collection, this.list);
       return newUser
     } catch (error) {
       return false
     }
   }
 
-  async getRoles(roles:number[]):Role[] {
-    this.list = await this.readUsersFile();
-    this.list.push(newUser);
-    await this.writeUsersFile(this.list);
-  }
-  async getPermissions(roles:number[]):Permission[] {
-    this.list = await this.readUsersFile();
-    this.list.push(newUser);
-    await this.writeUsersFile(this.list);
-  }
+
 
   async delete(id: number): Promise<boolean> {
     try {
-      const list = await this.readUsersFile();
-      const index = list.findIndex(item => item.id === id);
+      this.list = await this.readFile(this.collection);
+      const index = this.list.findIndex(item => item.id === id);
       if (index !== -1) {
-        list.splice(index, 1);
-        await this.writeUsersFile(list);
+        this.list.splice(index, 1);
+        await this.writeFile(this.collection, this.list);
         return true
       } else {
         return false
@@ -82,15 +73,15 @@ export class UserMockRepository implements UserRepositoryInterface {
     }
   }
 
-  async update(id: number, user: UserInterface): Promise<void> {
+  async update(user: { id: number, name: string, password: string, email: string, roles: number[] }): Promise<void> {
     try {
-      this.list = await this.readUsersFile();
-      const index = this.list.findIndex(item => item.id === id);
+      this.list = await this.readFile(this.collection);
+      const index = this.list.findIndex(item => item.id === user.id);
       this.list[index].email = user.email
       this.list[index].name = user.name
       this.list[index].password = user.password
-      await this.writeUsersFile(this.list);
-      return
+      await this.writeFile(this.collection, this.list);
+      return 
     } catch (error) {
       console.log(error)
       return
@@ -106,7 +97,7 @@ export class UserMockRepository implements UserRepositoryInterface {
 
   async getUserByEmail(emailParam: string): Promise<User | undefined> {
     try {
-      this.list = await this.readUsersFile();
+      this.list = await this.readFile(this.collection);
 
       return this.list.find(function (User) { return User.email === emailParam })
 
@@ -117,22 +108,5 @@ export class UserMockRepository implements UserRepositoryInterface {
     }
   };
 
-  async readUsersFile(): Promise<any[]> {
-    try {
-      const data = await fs.promises.readFile(this.dataFilePath, 'utf8');
-      return JSON.parse(data);
-    } catch (error) {
-      console.error('Error al leer el archivo de usuarios:', error);
-      throw error;
-    }
-  };
 
-  async writeUsersFile(data: any[]): Promise<void> {
-    try {
-      await fs.promises.writeFile(this.dataFilePath, JSON.stringify(data));
-    } catch (error) {
-      console.error('Error al escribir en el archivo de usuarios:', error);
-      throw error;
-    }
-  };
 }
