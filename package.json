@@ -8,7 +8,7 @@
     "dev": "nodemon",
     "test": "jest --coverage",
     "type": "npx typescript",
-    "lint": "eslint src/**/*.ts --fix",
+    "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix"
   },
   "repository": {
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/body-parser": "^1.19.2",
     "@types/cors": "2.8.13",
     "@types/dotenv": "8.2.0",
     "@types/eslint": "8.40.2",
