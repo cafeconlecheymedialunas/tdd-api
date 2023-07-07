@@ -28,7 +28,7 @@ export class LoginUseCase {
     /*let permissions = user.roles.flatMap((elem) => {
       return elem.permissions
     })*/
-    const payload = { id: user.id, permissions:[] }
+    const payload = { id: user.id, permissions: [] }
     const token = this.jwt.generateToken(payload, '1h');
 
 
@@ -36,7 +36,13 @@ export class LoginUseCase {
       token,
       payload: {
         id: user.id,
-        permissions:[]
+        permissions: [
+          {
+            "id": 1,
+            "route": "products",
+            "method": "POST"
+          }
+        ]
       }
 
     }

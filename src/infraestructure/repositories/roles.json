@@ -1,0 +1,18 @@
+[{
+    "id":1,
+    "name":"Admin",
+    "permissions":[{
+        
+            "id":1,
+            "route":"products",
+            "method": "POST"
+        
+    },
+    {
+        
+        "id":2,
+        "route":"products",
+        "method": "POST"
+    
+}]
+}]

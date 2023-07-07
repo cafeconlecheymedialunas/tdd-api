@@ -19,7 +19,7 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
         return check
     }
 
-    async decode(token: string,routePermissions:Permission): Promise<Payload | false>{
+    async decode(token: string): Promise<Payload | false>{
         const tokenCleaned = token?.split(' ')[1];
         let $return:boolean | object = false;
         if (!tokenCleaned) {

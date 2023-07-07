@@ -1,18 +1,16 @@
 
-import { UserInterface } from "../../domain/types/user.types"
 import { Role } from "../../domain/entities/Role.entity"
+import { UserDtoInterface } from "../../domain/interfaces/dtos/UserDtoInterface"
 
 export class UserDto implements UserDtoInterface{
     name: string
     email: string
-    password: string
     id?: number
-    roles: number[]
+    roles: Role[]
 
-    constructor(name: string, email: string, password: string, id: number, roles: number[]) {
+    constructor(id: number,name: string, email: string, roles: Role[]) {
         this.name = name;
         this.email = email;
-        this.password = password;
         this.id = id
         this.roles = roles
     }
