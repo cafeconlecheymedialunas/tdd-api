@@ -1,11 +1,9 @@
 import { Permission } from "../../domain/entities/Permission.entity";
 import { PermissionRepositoryInterface } from "../../domain/interfaces/repositories/PermissionRepositoryInterface";
 import { MockRepository } from "./MockRepository";
-
 export class PermissionMockRepository extends MockRepository implements PermissionRepositoryInterface {
   list: Permission[] = [];
   collection = 'permissions'
-
   async getByRouteMethod(route: string, method: string): Promise<Permission | false> {
     try {
       this.list = await this.readFile(this.collection);
@@ -18,5 +16,4 @@ export class PermissionMockRepository extends MockRepository implements Permissi
       return false
     }
   }
-
 }

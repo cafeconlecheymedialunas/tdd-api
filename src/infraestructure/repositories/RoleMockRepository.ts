@@ -3,7 +3,6 @@ import { Permission } from "../../domain/entities/Permission.entity";
 import { Role } from "../../domain/entities/Role.entity";
 import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface";
 import { MockRepository } from "./MockRepository";
-
 export class RoleMockRepository extends MockRepository implements RoleRepositoryInterface {
   list: Role[] = [];
   collection = 'roles'
@@ -27,7 +26,6 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
       const roles = this.list.filter(function (item) {
         return ids.indexOf(item.id) != -1;
       });
-
       return (roles !== undefined) ? roles : undefined
     } catch (error) {
       console.log(error)
@@ -37,7 +35,6 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
   async add(role: { name: string, permissions: Permission[] }): Promise<false | RoleDto> {
     try {
       const id = this.generateId()
-
       const newRole = new Role(
         id,
         role.name,
@@ -46,11 +43,9 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
       this.list = await this.readFile(this.collection);
       this.list.push(newRole);
       await this.writeFile(this.collection, this.list);
-
       return newRole
     } catch (error) {
       return false
     }
   }
-
 }

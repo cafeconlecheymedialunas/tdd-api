@@ -17,10 +17,8 @@ export class UserMockRepository extends MockRepository implements UserRepository
   async getAll(): Promise<User[]> {
     try {
       this.list = await this.readFile(this.collection);
-
       return this.list
     } catch (error) {
-
       return []
     }
   }
@@ -45,7 +43,6 @@ export class UserMockRepository extends MockRepository implements UserRepository
       return false
     }
   }
-
   async delete(id: number): Promise<boolean> {
     try {
       this.list = await this.readFile(this.collection);
@@ -92,5 +89,4 @@ export class UserMockRepository extends MockRepository implements UserRepository
       return undefined
     }
   }
-
 }

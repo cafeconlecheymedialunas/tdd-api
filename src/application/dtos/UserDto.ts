@@ -1,4 +1,3 @@
-
 import { Role } from "../../domain/entities/Role.entity"
 import { UserDtoInterface } from "../../domain/interfaces/dtos/UserDtoInterface"
 
@@ -16,5 +15,4 @@ export class UserDto implements UserDtoInterface {
         this.password = password
         this.roles = roles
     }
-
 }

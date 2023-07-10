@@ -8,16 +8,12 @@ import { PermissionMockRepository } from '../repositories/PermissionMockReposito
 export default function CheckUserPermissions() {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
-
             const token = req.headers.authorization?.split(' ')[1]
-         
             const route = req.baseUrl;
             const method = req.method;
-            
             if (!token || !route || !method) {
                 throw new Error("Not valid")
             }
-            
             const checkUserPermisionsUseCase = new CheckUserPermissionsUseCase(new JsonWebTokenService(jsonwebtoken), new CheckRoutePermissionsService(new PermissionMockRepository()))
             const check = checkUserPermisionsUseCase.check(route, method, token)
             console.log(check)
@@ -28,7 +24,5 @@ export default function CheckUserPermissions() {
         } catch (err) {
             res.status(401).json({});
         }
-
     }
 }
-
