@@ -1,21 +1,10 @@
-
-
-
-
-import { RoleDto } from "../../application/dtos/RoleDto";
 import { Permission } from "../../domain/entities/Permission.entity";
 import { PermissionRepositoryInterface } from "../../domain/interfaces/repositories/PermissionRepositoryInterface";
-
-import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface";
-
 import { MockRepository } from "./MockRepository";
 export class PermissionMockRepository extends MockRepository implements PermissionRepositoryInterface {
   list: Permission[] = [];
   collection = 'permissions'
-
- 
-
-  async getByRouteMethod(route: string,method:string): Promise<Permission | false> {
+  async getByRouteMethod(route: string, method: string): Promise<Permission | false> {
     try {
       this.list = await this.readFile(this.collection);
       const permission = this.list.find(function (elem) {
@@ -28,7 +17,16 @@ export class PermissionMockRepository extends MockRepository implements Permissi
     }
   }
 
-
-
- 
+  async getByIdList(ids: number[]): Promise<PermissionD[] | undefined> {
+    try {
+      this.list = await this.readFile(this.collection);
+      const roles = this.list.filter(function (item) {
+        return ids.indexOf(item.id) != -1;
+      });
+      return (roles !== undefined) ? roles : undefined
+    } catch (error) {
+      console.log(error)
+      return undefined
+    }
+  }
 }

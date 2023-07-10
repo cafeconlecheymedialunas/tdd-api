@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { readdirSync } from "fs"
-
 const PATH_ROUTER = `${__dirname}`
-
 const router = Router();
 const cleanFileName = (fileName: string) => {
     const file = fileName.split(".")
@@ -14,8 +12,6 @@ readdirSync(PATH_ROUTER).filter((fileName) => {
         import(`./${file}`).then((module) => {
             router.use(`/${file}`, module.router)
         })
-
     }
 })
-
 export default router
