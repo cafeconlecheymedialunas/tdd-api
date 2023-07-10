@@ -1,3 +1,4 @@
+import { RoleDto } from "../../application/dtos/RoleDto";
 import { Permission } from "../../domain/entities/Permission.entity";
 import { Role } from "../../domain/entities/Role.entity";
 import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface";
@@ -7,7 +8,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
   list: Role[] = [];
   collection = 'roles'
 
-  async getById(id: number): Promise<Role | undefined> {
+  async getById(id: number): Promise<RoleDto | undefined> {
     try {
       this.list = await this.readFile(this.collection);
       const role = this.list.find(function (elem) {
@@ -20,7 +21,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     }
   }
 
-  async getByIdList(ids: number[]): Promise<Role[] | undefined> {
+  async getByIdList(ids: number[]): Promise<RoleDto[] | undefined> {
     try {
       this.list = await this.readFile(this.collection);
       const roles = this.list.filter(function (item) {
@@ -33,7 +34,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
       return undefined
     }
   }
-  async add(role: { name: string, permissions: Permission[] }): Promise<false | Role> {
+  async add(role: { name: string, permissions: Permission[] }): Promise<false | RoleDto> {
     try {
       const id = this.generateId()
 
@@ -50,13 +51,6 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     } catch (error) {
       return false
     }
-  }
-
-  generateId(): number {
-    const timestamp = Date.now();
-    const random = Math.floor(Math.random() * 1000000);
-    const uniqueNumber = timestamp + random;
-    return uniqueNumber;
   }
 
 }
