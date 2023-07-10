@@ -1,7 +1,5 @@
 import { PermissionInterface } from "../interfaces/entities/PermissionInterface";
 
-
-
 export class Permission implements PermissionInterface{
     id: number
     route: string
@@ -14,6 +12,4 @@ export class Permission implements PermissionInterface{
     }
 
 }
-
-
 

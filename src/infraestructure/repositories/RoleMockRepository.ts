@@ -7,8 +7,6 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
   list: Role[] = [];
   collection = 'roles'
 
-
-
   async getById(id: number): Promise<Role | undefined> {
     try {
       this.list = await this.readFile(this.collection);
@@ -21,7 +19,6 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
       return undefined
     }
   }
-
 
   async getByIdList(ids: number[]): Promise<Role[] | undefined> {
     try {
@@ -40,7 +37,6 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     try {
       const id = this.generateId()
 
-
       const newRole = new Role(
         id,
         role.name,
@@ -50,13 +46,11 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
       this.list.push(newRole);
       await this.writeFile(this.collection, this.list);
 
-
       return newRole
     } catch (error) {
       return false
     }
   }
-
 
   generateId(): number {
     const timestamp = Date.now();
@@ -64,6 +58,5 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     const uniqueNumber = timestamp + random;
     return uniqueNumber;
   }
-
 
 }

@@ -12,7 +12,6 @@ const hashPasswordService = new HashPasswordService(bcrypt)
 const userRepository = new UserMockRepository();
 const loginUseCase= new LoginUseCase(userRepository,hashPasswordService , new JsonWebTokenService(jwt))
 
-
 export default  async function loginController(req: Request, res: Response) {
     const { email, password } = req.body
     const result = await loginUseCase.login(email, password)
@@ -20,5 +19,4 @@ export default  async function loginController(req: Request, res: Response) {
     return HttpCustomResponse.ok(res,result,'User logged in successfully')
 
 }
-
 

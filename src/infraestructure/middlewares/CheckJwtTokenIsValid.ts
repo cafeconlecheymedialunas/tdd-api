@@ -20,4 +20,3 @@ export default function checkJwtTokenIsValid(req: Request, res: Response, next: 
     }
 }
 
-

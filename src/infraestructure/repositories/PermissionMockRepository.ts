@@ -6,8 +6,6 @@ export class PermissionMockRepository extends MockRepository implements Permissi
   list: Permission[] = [];
   collection = 'permissions'
 
-
-
   async getByRouteMethod(route: string, method: string): Promise<Permission | false> {
     try {
       this.list = await this.readFile(this.collection);
@@ -20,8 +18,5 @@ export class PermissionMockRepository extends MockRepository implements Permissi
       return false
     }
   }
-
-
-
 
 }

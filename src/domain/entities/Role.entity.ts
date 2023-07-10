@@ -2,7 +2,6 @@
 import { RoleInterface } from "../interfaces/entities/RoleInterface";
 import { Permission } from "./Permission.entity";
 
-
 export class Role implements RoleInterface{
     name: string
     id: number
@@ -14,6 +13,4 @@ export class Role implements RoleInterface{
     }
 
 }
-
-
 

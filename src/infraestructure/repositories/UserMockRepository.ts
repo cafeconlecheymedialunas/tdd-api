@@ -8,10 +8,6 @@ export class UserMockRepository extends MockRepository implements UserRepository
   list: User[] = [];
   collection = 'users'
 
-
-  
-
-
   async getAll(): Promise<User[]> {
     try {
       this.list = await this.readFile(this.collection);
@@ -68,8 +64,6 @@ export class UserMockRepository extends MockRepository implements UserRepository
     }
   }
 
-
-
   async delete(id: number): Promise<boolean> {
     try {
       this.list = await this.readFile(this.collection);
@@ -115,12 +109,10 @@ export class UserMockRepository extends MockRepository implements UserRepository
 
       return this.list.find(function (User) { return User.email === emailParam })
 
-
     } catch (error) {
       console.log(error)
       return undefined
     }
   }
-
 
 }
