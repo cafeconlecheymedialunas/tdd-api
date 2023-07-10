@@ -1,5 +1,4 @@
 import { Role } from "../../entities/Role.entity"
-
 export interface UserDtoInterface {
     name: string
     email: string

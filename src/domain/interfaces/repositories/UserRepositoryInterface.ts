@@ -1,6 +1,5 @@
 import { UserDto } from "../../../application/dtos/UserDto";
 import { User } from "../../entities/User.entity";
-
 export interface UserRepositoryInterface {
     getAll(): Promise<User[]>
     getById(id: number): Promise<User | undefined>

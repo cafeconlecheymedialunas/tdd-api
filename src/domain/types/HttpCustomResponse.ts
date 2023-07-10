@@ -1,6 +1,5 @@
 import { Response } from 'express'
 import { HttpStatusMessages, HttpStatuses } from './response'
-
 export class HttpCustomResponse {
   static ok(res: Response, data: unknown, message = ''): Response {
     return res.status(HttpStatuses.OK).json({
@@ -9,21 +8,18 @@ export class HttpCustomResponse {
       data
     })
   }
-
   static notFound(res: Response, message = ''): Response {
     return res.status(HttpStatuses.NOT_FOUNT).json({
       status: HttpStatuses.NOT_FOUNT,
       message: message !== '' ? message : HttpStatusMessages.NOT_FOUNT,
     })
   }
-
   static unauthorized(res: Response, message = ''): Response {
     return res.status(HttpStatuses.UNAUTHORIZED).json({
       status: HttpStatuses.UNAUTHORIZED,
       message: message !== '' ? message : HttpStatusMessages.UNAUTHORIZED,
     })
   }
-
   static forbidden(res: Response, message = ''): Response {
     return res.status(HttpStatuses.FORBIDDEN).json({
       status: HttpStatuses.FORBIDDEN,

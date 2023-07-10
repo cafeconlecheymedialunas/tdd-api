@@ -6,17 +6,14 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     constructor(jwt: any) {
         this.jwt = jwt;
     }
-
     generateToken(payload: Payload, expiresIn: string): string {
         const token = this.jwt.sign(payload, config.SECRET_KEY, { expiresIn });
         return token
     }
-
     check(jwt: string): boolean {
         const check = this.jwt.verify(jwt, config.SECRET_KEY)
         return check
     }
-
     async decode(token: string): Promise<Payload | false> {
         const tokenCleaned = token?.split(' ')[1];
         let $return: boolean | object = false;
@@ -33,7 +30,6 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
                 permissions: decoded.permissions
             }
         });
-
         return $return
     }
 }
