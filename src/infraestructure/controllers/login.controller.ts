@@ -6,6 +6,7 @@ import { UserMockRepository } from "../repositories/UserMockRepository";
 import { JsonWebTokenService } from "../../application/services/JsonWebTokenService";
 import { HashPasswordService } from "../../application/services/HashPasswordService";
 import { HttpCustomResponse } from "../../domain/types/HttpCustomResponse";
+
 const hashPasswordService = new HashPasswordService(bcrypt)
 const userRepository = new UserMockRepository();
 const loginUseCase = new LoginUseCase(userRepository, hashPasswordService, new JsonWebTokenService(jwt))
