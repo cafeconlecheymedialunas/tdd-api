@@ -24,12 +24,9 @@ export class LoginUseCase {
     if (!passwordMatch) {
       return false
     }
-    /*let permissions = user.roles.flatMap((elem) => {
-      return elem.permissions
-    })*/
+
     const payload = { id: user.id, permissions: [] }
     const token = this.jwt.generateToken(payload, '1h');
-
 
     return {
       token,
