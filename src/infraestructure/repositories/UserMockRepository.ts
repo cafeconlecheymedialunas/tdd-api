@@ -1,10 +1,10 @@
 import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
-import { User } from "../../domain/entities/User.entity"
 import { BasicExpression, MockRepository } from "./MockRepository";
 import { UserDto } from "../../application/dtos/UserDto";
 import { UserDtoMapper } from "../../application/datamappers/UserDtoMapper";
 import { RoleMockRepository } from "./RoleMockRepository";
 import UserDataMapperInterface from "../../domain/interfaces/datamappers/UserDataMapperInterface";
+import { Role } from "../../domain/entities/Role.entity";
 
 export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
   list: UserDto[] = [];
@@ -14,9 +14,19 @@ export class UserMockRepository extends MockRepository implements UserRepository
     super()
     this.dataMapper = new UserDtoMapper(new RoleMockRepository())
   }
-  async getAll(): Promise<User[]> {
+  async getAll(): Promise<UserDto[] | false> {
     try {
       this.list = await this.readFile(this.collection);
+      const result = await Promise.all(
+        this.list.map(async (item) => {
+          const roles = [...new Set(item.roles.map((role: Role) => role.id))];
+          return await this.dataMapper.map(item.id, item.name, item.email, item.password, roles)
+        })
+      )
+
+      if (result) return false
+      this.list = result
+      this.writeFile(this.collection, this.list)
       return this.list
     } catch (error) {
       return []

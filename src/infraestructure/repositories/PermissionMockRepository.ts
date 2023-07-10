@@ -16,4 +16,17 @@ export class PermissionMockRepository extends MockRepository implements Permissi
       return false
     }
   }
+
+  async getByIdList(ids: number[]): Promise<PermissionD[] | undefined> {
+    try {
+      this.list = await this.readFile(this.collection);
+      const roles = this.list.filter(function (item) {
+        return ids.indexOf(item.id) != -1;
+      });
+      return (roles !== undefined) ? roles : undefined
+    } catch (error) {
+      console.log(error)
+      return undefined
+    }
+  }
 }
