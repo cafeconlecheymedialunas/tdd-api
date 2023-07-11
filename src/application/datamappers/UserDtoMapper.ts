@@ -1,5 +1,5 @@
-import DataMapperInterface from "../../domain/interfaces/datamappers/UserDataMapperInterface";
-import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface";
+import DataMapperInterface from "../../domain/interfaces/datamappers/UserDataMapperInterface"
+import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface"
 import { UserDto } from "../dtos/UserDto";
 
 export class UserDtoMapper implements DataMapperInterface {

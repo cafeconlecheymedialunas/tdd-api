@@ -1,3 +1,4 @@
+import { PermissionDto } from "../../application/dtos/PermissionDto";
 import { Permission } from "../../domain/entities/Permission.entity";
 import { PermissionRepositoryInterface } from "../../domain/interfaces/repositories/PermissionRepositoryInterface";
 import { MockRepository } from "./MockRepository";
@@ -17,13 +18,26 @@ export class PermissionMockRepository extends MockRepository implements Permissi
     }
   }
 
-  async getByIdList(ids: number[]): Promise<PermissionD[] | undefined> {
+  async getByIdList(ids: number[]): Promise<Permission[] | undefined> {
     try {
       this.list = await this.readFile(this.collection);
       const roles = this.list.filter(function (item) {
         return ids.indexOf(item.id) != -1;
       });
       return (roles !== undefined) ? roles : undefined
+    } catch (error) {
+      console.log(error)
+      return undefined
+    }
+  }
+
+  async getById(id: number): Promise<PermissionDto | undefined> {
+    try {
+      this.list = await this.readFile(this.collection);
+      const role = this.list.find(function (elem) {
+        return elem.id === id
+      })
+      return (role !== undefined) ? role : undefined
     } catch (error) {
       console.log(error)
       return undefined

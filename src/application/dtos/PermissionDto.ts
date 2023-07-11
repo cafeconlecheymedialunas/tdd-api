@@ -5,7 +5,7 @@ export class PermissionDto implements PermissionDtoInterface {
     route: string
     method: string
     constructor(route: string, method: string, id: number) {
-        this.route = route;
+        this.route = route
         this.id = id
         this.method = method
     }

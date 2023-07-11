@@ -1,1 +1,50 @@
-[{"id":1688991337272,"name":"Mauro gaitan","email":"mauro8d7df33sdddssddfddddsfafdddgdmail.com","password":"$2b$10$o1EQ3aePC0hewuWzZqfc3.0PWVJQ6n/abseDcQxZCaZlbrwieiB7u","roles":[{"id":1,"name":"Admin","permissions":[{"id":1,"route":"products","method":"POST"},{"id":2,"route":"products","method":"POST"}]}]},{"id":1688998596855,"name":"Mauro gaitan","email":"mauro8d7df33sdddssddfdddddsfafdddgdmail.com","password":"$2b$10$wkp277QSL7G2TJoIV8F3G.9Uxti3MyYIBuLNbjDezAOaE6ggDPkgC","roles":[{"id":1,"name":"Admin","permissions":[{"id":1,"route":"products","method":"POST"},{"id":2,"route":"products","method":"POST"}]}]}]
+[
+    {
+        "id": 1688991337272,
+        "name": "Mauro gaitan",
+        "email": "mauro8d7df33sdddssddfddddsfafdddgdmail.com",
+        "password": "$2b$10$o1EQ3aePC0hewuWzZqfc3.0PWVJQ6n/abseDcQxZCaZlbrwieiB7u",
+        "roles": [
+            {
+                "id": 1,
+                "name": "Admin",
+                "permissions": [
+                    {
+                        "id": 1,
+                        "route": "products",
+                        "method": "POST"
+                    },
+                    {
+                        "id": 2,
+                        "route": "products",
+                        "method": "POST"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1688998596855,
+        "name": "Mauro gaitan",
+        "email": "mauro8d7df33sdddssddfdddddsfafdddgdmail.com",
+        "password": "$2b$10$wkp277QSL7G2TJoIV8F3G.9Uxti3MyYIBuLNbjDezAOaE6ggDPkgC",
+        "roles": [
+            {
+                "id": 1,
+                "name": "Admin",
+                "permissions": [
+                    {
+                        "id": 1,
+                        "route": "products",
+                        "method": "POST"
+                    },
+                    {
+                        "id": 2,
+                        "route": "products",
+                        "method": "POST"
+                    }
+                ]
+            }
+        ]
+    }
+]

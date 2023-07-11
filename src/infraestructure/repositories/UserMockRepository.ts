@@ -1,7 +1,7 @@
 import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
 import { BasicExpression, MockRepository } from "./MockRepository";
 import { UserDto } from "../../application/dtos/UserDto";
-import { UserDtoMapper } from "../../application/datamappers/UserDtoMapper";
+import { UserDtoMapper } from "../../application/dataMappers/UserDtoMapper";
 import { RoleMockRepository } from "./RoleMockRepository";
 import UserDataMapperInterface from "../../domain/interfaces/datamappers/UserDataMapperInterface";
 import { Role } from "../../domain/entities/Role.entity";
