@@ -14,6 +14,8 @@ app.use(router)
 
 app.use((err: ClientError, req: Request, res: Response, next: NextFunction): void => {
   const { statusCode, message } = err
+  console.log(err)
+  console.log('Holas')
   resError(res, statusCode, message)
 })
 app.listen(app.get('port'), () => {

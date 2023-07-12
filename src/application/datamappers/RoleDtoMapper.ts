@@ -1,6 +1,5 @@
 import RoleDataMapperInterface from "../../domain/interfaces/datamappers/RoleDataMapperInterface"
 import { PermissionRepositoryInterface } from "../../domain/interfaces/repositories/PermissionRepositoryInterface"
-import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface"
 import { RoleDto } from "../dtos/RoleDto"
 
 export class RoleDtoMapper implements RoleDataMapperInterface {

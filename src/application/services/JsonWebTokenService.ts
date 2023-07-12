@@ -1,35 +1,36 @@
 import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/JsonWebTokenServiceInterface";
 import { Payload } from "../../domain/types/response";
 import config from "../../config";
+import { ClientError } from "../../infraestructure/utils";
 export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     private jwt
     constructor(jwt: any) {
         this.jwt = jwt;
     }
-    generateToken(payload: Payload, expiresIn: string): string {
-        const token = this.jwt.sign(payload, config.SECRET_KEY, { expiresIn });
+    async generateToken(payload: Payload, expiresIn: string): Promise<string> {
+        const token = await this.jwt.sign(payload, config.SECRET_KEY, { expiresIn });
         return token
     }
-    check(jwt: string): boolean {
-        const check = this.jwt.verify(jwt, config.SECRET_KEY)
+    async check(jwt: string): Promise<boolean> {
+        const check = await this.jwt.verify(jwt, config.SECRET_KEY)
         return check
     }
-    async decode(token: string): Promise<Payload | false> {
+    async decode(token: string): Promise<Payload | void> {
         const tokenCleaned = token?.split(' ')[1];
-        let $return: boolean | object = false;
+
         if (!tokenCleaned) {
-            $return = false
+            throw new ClientError('No se encontro', 400)
         }
         this.jwt.verify(token, config.SECRET_KEY, function (err: Error, decoded: any) {
             if (err) {
-                $return = false
+                throw new ClientError('No se encontro', 400)
             }
-            console.log(decoded)
-            $return = {
+
+            return {
                 id: decoded.id,
                 permissions: decoded.permissions
             }
         });
-        return $return
+
     }
 }
