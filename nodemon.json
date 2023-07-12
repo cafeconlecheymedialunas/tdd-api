@@ -8,5 +8,5 @@
         ".git",
         "node_modules"
     ],
-    "exec": "npm run format && ts-node src/index.ts"
+    "exec": "ts-node src/index.ts"
 }

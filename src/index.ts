@@ -12,13 +12,6 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(router)
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: ClientError, req: Request, res: Response, next: NextFunction): void => {
-  const { status, message } = err
-  console.log(err)
-  resError(res, status, message)
-})
-
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ClientError) {

@@ -2,7 +2,7 @@ import { UserRepositoryInterface } from "../../domain/interfaces/repositories/Us
 import { HashPasswordServiceInterface } from "../../domain/interfaces/services/HashPasswordServiceInterface"
 import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/JsonWebTokenServiceInterface"
 import { HttpStatuses } from "../../domain/types/response"
-import { ClientError } from "../../infraestructure/utils"
+import { ClientError, validateEmail } from "../../infraestructure/utils"
 
 export class LoginUseCase {
   private readonly repository: UserRepositoryInterface
@@ -14,6 +14,15 @@ export class LoginUseCase {
     this.jwt = jwt
   }
   async login(email: string, password: string): Promise<object> {
+    if (email == '') {
+      throw new ClientError('Email is required')
+    }
+    if (!validateEmail(email)) {
+      throw new ClientError('Is not a valid Email')
+    }
+    if (password == '') {
+      throw new ClientError('Password is required')
+    }
     const user = await this.repository.getUserByEmail(email);
     if (user === undefined) {
       throw new ClientError('The username or password does not match')

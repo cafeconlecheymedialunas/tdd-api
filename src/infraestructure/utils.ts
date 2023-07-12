@@ -25,6 +25,12 @@ export const response = (res: Response, status = 400, data: object) => {
     });
 };
 
+
+export const validateEmail = (email: string) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+}
+
 export class ClientError extends Error {
     status
     constructor(message: string, status = 400) {
