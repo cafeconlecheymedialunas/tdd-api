@@ -8,7 +8,8 @@ export class CheckRoutePermissionsService implements CheckRoutePermissionInterfa
     constructor(repository: PermissionRepositoryInterface) {
         this.repository = repository
     }
-    async check(route: string, method: string, userPermissions: Permission[]): Promise<boolean> {
+    async checkPermissions(route: string, method: string, userPermissions: Permission[]): Promise<boolean> {
+
         const routePermission = await this.getPermission(route, method)
         if (!routePermission) return false
         const permission = userPermissions.find((elem) => {

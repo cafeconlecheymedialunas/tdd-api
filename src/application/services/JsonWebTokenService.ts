@@ -13,7 +13,7 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     }
     async check(token: string): Promise<boolean> {
 
-        const decoded = this.jwt.verify(token, config.SECRET_KEY);
+        const decoded = await this.jwt.verify(token, config.SECRET_KEY);
         const currentTime = Math.floor(Date.now() / 1000);
         if (decoded.exp && decoded.exp < currentTime) {
             throw new ClientError('Token has expired.')
@@ -21,22 +21,21 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
         return (decoded.id) ? true : false
 
     }
-    async decode(token: string): Promise<Payload | void> {
-        const tokenCleaned = token?.split(' ')[1];
+    async decode(token: string): Promise<Payload> {
 
-        if (!tokenCleaned) {
+
+        if (token === '') {
             throw new ClientError('No se encontro', 400)
         }
-        this.jwt.verify(token, config.SECRET_KEY, function (err: Error, decoded: any) {
-            if (err) {
-                throw new ClientError('No se encontro', 400)
-            }
 
-            return {
-                id: decoded.id,
-                permissions: decoded.permissions
-            }
-        });
-
+        const decoded = await this.jwt.verify(token, config.SECRET_KEY);
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (decoded.exp && decoded.exp < currentTime) {
+            throw new ClientError('Token has expired.')
+        }
+        return {
+            id: decoded.id,
+            permissions: decoded.permissions
+        }
     }
 }

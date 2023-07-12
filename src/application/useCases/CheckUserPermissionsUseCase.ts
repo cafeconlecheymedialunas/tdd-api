@@ -1,7 +1,6 @@
 import { CheckRoutePermissionInterface } from '../../domain/interfaces/services/CheckRoutePermissionsInterface'
 import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface'
 import { CheckUserPermissionsUseCaseInterface } from '../../domain/interfaces/useCases/CheckUserPermissionsUseCaseInterface'
-import { HttpStatuses } from '../../domain/types/response'
 import { ClientError } from '../../infraestructure/utils'
 export class CheckUserPermissionsUseCase implements CheckUserPermissionsUseCaseInterface {
   private readonly jsonWebTokenService: JsonWebTokenServiceInterface
@@ -15,7 +14,7 @@ export class CheckUserPermissionsUseCase implements CheckUserPermissionsUseCaseI
     if (!decodedToken) {
       throw new ClientError('The request could not be made, try again later.', 400)
     }
-    const checkPermissions = await this.checkRoutePermission.check(route, method, decodedToken.permissions)
-    return checkPermissions
+
+    return (decodedToken.id) ? true : false
   }
 }

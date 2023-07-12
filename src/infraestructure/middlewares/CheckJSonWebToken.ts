@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken';
 import { ClientError } from '../utils';
 
 import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
-export default function checkJwtTokenIsValid() {
-    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
+export const checkJsonWebToken = async (req: Request, res: Response, next: NextFunction) => {
+    try {
         const token = req.headers.authorization?.split(' ')[1];
-        console.log(token, 'jwt')
+
         if (!token) {
             throw new ClientError('The request could not be made, try again later.')
         }
@@ -17,8 +17,9 @@ export default function checkJwtTokenIsValid() {
         if (!check) {
             throw new ClientError('Token is not valid')
         }
-
         next();
-
+    } catch (error) {
+        next(error);
     }
 }
+

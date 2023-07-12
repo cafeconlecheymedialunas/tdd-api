@@ -6,14 +6,14 @@ import { CheckRoutePermissionsService } from '../../application/services/CheckRo
 import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 import { ClientError } from '../utils';
 
-export default function CheckUserPermissions() {
-    return async (req: Request, res: Response, next: NextFunction) => {
+export default async function CheckUserPermissions(req: Request, res: Response, next: NextFunction) {
 
+    try {
         const token = req.headers.authorization?.split(' ')[1]
-        console.log(token, 'Permissions')
+
         const route = req.baseUrl;
         const method = req.method;
-        console.log(token, route, method, 'Permissions')
+
         if (!token || !route || !method) {
             throw new ClientError('The request could not be made, try again later.')
         }
@@ -23,6 +23,8 @@ export default function CheckUserPermissions() {
             throw new ClientError('This action is unauthorized')
         }
         next();
-
+    } catch (error) {
+        next(error);
     }
+
 }

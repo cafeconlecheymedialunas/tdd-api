@@ -19,11 +19,11 @@ app.use((err: ClientError, req: Request, res: Response, next: NextFunction): voi
   resError(res, status, message)
 })
 
+
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ClientError) {
 
     const { status, message } = err
-    console.log(status, message, 'Middleware')
     resError(res, status, message)
 
   }
