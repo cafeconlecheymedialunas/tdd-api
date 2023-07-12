@@ -5,21 +5,22 @@ import { JsonWebTokenService } from '../../application/services/JsonWebTokenServ
 import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissionsService';
 import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 import { ClientError } from '../utils';
-import { HttpStatuses } from '../../domain/types/response';
 
 export default function CheckUserPermissions() {
     return async (req: Request, res: Response, next: NextFunction) => {
 
         const token = req.headers.authorization?.split(' ')[1]
+        console.log(token, 'Permissions')
         const route = req.baseUrl;
         const method = req.method;
+        console.log(token, route, method, 'Permissions')
         if (!token || !route || !method) {
-            throw new ClientError('The request could not be made, try again later.', HttpStatuses.UNAUTHORIZED)
+            throw new ClientError('The request could not be made, try again later.')
         }
         const checkUserPermisionsUseCase = new CheckUserPermissionsUseCase(new JsonWebTokenService(jsonwebtoken), new CheckRoutePermissionsService(new PermissionMockRepository()))
-        const check = checkUserPermisionsUseCase.check(route, method, token)
+        const check = await checkUserPermisionsUseCase.check(route, method, token)
         if (!check) {
-            throw new ClientError('This action is unauthorized', HttpStatuses.UNAUTHORIZED)
+            throw new ClientError('This action is unauthorized')
         }
         next();
 

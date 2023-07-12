@@ -13,9 +13,9 @@ export class CheckUserPermissionsUseCase implements CheckUserPermissionsUseCaseI
   async check(route: string, method: string, token: string): Promise<boolean> {
     const decodedToken = await this.jsonWebTokenService.decode(token)
     if (!decodedToken) {
-      throw new ClientError('The request could not be made, try again later.', HttpStatuses.UNAUTHORIZED)
+      throw new ClientError('The request could not be made, try again later.', 400)
     }
-    const checkPermissions = this.checkRoutePermission.check(route, method, decodedToken.permissions)
-    return true
+    const checkPermissions = await this.checkRoutePermission.check(route, method, decodedToken.permissions)
+    return checkPermissions
   }
 }

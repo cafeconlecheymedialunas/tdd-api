@@ -13,16 +13,12 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     }
     async check(token: string): Promise<boolean> {
 
-        try {
-            const decoded = this.jwt.verify(token, config.SECRET_KEY);
-            const currentTime = Math.floor(Date.now() / 1000);
-            if (decoded.exp && decoded.exp < currentTime) {
-                throw new ClientError('Token has expired.', HttpStatuses.FORBIDDEN)
-            }
-            return (decoded.id) ? true : false
-        } catch (e) {
-            throw new ClientError('The request could not be made, try again later.', HttpStatuses.FORBIDDEN)
+        const decoded = this.jwt.verify(token, config.SECRET_KEY);
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (decoded.exp && decoded.exp < currentTime) {
+            throw new ClientError('Token has expired.')
         }
+        return (decoded.id) ? true : false
 
     }
     async decode(token: string): Promise<Payload | void> {

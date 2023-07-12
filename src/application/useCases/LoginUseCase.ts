@@ -16,16 +16,16 @@ export class LoginUseCase {
   async login(email: string, password: string): Promise<object> {
     const user = await this.repository.getUserByEmail(email);
     if (user === undefined) {
-      throw new ClientError('The username or password does not match', HttpStatuses.UNAUTHORIZED)
+      throw new ClientError('The username or password does not match')
     }
     const passwordMatch = await this.hashService.verify(password, user.password);
     if (!passwordMatch) {
-      throw new ClientError('The username or password does not match', HttpStatuses.UNAUTHORIZED)
+      throw new ClientError('The username or password does not match')
     }
 
     const payload = { id: user.id, permissions: [] }
     const token = await this.jwt.generateToken(payload, '1h');
-    if (!token) throw new ClientError('The request could not be made, try again later.', HttpStatuses.FORBIDDEN)
+    if (!token) throw new ClientError('The request could not be made, try again later.')
 
     return {
       token,
