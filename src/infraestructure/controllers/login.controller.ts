@@ -14,7 +14,7 @@ const loginUseCase = new LoginUseCase(userRepository, hashPasswordService, new J
 export default async function loginController(req: Request, res: Response) {
     const { email, password } = req.body
     const result = await loginUseCase.login(email, password)
-    console.log(result)
+
     if (!result) throw new ClientError("Invalid ID", 400);
     return response(res, 200, result);
 

@@ -1,10 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 
-export const catchedAsync = (fn: any) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
-        fn(req, res, next).then().catch((err: ClientError) => next(err));
+export const catchedController = (fn: any) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+        fn(req, res).catch((err: ClientError) => next(err));
     };
 };
+export const catchedAsync = (fn: any) => (req: Request, res: Response, next: NextFunction) =>
+    Promise
+        .resolve(fn(req, res, next))
+        .catch(next)
 
 export const resError = (res: Response, status = 400, message: string) => {
 
