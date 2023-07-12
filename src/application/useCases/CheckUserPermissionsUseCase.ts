@@ -16,7 +16,6 @@ export class CheckUserPermissionsUseCase implements CheckUserPermissionsUseCaseI
       throw new ClientError('The request could not be made, try again later.', HttpStatuses.UNAUTHORIZED)
     }
     const checkPermissions = this.checkRoutePermission.check(route, method, decodedToken.permissions)
-    console.log(checkPermissions)
     return true
   }
 }

@@ -1,19 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import config from '../../config';
 import { ClientError } from '../utils';
-import { HttpStatuses } from '../../domain/types/response';
-export default function checkJwtTokenIsValid(req: Request, res: Response, next: NextFunction): void {
+
+import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
+export default async function checkJwtTokenIsValid(req: Request, res: Response, next: NextFunction): Promise<void> {
 
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
-        throw new ClientError('The request could not be made, try again later.', HttpStatuses.UNAUTHORIZED)
+        throw new ClientError('The request could not be made, try again later.')
     }
-    const decodedToken: any = jwt.verify(token, config.SECRET_KEY);
-    const currentTime = Math.floor(Date.now() / 1000);
-    if (decodedToken.exp && decodedToken.exp < currentTime) {
-        throw new ClientError('Token has expired.', HttpStatuses.FORBIDDEN)
+    const jsonWebTokenService = new JsonWebTokenService(jwt)
+    const check = await jsonWebTokenService.check(token);
+
+    if (!check) {
+        throw new ClientError('Token is not valid')
     }
+
     next();
 
 }

@@ -15,7 +15,6 @@ export class LoginUseCase {
   }
   async login(email: string, password: string): Promise<object> {
     const user = await this.repository.getUserByEmail(email);
-    console.log(user)
     if (user === undefined) {
       throw new ClientError('The username or password does not match', HttpStatuses.UNAUTHORIZED)
     }
@@ -26,7 +25,7 @@ export class LoginUseCase {
 
     const payload = { id: user.id, permissions: [] }
     const token = await this.jwt.generateToken(payload, '1h');
-    if (!token) throw new ClientError('The request could not be made, try again later.', HttpStatuses.INTERNAL_SERVER_ERROR)
+    if (!token) throw new ClientError('The request could not be made, try again later.', HttpStatuses.FORBIDDEN)
 
     return {
       token,

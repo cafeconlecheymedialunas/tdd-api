@@ -14,11 +14,10 @@ export default function CheckUserPermissions() {
         const route = req.baseUrl;
         const method = req.method;
         if (!token || !route || !method) {
-            throw new ClientError('The request could not be made, try again later.', HttpStatuses.INTERNAL_SERVER_ERROR)
+            throw new ClientError('The request could not be made, try again later.', HttpStatuses.UNAUTHORIZED)
         }
         const checkUserPermisionsUseCase = new CheckUserPermissionsUseCase(new JsonWebTokenService(jsonwebtoken), new CheckRoutePermissionsService(new PermissionMockRepository()))
         const check = checkUserPermisionsUseCase.check(route, method, token)
-        console.log(check)
         if (!check) {
             throw new ClientError('This action is unauthorized', HttpStatuses.UNAUTHORIZED)
         }

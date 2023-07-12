@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 export const catchedAsync = (fn: any) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        fn(req, res).catch((err: Error) => next(err));
+        fn(req, res).catch((err: ClientError) => next(err));
     };
 };
 
