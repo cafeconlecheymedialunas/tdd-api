@@ -6,5 +6,5 @@ import { catchedAsync } from "../utils";
 
 const router = Router();
 
-router.get('/', catchedAsync(CheckUserPermissions), catchedAsync(checkJsonWebToken), pruebaController);
+router.get('/', catchedAsync(CheckUserPermissions, checkJsonWebToken, pruebaController));
 export { router }

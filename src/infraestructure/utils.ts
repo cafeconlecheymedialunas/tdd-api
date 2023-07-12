@@ -5,10 +5,15 @@ export const catchedController = (fn: any) => {
         fn(req, res).catch((err: ClientError) => next(err));
     };
 };
-export const catchedAsync = (fn: any) => (req: Request, res: Response, next: NextFunction) =>
-    Promise
-        .resolve(fn(req, res, next))
-        .catch(next)
+export const catchedAsync = (...functions: any[]) => (req: Request, res: Response, next: NextFunction) => {
+    functions.forEach(f => {
+        Promise
+            .resolve(f(req, res, next))
+            .catch(next)
+    });
+
+}
+
 
 export const resError = (res: Response, status = 400, message: string) => {
 
