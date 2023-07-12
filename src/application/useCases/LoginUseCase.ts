@@ -1,6 +1,9 @@
-import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface";
-import { HashPasswordServiceInterface } from "../../domain/interfaces/services/HashPasswordServiceInterface";
-import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/JsonWebTokenServiceInterface";
+import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
+import { HashPasswordServiceInterface } from "../../domain/interfaces/services/HashPasswordServiceInterface"
+import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/JsonWebTokenServiceInterface"
+import { HttpStatuses } from "../../domain/types/response"
+import { ClientError } from "../../infraestructure/utils"
+
 export class LoginUseCase {
   private readonly repository: UserRepositoryInterface
   private readonly hashService: HashPasswordServiceInterface
@@ -10,18 +13,20 @@ export class LoginUseCase {
     this.hashService = hashService
     this.jwt = jwt
   }
-  async login(email: string, password: string): Promise<false | object> {
+  async login(email: string, password: string): Promise<object> {
     const user = await this.repository.getUserByEmail(email);
     if (user === undefined) {
-      return false
+      throw new ClientError('The username or password does not match', HttpStatuses.UNAUTHORIZED)
     }
     const passwordMatch = await this.hashService.verify(password, user.password);
     if (!passwordMatch) {
-      return false
+      throw new ClientError('The username or password does not match', HttpStatuses.UNAUTHORIZED)
     }
 
     const payload = { id: user.id, permissions: [] }
-    const token = this.jwt.generateToken(payload, '1h');
+    const token = await this.jwt.generateToken(payload, '1h');
+    if (!token) throw new ClientError('The request could not be made, try again later.', HttpStatuses.FORBIDDEN)
+
     return {
       token,
       payload: {

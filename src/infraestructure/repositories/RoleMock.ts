@@ -14,7 +14,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     const role = this.list.find(function (elem) {
       return elem.id === id
     })
-    if (role === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
+    if (role === undefined) throw new ClientError('No se pudo ', 400)
     return role
 
   }
@@ -25,7 +25,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     const roles = this.list.filter(function (item) {
       return ids.indexOf(item.id) != -1;
     });
-    if (roles === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
+    if (roles === undefined) throw new ClientError('No se pudo ', 400)
     return roles
 
   }
@@ -40,8 +40,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     this.list = await this.readFile(this.collection);
     this.list.push(newRole);
     await this.writeFile(this.collection, this.list);
-
-    if (newRole === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
+    if (newRole === undefined) throw new ClientError('No se pudo ', 400)
     return newRole
 
   }
