@@ -4,8 +4,9 @@ import { Permission } from "./Permission.entity";
 export class Role implements RoleInterface {
     name: string
     id: number
-    permissions: Permission[]
-    constructor(id: number, name: string, permissions: Permission[]) {
+    permissions: number[];
+
+    constructor(id: number, name: string, permissions: number[]) {
         this.name = name;
         this.id = id
         this.permissions = permissions

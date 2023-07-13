@@ -7,13 +7,11 @@ export class RoleDtoMapper implements RoleDataMapperInterface {
     constructor(repository: PermissionRepositoryInterface) {
         this.permissionRepository = repository
     }
-    async getPermissions(roles: number[]) {
-
-        const selectedPermissions = await this.permissionRepository.getByIdList(roles)
+    async getPermissions(permissions: number[]) {
+        const selectedPermissions = await this.permissionRepository.getByIdList(permissions)
         return selectedPermissions
     }
     async map(id: number, name: string, permissions: number[]): Promise<RoleDto | false> {
-
         const selectedPermissions = await this.getPermissions(permissions)
         if (!selectedPermissions) return false
         return {

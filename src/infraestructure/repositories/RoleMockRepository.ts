@@ -9,16 +9,18 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
   collection = 'roles'
 
   async getById(id: number): Promise<RoleDto> {
+      this.list = await this.readFile(this.collection);
+      const role = this.list.find(function (elem) {
+        return elem.id === id
+      })
+      if (role === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
+      return role
 
-    this.list = await this.readFile(this.collection);
-    const role = this.list.find(function (elem) {
-      return elem.id === id
-    })
-    if (role === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
-    return role
 
+  
   }
 
+ 
   async getByIdList(ids: number[]): Promise<RoleDto[]> {
 
     this.list = await this.readFile(this.collection);
@@ -29,7 +31,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     return roles
 
   }
-  async add(role: { name: string, permissions: Permission[] }): Promise<RoleDto> {
+  async add(role: { name: string, permissions: number[] }): Promise<RoleDto> {
 
     const id = this.generateId()
     const newRole = new Role(
@@ -43,6 +45,6 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
 
     if (newRole === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
     return newRole
-
+s
   }
 }

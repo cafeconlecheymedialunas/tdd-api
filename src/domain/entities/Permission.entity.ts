@@ -4,9 +4,9 @@ export class Permission implements PermissionInterface {
     id: number
     route: string
     method: string
-    constructor(route: string, method: string, id: number) {
-        this.route = route;
+    constructor(id: number, route: string, method: string) {
         this.id = id
+        this.route = route
         this.method = method
     }
 }
