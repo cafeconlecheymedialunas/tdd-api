@@ -1,7 +1,6 @@
 import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
 import { HashPasswordServiceInterface } from "../../domain/interfaces/services/HashPasswordServiceInterface"
 import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/JsonWebTokenServiceInterface"
-import { HttpStatuses } from "../../domain/types/response"
 import { ClientError, validateEmail } from "../../infraestructure/utils"
 
 export class LoginUseCase {

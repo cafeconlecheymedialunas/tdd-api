@@ -8,32 +8,6 @@ export interface HttpResponse {
   message: string;
   data?: unknown[];
 }
-export const HTTPSTATUS = {
-  ok: {
-    code: 200,
-    message: 'Success',
-  },
-  not_found: {
-    code: 404,
-    message: 'Not Found',
-  },
-  unauthorized: {
-    code: 401,
-    message: 'Unauthorized',
-  },
-  forbidden: {
-    code: 403,
-    message: 'Forbidden',
-  },
-  internal_server_error: {
-    code: 500,
-    message: 'Internal Server Error',
-  },
-  unprocessable_content: {
-    code: 422,
-    message: 'Unprocessable Content',
-  },
-};
 
 class ClientError extends Error {
   public status: number;
@@ -94,11 +68,7 @@ export class ValidationException extends ClientError {
     this.errors = errors;
   }
 }
-erros = {
-  email: [
-    Email is required
-  ]
-}
+
 export interface Error {
   key: string;
   errors: string[];

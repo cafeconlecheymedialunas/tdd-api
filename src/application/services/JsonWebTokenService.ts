@@ -1,5 +1,5 @@
 import { JsonWebTokenServiceInterface } from "../../domain/interfaces/services/JsonWebTokenServiceInterface";
-import { HttpStatuses, Payload } from "../../domain/types/response";
+import { Payload } from "../../domain/types/response";
 import config from "../../config";
 import { ClientError } from "../../infraestructure/utils";
 export class JsonWebTokenService implements JsonWebTokenServiceInterface {

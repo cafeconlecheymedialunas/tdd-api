@@ -3,8 +3,9 @@ import { Role } from "../../domain/entities/Role.entity";
 import RoleDataMapperInterface from "../../domain/interfaces/datamappers/RoleDataMapperInterface";
 import { RoleRepositoryInterface } from "../../domain/interfaces/repositories/RoleRepositoryInterface";
 import { MockRepository } from "./MockRepository";
+import { ROLES } from "../../domain/types/roles";
 export class RoleMockRepository extends MockRepository implements RoleRepositoryInterface {
-  list: Role[] = [];
+  list: Role[] = ROLES;
   collection = 'roles'
   dataMapper: RoleDataMapperInterface
   constructor(dataMapper: RoleDataMapperInterface) {
@@ -12,9 +13,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     this.dataMapper = dataMapper
   }
 
-
   async getById(id: number): Promise<RoleDto | false> {
-    this.list = await this.readFile(this.collection);
     const role = this.list.find(item => item.id === id);
     if (!role) return false
     const roleDto = await this.dataMapper.mapItem(role)
@@ -22,9 +21,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     return roleDto
   }
 
-
   async getByIdList(ids: number[]): Promise<RoleDto[] | false> {
-    this.list = await this.readFile(this.collection);
     const roles = this.list.filter(function (item) {
       return ids.indexOf(item.id) != -1;
     });

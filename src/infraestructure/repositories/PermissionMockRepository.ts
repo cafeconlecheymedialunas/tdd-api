@@ -1,15 +1,20 @@
 import { PermissionDto } from "../../application/dtos/PermissionDto";
-import { Permission } from "../../domain/entities/Permission.entity";
+import PermissionDataMapperInterface from "../../domain/interfaces/datamappers/PermissionDataMapperInterface";
 import { PermissionRepositoryInterface } from "../../domain/interfaces/repositories/PermissionRepositoryInterface";
+import { PERMISSIONS_DEFAULT } from "../../domain/types/permissions";
 import { ClientError } from "../utils";
 import { MockRepository } from "./MockRepository";
 export class PermissionMockRepository extends MockRepository implements PermissionRepositoryInterface {
-  list: Permission[] = [];
+  list = PERMISSIONS_DEFAULT;
   collection = 'permissions'
-  async getByRouteMethod(route: string, method: string): Promise<Permission> {
+  dataMapper: PermissionDataMapperInterface
+  constructor(dataMapper: PermissionDataMapperInterface) {
+    super()
+    this.dataMapper = dataMapper
+  }
 
-    this.list = await this.readFile(this.collection);
-    const permission = this.list.find(function (elem) {
+  async getByRouteMethod(route: string, method: string): Promise<PermissionDto | false> {
+    const permission = Object.values(this.list).find(function (elem) {
       return elem.method === method && elem.route === route
     })
     if (permission === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
@@ -17,24 +22,22 @@ export class PermissionMockRepository extends MockRepository implements Permissi
 
   }
 
-  async getByIdList(ids: number[]): Promise<Permission[]> {
-
-    this.list = await this.readFile(this.collection);
-    const roles = this.list.filter(function (item) {
+  async getByIdList(ids: number[]): Promise<PermissionDto[] | false> {
+    const permission = Object.values(this.list).filter(function (item) {
       return ids.indexOf(item.id) != -1;
     });
-    if (roles === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
-    return roles
+    if (permission === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
+    const permissionDto = await this.dataMapper.mapList(permission)
+    if (permissionDto) return false
+    return permissionDto
 
   }
 
-  async getById(id: number): Promise<PermissionDto> {
-
-    this.list = await this.readFile(this.collection);
-    const role = this.list.find(function (elem) {
-      return elem.id === id
-    })
-    if (role === undefined) throw new ClientError('nO SE PUDO OBTENER', 400)
-    return role
+  async getById(id: number): Promise<PermissionDto | false> {
+    const permission = Object.values(this.list).find(item => item.id === id)
+    if (!permission) return false
+    const permissionDto = await this.dataMapper.mapItem(permission)
+    if (!permissionDto) return false
+    return permissionDto
   }
 }

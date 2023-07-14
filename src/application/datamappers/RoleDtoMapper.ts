@@ -1,6 +1,7 @@
 import { Role } from "../../domain/entities/Role.entity"
 import RoleDataMapperInterface from "../../domain/interfaces/datamappers/RoleDataMapperInterface"
 import { PermissionRepositoryInterface } from "../../domain/interfaces/repositories/PermissionRepositoryInterface"
+import { PermissionDto } from "../dtos/PermissionDto"
 import { RoleDto } from "../dtos/RoleDto"
 
 export class RoleDtoMapper implements RoleDataMapperInterface {
@@ -8,9 +9,11 @@ export class RoleDtoMapper implements RoleDataMapperInterface {
     constructor(repository: PermissionRepositoryInterface) {
         this.permissionRepository = repository
     }
-    async getPermissions(permissions: number[]) {
-        const selectedPermissions = await this.permissionRepository.getByIdList(permissions)
-        return selectedPermissions
+    async getPermissions(roles: number[]): Promise<PermissionDto[] | false> {
+        let selectedPermissions = await Promise.all(roles.map(async (rol) => {
+            return await this.permissionRepository.getById(rol)
+        }))
+        return selectedPermissions.filter((result): result is PermissionDto => result !== undefined) as PermissionDto[] | false;
     }
     async mapItem(role: Role): Promise<RoleDto | false> {
         const selectedPermissions = await this.getPermissions(role.permissions)

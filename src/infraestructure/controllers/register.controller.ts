@@ -8,8 +8,9 @@ import { UserDtoMapper } from "../../application/datamappers/UserDtoMapper";
 import { RoleMockRepository } from "../repositories/RoleMockRepository";
 import { RoleDtoMapper } from "../../application/datamappers/RoleDtoMapper";
 import { PermissionMockRepository } from "../repositories/PermissionMockRepository";
+import { PermissionDtoMapper } from "../../application/datamappers/PermissionDtoMapper";
 const hashPasswordService = new HashPasswordService(bcrypt)
-const userRepository = new UserMockRepository(new UserDtoMapper(new RoleMockRepository(new RoleDtoMapper(new PermissionMockRepository))));
+const userRepository = new UserMockRepository(new UserDtoMapper(new RoleMockRepository(new RoleDtoMapper(new PermissionMockRepository(new PermissionDtoMapper)))));
 const registerUseCase = new RegisterUserUseCase(userRepository, hashPasswordService)
 export default async function registerController(req: Request, res: Response): Promise<void> {
 
