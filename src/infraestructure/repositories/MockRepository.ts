@@ -1,9 +1,7 @@
 import fs from 'fs';
-export type BasicExpression = {
-    key: string;
-    operation: "greater_than" | "less_than" | "equal" | "starts_with" | "contains",
-    value: string | number;
-}
+import { User } from '../../domain/entities/User.entity';
+import { BasicExpression } from '../../domain/types/inputsParams';
+
 export class MockRepository {
     generateId(): number {
         const timestamp = Date.now();
@@ -43,4 +41,6 @@ export class MockRepository {
             throw error;
         }
     }
+
+    
 }

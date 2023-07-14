@@ -24,7 +24,7 @@ export class LoginUseCase {
       throw new ClientError('Password is required')
     }
     const user = await this.repository.getUserByEmail(email);
-    if (user === undefined) {
+    if (user === false) {
       throw new ClientError('The username or password does not match')
     }
     const passwordMatch = await this.hashService.verify(password, user.password);

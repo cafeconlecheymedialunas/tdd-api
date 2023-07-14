@@ -1,7 +1,8 @@
-import { Role } from "../../entities/Role.entity"
+import { RoleDto } from "../../../application/dtos/RoleDto"
 export interface UserDtoInterface {
+    id: number,
     name: string
     email: string
-    id?: number,
-    roles: Role[]
+    password:string
+    roles: RoleDto[]
 }

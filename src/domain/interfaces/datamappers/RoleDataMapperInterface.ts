@@ -1,5 +1,7 @@
 import { RoleDto } from "../../../application/dtos/RoleDto";
+import { Role } from "../../entities/Role.entity";
 
 export default interface RoleDataMapperInterface {
-    map(id: number, name: string, permissions: number[]): Promise<RoleDto | false>
+    mapItem(role: Role): Promise<RoleDto | false>
+    mapList(roles: Role[]): Promise<RoleDto[] | false>
 }

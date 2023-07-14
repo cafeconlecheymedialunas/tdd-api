@@ -1,9 +1,8 @@
-import { UserInterface } from "../interfaces/entities/UserInterface"
-export class User implements UserInterface {
+export class User {
     name: string
     email: string
     password: string
-    id?: number
+    id: number
     roles: number[]
     constructor(name: string, email: string, password: string, id: number, roles: number[] = []) {
         this.name = name
@@ -11,6 +10,5 @@ export class User implements UserInterface {
         this.password = password
         this.id = id
         this.roles = roles
-
     }
 }

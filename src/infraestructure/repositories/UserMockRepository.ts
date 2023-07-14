@@ -1,60 +1,52 @@
 import { UserRepositoryInterface } from "../../domain/interfaces/repositories/UserRepositoryInterface"
-import { BasicExpression, MockRepository } from "./MockRepository";
+import { MockRepository } from "./MockRepository";
+import { BasicExpression, UserInput } from "../../domain/types/inputsParams";
 import { UserDto } from "../../application/dtos/UserDto";
-import { UserDtoMapper } from "../../application/dataMappers/UserDtoMapper";
-import { RoleMockRepository } from "./RoleMockRepository";
 import UserDataMapperInterface from "../../domain/interfaces/datamappers/UserDataMapperInterface";
-import { Role } from "../../domain/entities/Role.entity";
 import { ClientError } from "../utils";
+import { User } from "../../domain/entities/User.entity";
 
 export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
-  list: UserDto[] = [];
+  list: User[] = [];
   collection = 'users'
   dataMapper: UserDataMapperInterface
-  constructor() {
+  constructor(dataMapper: UserDataMapperInterface) {
     super()
-    this.dataMapper = new UserDtoMapper(new RoleMockRepository())
+    this.dataMapper = dataMapper
   }
-  async getAll(): Promise<UserDto[]> {
-    try {
-      this.list = await this.readFile(this.collection);
-      const result = await Promise.all(
-        this.list.map(async (item) => {
-          const roles = [...new Set(item.roles.map((role: Role) => role.id))];
-          return await this.dataMapper.map(item.id, item.name, item.email, item.password, roles)
-        })
-      )
 
-      if (result) throw new ClientError('nO SE PUDO OBTENER', 400)
-
-      this.list = result
-      this.writeFile(this.collection, this.list)
-      return this.list
-    } catch (error) {
-      return []
-    }
+  async getAll(): Promise<UserDto[] | false> {
+    this.list = await this.readFile(this.collection);
+    const results = await this.dataMapper.mapList(this.list)
+    return results
   }
+
 
   async filter(expressions: BasicExpression[]): Promise<UserDto[] | false> {
     this.list = await this.readFile(this.collection);
     if (!this.list) return false
     const result = this.list.filter(item => expressions.every((expr: BasicExpression) => this.evaluateExpression(expr, item)))
-    return result
+    const dtos = this.dataMapper.mapList(result)
+    return dtos
   }
-  async add(user: { name: string, password: string, email: string, roles: number[] }): Promise<UserDto> {
 
-    const { name, password, email, roles } = user
-    const id = this.generateId()
+
+  async add(user: UserInput): Promise<UserDto | false> {
+    let id = this.generateId()
     this.list = await this.readFile(this.collection);
-    const userDto = await this.dataMapper.map(id, name, email, password, roles)
-    if (!userDto) throw new ClientError('nO SE PUDO OBTENER', 400)
-    this.list.push(userDto);
+    id = !id ? this.list?.length : id
+    const newUser = {
+      ...user,
+      id
+    }
+    this.list.push(newUser);
     await this.writeFile(this.collection, this.list);
+    const userDto = await this.dataMapper.mapItem(newUser)
+    if (!userDto) return false
     return userDto
 
   }
   async delete(id: number): Promise<boolean> {
-
     this.list = await this.readFile(this.collection);
     const index = this.list.findIndex(item => item.id === id);
     if (index !== -1) {
@@ -64,22 +56,22 @@ export class UserMockRepository extends MockRepository implements UserRepository
     } else {
       return false
     }
-
   }
 
-  async update(user: { id: number, name: string, password: string, email: string, roles: number[] }): Promise<UserDto> {
-
+  async update(id: number, user: UserInput): Promise<UserDto | false> {
+    if (!id) return false
     this.list = await this.readFile(this.collection);
-    const index = this.list.findIndex(item => item.id === user.id);
-    if (!index) throw new ClientError('nO SE PUDO OBTENER', 400)
-    const result = await this.dataMapper.map(index, user.name, user.email, user.password, user.roles)
-    if (!result) throw new ClientError('nO SE PUDO OBTENER', 400)
-
-    this.list[index] = result
+    const indexUser = this.list.findIndex(item => item.id === id);
+    if (!this.list[indexUser]) return false
+    const updatedUser = {
+      ...user,
+      id
+    }
+    this.list[indexUser] = updatedUser
     await this.writeFile(this.collection, this.list);
-    if (!this.list[index]) throw new ClientError('nO SE PUDO OBTENER', 400)
-    return this.list[index]
-
+    const userDto = await this.dataMapper.mapItem(updatedUser)
+    if (!userDto) return false
+    return userDto
   }
 
   async getUserByEmail(emailParam: string): Promise<UserDto> {
@@ -88,5 +80,14 @@ export class UserMockRepository extends MockRepository implements UserRepository
     if (!result) throw new ClientError('nO SE PUDO OBTENER', 400)
     return result[0]
 
+  }
+
+  async getById(id: number): Promise<UserDto | false> {
+    this.list = await this.readFile(this.collection);
+    const user = this.list.find(item => item.id === id);
+    if (!user) throw new ClientError('User does not exist')
+    const userDto = await this.dataMapper.mapItem(user)
+    if (!userDto) return false
+    return userDto
   }
 }

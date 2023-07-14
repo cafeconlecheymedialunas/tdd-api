@@ -1,6 +1,4 @@
-import { PermissionInterface } from "../interfaces/entities/PermissionInterface";
-
-export class Permission implements PermissionInterface {
+export class Permission {
     id: number
     route: string
     method: string

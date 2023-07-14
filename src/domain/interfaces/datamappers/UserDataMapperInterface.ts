@@ -1,5 +1,7 @@
 import { UserDto } from "../../../application/dtos/UserDto";
+import { User } from "../../entities/User.entity";
 
 export default interface UserDataMapperInterface {
-    map(id: number, name: string, email: string, password: string, roles: number[]): Promise<UserDto | false>
+    mapItem(user: User): Promise<UserDto | false>
+    mapList(users: User[]): Promise<UserDto[] | false>
 }

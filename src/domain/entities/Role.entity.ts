@@ -1,7 +1,4 @@
-import { RoleInterface } from "../interfaces/entities/RoleInterface";
-import { Permission } from "./Permission.entity";
-
-export class Role implements RoleInterface {
+export class Role {
     name: string
     id: number
     permissions: number[];

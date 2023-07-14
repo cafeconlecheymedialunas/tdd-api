@@ -6,9 +6,13 @@ import { UserMockRepository } from "../repositories/UserMockRepository";
 import { JsonWebTokenService } from "../../application/services/JsonWebTokenService";
 import { HashPasswordService } from "../../application/services/HashPasswordService";
 import { ClientError, response } from "../utils";
+import { UserDtoMapper } from "../../application/datamappers/UserDtoMapper";
+import { RoleMockRepository } from "../repositories/RoleMockRepository";
+import { RoleDtoMapper } from "../../application/datamappers/RoleDtoMapper";
+import { PermissionMockRepository } from "../repositories/PermissionMockRepository";
 
 const hashPasswordService = new HashPasswordService(bcrypt)
-const userRepository = new UserMockRepository();
+const userRepository = new UserMockRepository(new UserDtoMapper(new RoleMockRepository(new RoleDtoMapper(new PermissionMockRepository))));
 const loginUseCase = new LoginUseCase(userRepository, hashPasswordService, new JsonWebTokenService(jwt))
 
 export default async function loginController(req: Request, res: Response) {

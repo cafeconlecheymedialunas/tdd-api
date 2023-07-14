@@ -1,4 +1,5 @@
-import { HttpCustomResponse } from '../../types/HttpCustomResponse'
+import { UserDto } from '../../../application/dtos/UserDto'
+import { UserInput } from '../../types/inputsParams'
 export interface RegisterUseCaseInterface {
-  register: ({ name, email, password, roles }: { name: string, email: string, password: string, roles: number[] }) => HttpCustomResponse
+  register(user:UserInput): Promise<UserDto | false>
 }
