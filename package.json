@@ -7,9 +7,10 @@
     "build": "tsc",
     "dev": "nodemon",
     "test": "jest --coverage",
-    "type": "npx typescript",
-    "lint": "eslint src/**/*.ts",
-    "format": "eslint src/**/*.ts --fix"
+    "type": "npx typesync",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\" --config ./.prettierrc.json"
   },
   "repository": {
     "type": "git",

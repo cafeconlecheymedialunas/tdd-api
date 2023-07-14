@@ -1,5 +1,5 @@
-import { RoleDto } from "../../../application/dtos/RoleDto";
+import { RoleDto } from '../../../application/dtos/RoleDto';
 export interface RoleRepositoryInterface {
-    getById(id: number): Promise<RoleDto | false>
-    getByIdList(role: number[]): Promise<RoleDto[] | false>
+  getById(id: number): Promise<RoleDto | false>;
+  getByIdList(role: number[]): Promise<RoleDto[] | false>;
 }

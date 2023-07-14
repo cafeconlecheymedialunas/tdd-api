@@ -1,6 +1,5 @@
-
 export interface PermissionDtoInterface {
-    id: number
-    route: string
-    method: string
+  id: number;
+  route: string;
+  method: string;
 }

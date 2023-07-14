@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
 export default function pruebaController(req: Request, res: Response) {
-    res.send('Holas')
+  res.send('Holas');
 }
 export { pruebaController };
