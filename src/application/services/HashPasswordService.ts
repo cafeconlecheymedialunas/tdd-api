@@ -17,6 +17,8 @@ export class HashPasswordService implements HashPasswordServiceInterface {
 
     const hash = await this.hashing.hash(password, salt);
 
+    console.log(hash);
+
     if (!hash) throw new ClientError();
 
     return hash;

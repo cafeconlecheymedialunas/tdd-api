@@ -32,7 +32,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
   }
 
   async filter(conditions: FilterCondition[]): Promise<UserDto[]> {
-    this.getAll();
+    await this.getAll();
     const users = this.list.filter((item: User) =>
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;

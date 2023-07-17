@@ -39,18 +39,23 @@ export class LoginUseCase {
   validate(email: string, password: string): void {
     const errors = [];
 
-    if (!email || email === '') {
+    if (!email) {
       errors.push({ key: 'email', error: 'Email is required' });
+    }
+    if (typeof email !== 'string') {
+      errors.push({ key: 'email', error: 'Email must be a string' });
     }
 
     if (!validateEmail(email)) {
       errors.push({ key: 'email', error: 'This Is not a valid Email' });
     }
 
-    if (!password || password === '') {
+    if (!password) {
       errors.push({ key: 'password', error: 'Password is required' });
     }
-
+    if (typeof password !== 'string') {
+      errors.push({ key: 'email', error: 'Email must be a string' });
+    }
     if (errors.length > 0) throw new ValidationException(errors);
   }
 
