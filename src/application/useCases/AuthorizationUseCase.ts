@@ -2,17 +2,19 @@ import { CheckRoutePermissionInterface } from '../../domain/interfaces/services/
 
 import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface';
 
-import { CheckUserPermissionsUseCaseInterface } from '../../domain/interfaces/useCases/CheckUserPermissionsUseCaseInterface';
+import { AuthorizationUseCaseInterface } from '../../domain/interfaces/useCases/AuthorizationUseCaseInterface';
 import { WrongAuthenticationTokenException } from '../../domain/types/response';
 
-export class CheckUserPermissionsUseCase implements CheckUserPermissionsUseCaseInterface {
+export class AuthorizationUseCase implements AuthorizationUseCaseInterface {
   private readonly jsonWebTokenService: JsonWebTokenServiceInterface;
   private readonly checkRoutePermission: CheckRoutePermissionInterface;
+
   constructor(jsonWebTokenService: JsonWebTokenServiceInterface, checkRoutePermission: CheckRoutePermissionInterface) {
     this.jsonWebTokenService = jsonWebTokenService;
 
     this.checkRoutePermission = checkRoutePermission;
   }
+
   async check(route: string, method: string, token: string): Promise<boolean> {
     const decodedToken = await this.jsonWebTokenService.decode(token);
 
@@ -26,6 +28,6 @@ export class CheckUserPermissionsUseCase implements CheckUserPermissionsUseCaseI
       decodedToken.permissions,
     );
 
-    return decodedToken.id ? true : false;
+    return decodedToken.id && routePermission ? true : false;
   }
 }

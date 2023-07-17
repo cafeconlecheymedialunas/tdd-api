@@ -4,12 +4,12 @@ import { checkJsonWebToken } from '../middlewares/CheckJSonWebToken';
 
 import pruebaController from '../controllers/prueba.controller';
 
-import { CheckUserPermissions } from '../middlewares/CheckUserPermissions';
+import { CheckAuthorization } from '../middlewares/CheckAuthorization';
 
 import { catchedAsync } from '../utils';
 
 const router = Router();
 
-router.get('/', catchedAsync(CheckUserPermissions, checkJsonWebToken, pruebaController));
+router.get('/', catchedAsync(CheckAuthorization, checkJsonWebToken, pruebaController));
 
 export { router };
