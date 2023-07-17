@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { ClientError } from '../domain/types/response';
 
 export function catchedAsync(...functions: any[]): any {
   return function (req: Request, res: Response, next: NextFunction): void {
@@ -8,11 +9,10 @@ export function catchedAsync(...functions: any[]): any {
   };
 }
 
-export function resError(res: Response, status = 400, message: string, err: Error): void {
+export function resError(res: Response, status = 400, message: string): void {
   res.status(status).json({
     error: true,
     message,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : {},
   });
 }
 

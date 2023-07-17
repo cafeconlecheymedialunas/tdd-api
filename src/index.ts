@@ -12,6 +12,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import { ClientError } from './domain/types/response';
 import { resError } from './infraestructure/utils';
+import errorHandler from './infraestructure/middlewares/errorHandler';
 
 const app = express();
 
@@ -25,14 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(router);
 
-app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof ClientError) {
-    const { status, message } = err;
-
-    resError(res, status, message, err);
-  }
-  next(err);
-});
+app.use(errorHandler);
 
 app.listen(app.get('port'), () => {
   console.log(`Server Started on port:${app.get('port')}`);

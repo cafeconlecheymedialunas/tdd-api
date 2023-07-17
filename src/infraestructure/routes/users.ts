@@ -10,6 +10,6 @@ import { catchedAsync } from '../utils';
 
 const router = Router();
 
-router.get('/', catchedAsync(CheckAuthorization, checkJsonWebToken, pruebaController));
+router.get('/', CheckAuthorization, catchedAsync(pruebaController));
 
 export { router };

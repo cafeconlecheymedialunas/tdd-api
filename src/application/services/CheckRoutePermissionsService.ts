@@ -17,14 +17,15 @@ export class CheckRoutePermissionsService implements CheckRoutePermissionInterfa
   async checkRouteWithUserPermission(route: string, method: string, userPermissions: Permission[]): Promise<boolean> {
     const routePermission = await this.getPermissionRoute(route, method);
 
-    console.log(routePermission, 'Route Permissions');
-    if (!routePermission) return false;
+    if (!routePermission) throw new PermissionNotFoundException();
 
-    const permission = userPermissions.find((elem) => {
-      elem.id == routePermission.id;
+    const permission = userPermissions.filter((elem) => {
+      if (elem.id === routePermission.id) {
+        return elem;
+      }
     });
 
-    return permission ? true : false;
+    return permission.length > 0 ? true : false;
   }
   private async getPermissionRoute(route: string, method: string): Promise<PermissionDto> {
     const conditions = [

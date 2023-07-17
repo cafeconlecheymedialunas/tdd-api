@@ -28,6 +28,6 @@ export class AuthorizationUseCase implements AuthorizationUseCaseInterface {
       decodedToken.permissions,
     );
 
-    return decodedToken.id && routePermission ? true : false;
+    return routePermission;
   }
 }
