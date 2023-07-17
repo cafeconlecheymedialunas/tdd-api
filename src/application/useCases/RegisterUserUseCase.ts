@@ -65,7 +65,6 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface {
   async generateHash(password: string): Promise<string> {
     const passwordHash = await this.hash.hash(password);
 
-    console.log(passwordHash);
     if (!passwordHash) throw new ClientError();
 
     return passwordHash;

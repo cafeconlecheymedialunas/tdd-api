@@ -20,6 +20,12 @@ export class CheckUserPermissionsUseCase implements CheckUserPermissionsUseCaseI
       throw new WrongAuthenticationTokenException();
     }
 
+    const routePermission = await this.checkRoutePermission.checkRouteWithUserPermission(
+      route,
+      method,
+      decodedToken.permissions,
+    );
+
     return decodedToken.id ? true : false;
   }
 }

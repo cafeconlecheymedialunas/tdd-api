@@ -14,7 +14,7 @@ import { ClientError } from '../../domain/types/response';
 
 import { PermissionDtoMapper } from '../../application/datamappers/PermissionDtoMapper';
 
-export const CheckUserPermissions = async (req: Request, res: Response, next: NextFunction) => {
+export const CheckUserPermissions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
 

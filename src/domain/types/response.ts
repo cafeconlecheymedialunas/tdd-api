@@ -48,6 +48,11 @@ export class PostNotFoundException extends ClientError {
   }
 }
 
+export class PermissionNotFoundException extends ClientError {
+  constructor() {
+    super(404, `Permission not found`);
+  }
+}
 export class UserNotFoundException extends ClientError {
   constructor(id: number) {
     super(404, `User with id ${id} not found`);

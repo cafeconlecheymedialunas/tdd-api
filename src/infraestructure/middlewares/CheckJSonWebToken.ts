@@ -6,7 +6,7 @@ import { ClientError } from '../../domain/types/response';
 
 import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
 
-export const checkJsonWebToken = async (req: Request, res: Response, next: NextFunction) => {
+export const checkJsonWebToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
 
