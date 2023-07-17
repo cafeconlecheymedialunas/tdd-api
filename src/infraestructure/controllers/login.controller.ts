@@ -31,7 +31,11 @@ const userRepository = new UserMockRepository(
   new UserDtoMapper(new RoleMockRepository(new RoleDtoMapper(new PermissionMockRepository(new PermissionDtoMapper())))),
 );
 
-const loginUseCase = new LoginUseCase({ repository: userRepository, hashService: hashPasswordService, jwt: new JsonWebTokenService(jwt) });
+const loginUseCase = new LoginUseCase({
+  repository: userRepository,
+  hashService: hashPasswordService,
+  jwt: new JsonWebTokenService(jwt),
+});
 
 export default async function loginController(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body;
