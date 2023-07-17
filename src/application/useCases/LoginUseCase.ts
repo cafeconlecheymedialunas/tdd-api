@@ -61,8 +61,7 @@ export class LoginUseCase {
     const users = await this.repository.filter(conditions);
 
     console.log(users);
-
-    if (!users || users.length === 0) throw new WrongCredentialsException();
+    if (users.length === 0) throw new WrongCredentialsException();
 
     const passwordMatch = await this.hashService.verify(password, users[0].password);
 

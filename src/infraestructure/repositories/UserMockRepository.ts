@@ -31,7 +31,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
     return results;
   }
 
-  async filter(conditions: FilterCondition[]): Promise<UserDto[] | false> {
+  async filter(conditions: FilterCondition[]): Promise<UserDto[]> {
     this.getAll();
     const users = this.list.filter((item: User) =>
       conditions.every((condition) => {
@@ -56,6 +56,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
 
     const dtos = await this.dataMapper.mapList(users);
 
+    if (dtos === false) return [];
     return dtos;
   }
 

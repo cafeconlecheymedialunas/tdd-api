@@ -31,3 +31,5 @@ Thumbs.db
 public/**/*
 # ignore yarn.lock
 yarn.lock
+
+src/**/**/*.json

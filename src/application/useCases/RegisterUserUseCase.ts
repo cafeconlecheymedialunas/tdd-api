@@ -35,7 +35,7 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface {
 
     const userExist = await this.repository.filter(conditions);
 
-    if (userExist === false) throw new UserWithThatEmailAlreadyExistsException(email);
+    if (userExist.length > 0) throw new UserWithThatEmailAlreadyExistsException(email);
 
     const passwordHash = await this.hash.hash(password);
 
