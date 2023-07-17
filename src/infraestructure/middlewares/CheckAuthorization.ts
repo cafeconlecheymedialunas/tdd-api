@@ -31,7 +31,7 @@ export const CheckAuthorization = async (req: Request, res: Response, next: Next
       new CheckRoutePermissionsService(new PermissionMockRepository(new PermissionDtoMapper())),
     );
 
-    const check = await checkUserPermisionsUseCase.check(route, method, token);
+    const check = await checkUserPermisionsUseCase.authorize(route, method, token);
 
     if (!check) {
       throw new ClientError();

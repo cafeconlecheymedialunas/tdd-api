@@ -15,7 +15,7 @@ export class AuthorizationUseCase implements AuthorizationUseCaseInterface {
     this.checkRoutePermission = checkRoutePermission;
   }
 
-  async check(route: string, method: string, token: string): Promise<boolean> {
+  async authorize(route: string, method: string, token: string): Promise<boolean> {
     const decodedToken = await this.jsonWebTokenService.decode(token);
 
     if (!decodedToken) {

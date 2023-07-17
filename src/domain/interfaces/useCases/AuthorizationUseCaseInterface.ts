@@ -1,3 +1,3 @@
 export interface AuthorizationUseCaseInterface {
-  check(route: string, method: string, token: string): Promise<boolean>;
+  authorize(route: string, method: string, token: string): Promise<boolean>;
 }

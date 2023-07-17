@@ -32,11 +32,8 @@ export class CheckRoutePermissionsService implements CheckRoutePermissionInterfa
       { key: 'method', condition: Condition.Equal, value: method },
     ];
 
-    console.log(route, 'route');
-    console.log(method, 'method');
     const permissionRoute = await this.repository.filter(conditions);
 
-    console.log(permissionRoute);
     if (permissionRoute.length !== 1) throw new PermissionNotFoundException();
 
     return permissionRoute[0];
