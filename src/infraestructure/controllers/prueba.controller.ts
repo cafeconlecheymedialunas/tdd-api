@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { response } from '../utils';
 
 export default function pruebaController(req: Request, res: Response) {
-  res.send('Holas');
-}
-export { pruebaController };
+  return response(res, 200, {});
+};
+
+

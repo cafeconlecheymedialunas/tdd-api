@@ -1,7 +1,11 @@
 import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface';
+
 import { Payload } from '../../domain/types/response';
+
 import config from '../../config';
-import { ClientError } from '../../infraestructure/utils';
+
+import { ClientError } from '../../domain/types/response';
+
 export class JsonWebTokenService implements JsonWebTokenServiceInterface {
   private jwt;
   constructor(jwt: any) {
@@ -9,26 +13,33 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
   }
   async generateToken(payload: Payload, expiresIn: string): Promise<string> {
     const token = await this.jwt.sign(payload, config.SECRET_KEY, { expiresIn });
+
     return token;
   }
   async check(token: string): Promise<boolean> {
     const decoded = await this.jwt.verify(token, config.SECRET_KEY);
+
     const currentTime = Math.floor(Date.now() / 1000);
+
     if (decoded.exp && decoded.exp < currentTime) {
-      throw new ClientError('Token has expired.');
+      throw new ClientError();
     }
+
     return decoded.id ? true : false;
   }
   async decode(token: string): Promise<Payload> {
     if (token === '') {
-      throw new ClientError('No se encontro', 400);
+      throw new ClientError();
     }
 
     const decoded = await this.jwt.verify(token, config.SECRET_KEY);
+
     const currentTime = Math.floor(Date.now() / 1000);
+
     if (decoded.exp && decoded.exp < currentTime) {
-      throw new ClientError('Token has expired.');
+      throw new ClientError();
     }
+
     return {
       id: decoded.id,
       permissions: decoded.permissions,

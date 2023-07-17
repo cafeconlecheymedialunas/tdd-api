@@ -1,5 +1,7 @@
 import { RoleDto } from '../../../application/dtos/RoleDto';
+
 import { UserDto } from '../../../application/dtos/UserDto';
+
 import { User } from '../../entities/User.entity';
 
 export default interface UserDataMapperInterface {

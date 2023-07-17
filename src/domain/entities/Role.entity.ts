@@ -5,7 +5,9 @@ export class Role {
 
   constructor(id: number, name: string, permissions: number[]) {
     this.name = name;
+
     this.id = id;
+
     this.permissions = permissions;
   }
 }

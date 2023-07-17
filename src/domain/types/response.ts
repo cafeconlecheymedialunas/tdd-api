@@ -1,22 +1,31 @@
 import { Permission } from '../entities/Permission.entity';
+
 export interface Payload {
   id: number;
   permissions: Permission[];
 }
+
 export interface HttpResponse {
   status: number;
   message: string;
   data?: unknown[];
 }
+export interface ValidationError {
+  key: string;
+  error: string;
+}
 
-class ClientError extends Error {
+export class ClientError extends Error {
   public status: number;
   public message: string;
-  public errors: Error[];
-  constructor(status: number, message: string, errors: Error[] = []) {
+  public errors: ValidationError[];
+  constructor(status = 500, message = 'Server Error', errors: ValidationError[] = []) {
     super(message);
+
     this.status = status;
+
     this.message = message;
+
     this.errors = errors;
   }
 }
@@ -34,13 +43,13 @@ export class NotAuthorizedException extends ClientError {
 }
 
 export class PostNotFoundException extends ClientError {
-  constructor(id: string) {
+  constructor(id: number) {
     super(404, `Post with id ${id} not found`);
   }
 }
 
 export class UserNotFoundException extends ClientError {
-  constructor(id: string) {
+  constructor(id: number) {
     super(404, `User with id ${id} not found`);
   }
 }
@@ -62,14 +71,11 @@ export class WrongCredentialsException extends ClientError {
     super(401, 'Wrong credentials provided');
   }
 }
+
 export class ValidationException extends ClientError {
-  constructor(errors: Error[]) {
+  constructor(errors: ValidationError[]) {
     super(422, `The team name must be a string. (and 4 more errors)`);
+
     this.errors = errors;
   }
-}
-
-export interface Error {
-  key: string;
-  errors: string[];
 }

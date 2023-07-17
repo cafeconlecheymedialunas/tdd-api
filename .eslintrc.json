@@ -23,11 +23,6 @@
         "@typescript-eslint/no-use-before-define": [
             "error"
         ],
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {}
-        ],
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": [
             "error"
@@ -41,7 +36,7 @@
         "max-len": [
             "warn",
             {
-                "code": 100,
+                "code": 120,
                 "ignoreComments": true,
                 "ignoreUrls": true
             }
@@ -52,7 +47,21 @@
             {
                 "endOfLine": "auto"
             }
+        ],
+        "prefer-arrow-callback": [
+            "error"
+        ],
+        "padding-line-between-statements": [
+            "error",
+            {
+                "blankLine": "always",
+                "prev": [
+                    "const",
+                    "let",
+                    "var"
+                ],
+                "next": "*"
+            }
         ]
-    },
-    "settings": {}
+    }
 }

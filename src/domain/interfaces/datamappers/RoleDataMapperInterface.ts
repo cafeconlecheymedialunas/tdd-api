@@ -1,4 +1,5 @@
 import { RoleDto } from '../../../application/dtos/RoleDto';
+
 import { Role } from '../../entities/Role.entity';
 
 export default interface RoleDataMapperInterface {

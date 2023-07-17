@@ -14,9 +14,19 @@ export interface UserInput {
   password: string;
   roles: number[];
 }
-
-export type BasicExpression = {
+export enum Condition {
+  Equal = 'equal',
+  NotEqual = 'not_equal',
+  GreaterThan = 'greater_than',
+  LessThan = 'less_than',
+}
+export type QueryFilter = {
   key: string;
   operation: 'greater_than' | 'less_than' | 'equal' | 'starts_with' | 'contains';
   value: string | number;
+};
+export type FilterCondition = {
+  key: string;
+  condition: Condition;
+  value: string;
 };

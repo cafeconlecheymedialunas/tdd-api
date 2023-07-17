@@ -1,4 +1,5 @@
 import { PermissionDto } from '../../../application/dtos/PermissionDto';
+
 import { Permission } from '../../entities/Permission.entity';
 
 export default interface PermissionDataMapperInterface {
