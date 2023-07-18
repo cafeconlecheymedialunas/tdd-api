@@ -24,6 +24,7 @@ import { PermissionMockRepository } from '../repositories/PermissionMockReposito
 
 import { PermissionDtoMapper } from '../../application/datamappers/PermissionDtoMapper';
 import { response } from '../utils';
+import { NextFunction } from 'connect';
 
 const hashPasswordService = new HashPasswordService(bcrypt);
 
@@ -37,14 +38,18 @@ const loginUseCase = new LoginUseCase({
   jwt: new JsonWebTokenService(jwt),
 });
 
-export default async function loginController(req: Request, res: Response): Promise<void> {
-  const { email, password } = req.body;
+export default async function loginController(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const { email, password } = req.body;
 
-  loginUseCase.validate(email, password);
+    loginUseCase.validate(email, password);
 
-  const token = await loginUseCase.login(email, password);
+    const token = await loginUseCase.login(email, password);
 
-  if (!token) throw new WrongAuthenticationTokenException();
+    if (!token) throw new WrongAuthenticationTokenException();
 
-  response(res, 200, { token });
+    response(res, 200, { token });
+  } catch (error) {
+    next(error);
+  }
 }

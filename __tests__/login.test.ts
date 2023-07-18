@@ -1,11 +1,12 @@
-import request from 'supertest'
-import { app } from '../src'
+import request from 'supertest';
+import { app } from '../src';
 describe('Auth API', () => {
   it('should register a user', async () => {
     const response = await request(app)
       .post('/auth/register')
-      .send({ name: 'Test User', email: 'testt@test.com', password: 'testpass', roles: [1] })
-    expect(response.status).toBe(200)
+      .send({ name: 'Test User', email: 'testt@test.com', password: 'testpass', roles: [1] });
+
+    expect(response.status).toBe(200);
     expect(response.body).toEqual(
       expect.objectContaining({
         error: false,
@@ -28,21 +29,20 @@ describe('Auth API', () => {
             },
           ],
         },
-      })
-    )
-  })
+      }),
+    );
+  });
   it('should login a user', async () => {
-    const response = await request(app)
-      .post('/auth/login')
-      .send({ email: 'testt@test.com', password: 'testpass' })
-    expect(response.status).toBe(200)
+    const response = await request(app).post('/auth/login').send({ email: 'testt@test.com', password: 'testpass' });
+
+    expect(response.status).toBe(200);
     expect(response.body).toEqual(
       expect.objectContaining({
         error: false,
         data: {
           token: expect.any(String),
         },
-      })
-    )
-  })
-})
+      }),
+    );
+  });
+});

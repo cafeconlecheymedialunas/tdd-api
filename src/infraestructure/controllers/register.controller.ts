@@ -20,6 +20,7 @@ import { PermissionMockRepository } from '../repositories/PermissionMockReposito
 
 import { PermissionDtoMapper } from '../../application/datamappers/PermissionDtoMapper';
 import { response } from '../utils';
+import { NextFunction } from 'connect';
 
 const hashPasswordService = new HashPasswordService(bcrypt);
 
@@ -29,12 +30,16 @@ const userRepository = new UserMockRepository(
 
 const registerUseCase = new RegisterUserUseCase(userRepository, hashPasswordService);
 
-export default async function registerController(req: Request, res: Response): Promise<void> {
-  const { name, email, password, roles } = req.body;
+export default async function registerController(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const { name, email, password, roles } = req.body;
 
-  const result = await registerUseCase.register({ name, email, password, roles });
+    const result = await registerUseCase.register({ name, email, password, roles });
 
-  if (!result) throw new ClientError();
+    if (!result) throw new ClientError();
 
-  return response(res, 200, result);
+    return response(res, 200, result);
+  } catch (error) {
+    next(error);
+  }
 }
