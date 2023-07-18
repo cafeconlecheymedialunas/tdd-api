@@ -6,7 +6,7 @@ const DELETE_USER = new Permission(2, '/users', 'DELETE');
 
 const GET_USER = new Permission(3, '/users/:id', 'GET');
 
-const GET_USERS = new Permission(4, '/users', 'GET');
+const ALL_USERS = new Permission(4, '/users', 'GET');
 
 const ADD_ROLE = new Permission(5, '/roles', 'POST');
 
@@ -18,7 +18,7 @@ export const PERMISSIONS_DEFAULT = {
   UPDATE_USER,
   DELETE_USER,
   GET_USER,
-  GET_USERS,
+  ALL_USERS,
   ADD_ROLE,
   EDIT_ROLE,
   DELETE_ROLE,
