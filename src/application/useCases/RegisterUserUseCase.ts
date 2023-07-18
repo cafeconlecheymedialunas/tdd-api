@@ -75,7 +75,7 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface {
 
     this.validate(email, password, name);
 
-    this.userExist(email);
+    await this.userExist(email);
 
     const passwordHashed = await this.generateHash(password);
 

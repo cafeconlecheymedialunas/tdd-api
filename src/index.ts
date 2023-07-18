@@ -2,6 +2,8 @@ import cors from 'cors';
 
 import express from 'express';
 
+import 'express-async-errors';
+
 import router from './infraestructure/routes';
 
 import bodyParser from 'body-parser';
