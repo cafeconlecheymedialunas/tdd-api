@@ -11,36 +11,30 @@ import { PermissionMockRepository } from '../repositories/PermissionMockReposito
 import { ClientError, NotAuthorizedException } from '../../domain/types/response';
 
 import { PermissionDtoMapper } from '../../application/datamappers/PermissionDtoMapper';
-import { resError } from '../utils';
+
 import { AuthorizationUseCase } from '../../application/useCases/AuthorizationUseCase';
 
 export const CheckAuthorization = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
+  const token = req.headers.authorization?.split(' ')[1];
 
-    const route = req.baseUrl;
+  const route = req.baseUrl;
 
-    const method = req.method;
+  const method = req.method;
 
-    if (!token || !route || !method) {
-      throw new ClientError();
-    }
+  if (!token || !route || !method) {
+    throw new ClientError();
+  }
 
-    const checkUserPermisionsUseCase = new AuthorizationUseCase(
-      new JsonWebTokenService(jsonwebtoken),
-      new CheckRoutePermissionsService(new PermissionMockRepository(new PermissionDtoMapper())),
-    );
+  const checkUserPermisionsUseCase = new AuthorizationUseCase(
+    new JsonWebTokenService(jsonwebtoken),
+    new CheckRoutePermissionsService(new PermissionMockRepository(new PermissionDtoMapper())),
+  );
 
-    const check = await checkUserPermisionsUseCase.authorize(route, method, token);
+  const isAuthorized = await checkUserPermisionsUseCase.authorize(route, method, token);
 
-    if (check) {
-      console.log('entro ');
-      next();
-    }
-
+  if (isAuthorized) {
+    next(); // El usuario está autorizado, continuar con el siguiente middleware
+  } else {
     throw new NotAuthorizedException();
-  } catch (err) {
-    resError(res, 401, 'You are not authorized');
-    console.log(err);
   }
 };
