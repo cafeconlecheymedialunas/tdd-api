@@ -5,7 +5,8 @@ import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/P
 import { PermissionDto } from '../dtos/PermissionDto';
 
 export class PermissionDtoMapper implements PermissionDataMapperInterface {
-  async mapItem(permission: Permission): Promise<PermissionDto | false> {
+  mapItem(permission: Permission): PermissionDto | false {
+    if (!permission) return false;
     return {
       id: permission.id,
       route: permission.route,
@@ -15,8 +16,8 @@ export class PermissionDtoMapper implements PermissionDataMapperInterface {
 
   async mapList(permissions: Permission[]): Promise<PermissionDto[] | false> {
     const results = await Promise.all(
-      permissions.map(async (item: Permission) => {
-        const permissionDto = await this.mapItem(item);
+      permissions.map((item: Permission) => {
+        const permissionDto = this.mapItem(item);
 
         return permissionDto !== false ? permissionDto : undefined;
       }),

@@ -22,16 +22,6 @@ export class PermissionMockRepository extends MockRepository implements Permissi
     this.dataMapper = dataMapper;
   }
 
-  async getByRouteMethod(route: string, method: string): Promise<PermissionDto | false> {
-    const permission = Object.values(this.list).find((elem) => {
-      return elem.method === method && elem.route === route;
-    });
-
-    if (permission === undefined) throw new ClientError(400, 'nO SE PUDO OBTENER');
-
-    return permission;
-  }
-
   async filter(conditions: FilterCondition[]): Promise<PermissionDto[]> {
     const users = Object.values(this.list).filter((item: Permission) =>
       conditions.every((condition) => {
