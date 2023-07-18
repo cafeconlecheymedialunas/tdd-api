@@ -35,7 +35,7 @@ export const CheckAuthorization = async (req: Request, res: Response, next: Next
 
     if (check) {
       console.log('entro ');
-      next()
+      next();
     }
 
     throw new NotAuthorizedException();
