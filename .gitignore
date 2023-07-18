@@ -16,7 +16,6 @@ tmp
 public/css/main.css
 # Coverage reports
 coverage
-jest.config.js
 # API keys and secrets
 .env
 # Dependency directory
