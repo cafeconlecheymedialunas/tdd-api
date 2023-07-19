@@ -1,16 +1,15 @@
-import { Permission } from '../../domain/entities/Permission';
-
 import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionRepositoryInterface';
-
+// eslint-disable-next-line max-len
 import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/services/CheckRoutePermissionsServiceInterface';
 import { Condition } from '../../domain/types/requestParams';
-
+import { Permission } from '../../domain/entities/Permission';
 import { PermissionNotFoundException } from '../../domain/types/errors';
 import { PermissionDto } from '../dtos/PermissionDto';
 
 export class CheckRoutePermissionsService implements CheckRoutePermissionServiceInterface {
   private readonly repository: PermissionRepositoryInterface;
   permissionRoute: Permission | false = false;
+
   constructor(repository: PermissionRepositoryInterface) {
     this.repository = repository;
   }
@@ -27,6 +26,7 @@ export class CheckRoutePermissionsService implements CheckRoutePermissionService
 
     return permission.length > 0 ? true : false;
   }
+
   private async getPermissionRoute(route: string, method: string): Promise<PermissionDto> {
     const conditions = [
       { key: 'route', condition: Condition.Equal, value: route },

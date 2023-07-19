@@ -6,7 +6,7 @@ const PATH_ROUTER = `${__dirname}`;
 
 const router = Router();
 
-const cleanFileName = (fileName: string) => {
+const cleanFileName = (fileName: string): string => {
   const file = fileName.split('.');
 
   return file[0];

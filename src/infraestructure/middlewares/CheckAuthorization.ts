@@ -1,17 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
-
-import jsonwebtoken from 'jsonwebtoken';
-
-import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
-
-import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissionsService';
-
-import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
-
-import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
-
-import { AuthorizationUseCase } from '../../application/useCases/AuthorizationUseCase';
 import { ClientError, NotAuthorizedException } from '../../domain/types/errors';
+import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
+import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
+import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissionsService';
+import { AuthorizationUseCase } from '../../application/useCases/AuthorizationUseCase';
+import { Request, Response, NextFunction } from 'express';
+import jsonwebtoken from 'jsonwebtoken';
+import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 
 export const checkAuthorization = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

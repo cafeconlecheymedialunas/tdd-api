@@ -1,11 +1,11 @@
-import { Permission } from '../../domain/entities/Permission';
-
 import { RoleDtoInterface } from '../../domain/interfaces/dtos/RoleDtoInterface';
+import { Permission } from '../../domain/entities/Permission';
 
 export class RoleDto implements RoleDtoInterface {
   id: number;
   name: string;
   permissions: Permission[];
+
   constructor(name: string, id: number, permissions: Permission[]) {
     this.name = name;
 

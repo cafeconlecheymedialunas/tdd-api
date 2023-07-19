@@ -11,6 +11,7 @@ export class MockRepository {
     return uniqueNumber;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async readFile(fileName: string): Promise<any[]> {
     try {
       const filePath = `${__dirname}/${fileName}.json`;
@@ -23,6 +24,7 @@ export class MockRepository {
       throw error;
     }
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async writeFile(fileName: string, data: any[]): Promise<void> {
     try {
       const filePath = `${__dirname}/${fileName}.json`;

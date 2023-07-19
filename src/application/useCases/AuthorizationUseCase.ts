@@ -1,9 +1,7 @@
+// eslint-disable-next-line max-len
 import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/services/CheckRoutePermissionsServiceInterface';
-
 import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface';
-
 import { AuthorizationUseCaseInterface } from '../../domain/interfaces/useCases/AuthorizationUseCaseInterface';
-
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
 
 export class AuthorizationUseCase implements AuthorizationUseCaseInterface {

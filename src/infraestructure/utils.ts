@@ -1,7 +1,7 @@
+import { ValidationError } from '../domain/types/response';
 import { Request, Response, NextFunction } from 'express';
 
-import { ValidationError } from '../domain/types/response';
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function catchedAsync(...functions: any[]): any {
   return function (req: Request, res: Response, next: NextFunction): void {
     functions.forEach((f) => {

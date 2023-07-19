@@ -1,13 +1,8 @@
-import cors from 'cors';
-
 import express from 'express';
-
-import router from './infraestructure/routes';
-
+import cors from 'cors';
 import bodyParser from 'body-parser';
-
 import config from './config';
-
+import router from './infraestructure/routes';
 import errorHandler from './infraestructure/middlewares/errorHandler';
 
 const app = express();

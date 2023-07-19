@@ -1,7 +1,5 @@
-import { Permission } from '../../domain/entities/Permission';
-
 import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/PermissionDataMapperInterface';
-
+import { Permission } from '../../domain/entities/Permission';
 import { PermissionDto } from '../dtos/PermissionDto';
 
 export class PermissionDataMapper implements PermissionDataMapperInterface {

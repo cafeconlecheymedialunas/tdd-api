@@ -1,20 +1,15 @@
 import { type UserRepositoryInterface } from '../../domain/interfaces/repositories/UserRepositoryInterface';
-
 import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordServiceInterface';
-
 import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/RegisterUseCaseInterface';
-
 import { ClientError, UserWithThatEmailAlreadyExistsException, ValidationException } from '../../domain/types/errors';
-
-import { UserDto } from '../dtos/UserDto';
-
 import { Condition, UserRequestParams } from '../../domain/types/requestParams';
-
+import { UserDto } from '../dtos/UserDto';
 import { validateEmail } from '../../infraestructure/utils';
 
 export class RegisterUseCase implements RegisterUseCaseInterface {
   private readonly repository: UserRepositoryInterface;
   private readonly hash: HashPasswordServiceInterface;
+
   constructor(repository: UserRepositoryInterface, hash: HashPasswordServiceInterface) {
     this.repository = repository;
 

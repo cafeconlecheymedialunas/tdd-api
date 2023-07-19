@@ -1,5 +1,5 @@
-import { UserDto } from '../../../application/dtos/UserDto';
 import { Payload } from '../../types/response';
+import { UserDto } from '../../../application/dtos/UserDto';
 
 export interface LoginUseCaseInterface {
   login(email: string, password: string): Promise<object>;

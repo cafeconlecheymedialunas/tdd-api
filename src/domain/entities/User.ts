@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class User {
   name: string;
   email: string;
@@ -5,6 +6,7 @@ export class User {
   id: number;
   roles: number[];
   [key: string]: any;
+
   constructor(name: string, email: string, password: string, id: number, roles: number[] = []) {
     this.name = name;
 

@@ -1,16 +1,10 @@
 import { UserRepositoryInterface } from '../../domain/interfaces/repositories/UserRepositoryInterface';
-
-import { MockRepository } from './MockRepository';
-
-import { Condition, QueryFilter, UserRequestParams } from '../../domain/types/requestParams';
-
-import { UserDto } from '../../application/dtos/UserDto';
-
 import UserDataMapperInterface from '../../domain/interfaces/datamappers/UserDataMapperInterface';
-
 import { UserNotFoundException } from '../../domain/types/errors';
-
 import { User } from '../../domain/entities/User';
+import { Condition, QueryFilter, UserRequestParams } from '../../domain/types/requestParams';
+import { UserDto } from '../../application/dtos/UserDto';
+import { MockRepository } from './MockRepository';
 
 export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
   list: User[] = [];

@@ -1,25 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
-
-import bcrypt from 'bcrypt';
-
-import { RegisterUseCase } from '../../application/useCases/RegisterUseCase';
-
-import { UserMockRepository } from '../repositories/UserMockRepository';
-
-import { HashPasswordService } from '../../application/services/HashPasswordService';
-
 import { ClientError } from '../../domain/types/errors';
-
 import { UserDataMapper } from '../../application/datamappers/UserDataMapper';
-
-import { RoleMockRepository } from '../repositories/RoleMockRepository';
-
 import { RoleDataMapper } from '../../application/datamappers/RoleDataMapper';
-
-import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
-
 import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
+import { HashPasswordService } from '../../application/services/HashPasswordService';
+import { RegisterUseCase } from '../../application/useCases/RegisterUseCase';
+import { Request, Response, NextFunction } from 'express';
+import bcrypt from 'bcrypt';
 import { response } from '../utils';
+import { UserMockRepository } from '../repositories/UserMockRepository';
+import { RoleMockRepository } from '../repositories/RoleMockRepository';
+import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 
 const hashPasswordService = new HashPasswordService(bcrypt);
 

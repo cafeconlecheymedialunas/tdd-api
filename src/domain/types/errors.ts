@@ -4,6 +4,7 @@ export class ClientError extends Error {
   public status: number;
   public message: string;
   public errors: ValidationError[];
+
   constructor(status = 500, message = 'Server Error', errors: ValidationError[] = []) {
     super(message);
 
@@ -63,6 +64,7 @@ export class WrongCredentialsException extends ClientError {
 
 export class ValidationException extends ClientError {
   public errors: ValidationError[];
+
   constructor(errors: ValidationError[]) {
     super(422, `${errors[0].error}. (and ${errors.length} more errors)`);
     this.errors = errors;

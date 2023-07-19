@@ -1,19 +1,15 @@
-import { RoleDto } from '../../application/dtos/RoleDto';
-
-import { Role } from '../../domain/entities/Role';
-
 import RoleDataMapperInterface from '../../domain/interfaces/datamappers/RoleDataMapperInterface';
-
 import { RoleRepositoryInterface } from '../../domain/interfaces/repositories/RoleRepositoryInterface';
-
+import { Role } from '../../domain/entities/Role';
+import { RoleDto } from '../../application/dtos/RoleDto';
 import { MockRepository } from './MockRepository';
-
 import { ROLES } from './roles';
 
 export class RoleMockRepository extends MockRepository implements RoleRepositoryInterface {
   list: Role[] = ROLES;
   collection = 'roles';
   dataMapper: RoleDataMapperInterface;
+
   constructor(dataMapper: RoleDataMapperInterface) {
     super();
 

@@ -1,21 +1,17 @@
-import { PermissionDto } from '../../application/dtos/PermissionDto';
-import { Permission } from '../../domain/entities/Permission';
-
 import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/PermissionDataMapperInterface';
-
 import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionRepositoryInterface';
+import { Permission } from '../../domain/entities/Permission';
 import { Condition, QueryFilter } from '../../domain/types/requestParams';
-
-import { PERMISSIONS_DEFAULT } from './permissions';
-
 import { ClientError } from '../../domain/types/errors';
-
+import { PermissionDto } from '../../application/dtos/PermissionDto';
 import { MockRepository } from './MockRepository';
+import { PERMISSIONS_DEFAULT } from './permissions';
 
 export class PermissionMockRepository extends MockRepository implements PermissionRepositoryInterface {
   list = PERMISSIONS_DEFAULT;
   collection = 'permissions';
   dataMapper: PermissionDataMapperInterface;
+
   constructor(dataMapper: PermissionDataMapperInterface) {
     super();
 

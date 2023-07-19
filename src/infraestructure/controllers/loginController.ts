@@ -1,29 +1,18 @@
-import { Request, Response } from 'express';
-
-import jwt from 'jsonwebtoken';
-
-import { LoginUseCase } from '../../application/useCases/LoginUseCase';
-
-import { UserMockRepository } from '../repositories/UserMockRepository';
-
-import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
-
-import { HashPasswordService } from '../../application/services/HashPasswordService';
-
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
-
 import { UserDataMapper } from '../../application/datamappers/UserDataMapper';
-
+import { RoleDataMapper } from '../../application/datamappers/RoleDataMapper';
+import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
+import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
+import { HashPasswordService } from '../../application/services/HashPasswordService';
+import { LoginUseCase } from '../../application/useCases/LoginUseCase';
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { response } from '../utils';
+import { UserMockRepository } from '../repositories/UserMockRepository';
+import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 import { RoleMockRepository } from '../repositories/RoleMockRepository';
 
-import { RoleDataMapper } from '../../application/datamappers/RoleDataMapper';
-
-import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
-
-import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
-import { response } from '../utils';
-import { NextFunction } from 'connect';
-import bcrypt from 'bcrypt';
 const hashPasswordService = new HashPasswordService(bcrypt);
 
 const userRepository = new UserMockRepository(

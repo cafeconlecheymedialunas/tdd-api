@@ -1,25 +1,21 @@
 import { UserRepositoryInterface } from '../../domain/interfaces/repositories/UserRepositoryInterface';
-
 import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordServiceInterface';
-
 import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface';
-
-import { validateEmail } from '../../infraestructure/utils';
-
 import {
   ValidationException,
   WrongAuthenticationTokenException,
   WrongCredentialsException,
 } from '../../domain/types/errors';
-
 import { Payload } from '../../domain/types/response';
 import { UserDto } from '../dtos/UserDto';
 import { Condition } from '../../domain/types/requestParams';
+import { validateEmail } from '../../infraestructure/utils';
 
 export class LoginUseCase {
   private readonly repository: UserRepositoryInterface;
   private readonly hashService: HashPasswordServiceInterface;
   private readonly jwt: JsonWebTokenServiceInterface;
+
   constructor({
     repository,
     hashService,
