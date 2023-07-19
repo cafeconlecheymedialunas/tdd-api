@@ -7,7 +7,7 @@ import { PermissionDto } from '../dtos/PermissionDto';
 export class PermissionDtoMapper implements PermissionDataMapperInterface {
   mapItem(permission: Permission): PermissionDto | false {
     if (!permission) return false;
-    console.log('jas');
+
     return {
       id: permission.id,
       route: permission.route,
