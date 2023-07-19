@@ -1,5 +1,5 @@
 import { ClientError, NotAuthorizedException } from '../../domain/types/errors';
-import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
+import { PermissionDataMapper } from '../../application/dataMappers/PermissionDataMapper';
 import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
 import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissionsService';
 import { AuthorizationUseCase } from '../../application/useCases/AuthorizationUseCase';

@@ -1,7 +1,7 @@
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
-import { UserDataMapper } from '../../application/datamappers/UserDataMapper';
-import { RoleDataMapper } from '../../application/datamappers/RoleDataMapper';
-import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
+import { UserDataMapper } from '../../application/dataMappers/UserDataMapper';
+import { RoleDataMapper } from '../../application/dataMappers/RoleDataMapper';
+import { PermissionDataMapper } from '../../application/dataMappers/PermissionDataMapper';
 import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
 import { HashPasswordService } from '../../application/services/HashPasswordService';
 import { LoginUseCase } from '../../application/useCases/LoginUseCase';

@@ -1,7 +1,7 @@
 import { ClientError } from '../../domain/types/errors';
-import { UserDataMapper } from '../../application/datamappers/UserDataMapper';
-import { RoleDataMapper } from '../../application/datamappers/RoleDataMapper';
-import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
+import { UserDataMapper } from '../../application/dataMappers/UserDataMapper';
+import { RoleDataMapper } from '../../application/dataMappers/RoleDataMapper';
+import { PermissionDataMapper } from '../../application/dataMappers/PermissionDataMapper';
 import { HashPasswordService } from '../../application/services/HashPasswordService';
 import { RegisterUseCase } from '../../application/useCases/RegisterUseCase';
 import { Request, Response, NextFunction } from 'express';
