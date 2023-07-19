@@ -17,15 +17,15 @@ export class UserMockRepository extends MockRepository implements UserRepository
     this.dataMapper = dataMapper;
   }
 
-  async getAll(): Promise<UserDto[] | false> {
+  getAll = async (): Promise<UserDto[] | false> => {
     this.list = await this.readFile(this.collection);
 
     const results = await this.dataMapper.mapList(this.list);
 
     return results;
-  }
+  };
 
-  async filter(conditions: QueryFilter[]): Promise<UserDto[]> {
+  filter = async (conditions: QueryFilter[]): Promise<UserDto[]> => {
     await this.getAll();
     const users = this.list.filter((item: User) =>
       conditions.every((condition) => {
@@ -52,9 +52,9 @@ export class UserMockRepository extends MockRepository implements UserRepository
 
     if (dtos === false) return [];
     return dtos;
-  }
+  };
 
-  async add(user: UserRequestParams): Promise<UserDto | false> {
+  add = async (user: UserRequestParams): Promise<UserDto | false> => {
     let id = this.generateId();
 
     this.list = await this.readFile(this.collection);
@@ -75,8 +75,9 @@ export class UserMockRepository extends MockRepository implements UserRepository
     if (!userDto) return false;
 
     return userDto;
-  }
-  async delete(id: number): Promise<boolean> {
+  };
+
+  delete = async (id: number): Promise<boolean> => {
     this.list = await this.readFile(this.collection);
 
     const index = this.list.findIndex((item) => item.id === id);
@@ -90,9 +91,9 @@ export class UserMockRepository extends MockRepository implements UserRepository
     } else {
       return false;
     }
-  }
+  };
 
-  async update(id: number, user: UserRequestParams): Promise<UserDto | false> {
+  update = async (id: number, user: UserRequestParams): Promise<UserDto | false> => {
     if (!id) return false;
 
     this.list = await this.readFile(this.collection);
@@ -115,9 +116,9 @@ export class UserMockRepository extends MockRepository implements UserRepository
     if (!userDto) return false;
 
     return userDto;
-  }
+  };
 
-  async getById(id: number): Promise<UserDto | false> {
+  getById = async (id: number): Promise<UserDto | false> => {
     this.list = await this.readFile(this.collection);
 
     const user = this.list.find((item) => item.id === id);
@@ -129,5 +130,5 @@ export class UserMockRepository extends MockRepository implements UserRepository
     if (!userDto) return false;
 
     return userDto;
-  }
+  };
 }

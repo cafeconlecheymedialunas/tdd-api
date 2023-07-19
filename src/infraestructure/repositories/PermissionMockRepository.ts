@@ -18,7 +18,7 @@ export class PermissionMockRepository extends MockRepository implements Permissi
     this.dataMapper = dataMapper;
   }
 
-  async filter(conditions: QueryFilter[]): Promise<PermissionDto[]> {
+  filter = async (conditions: QueryFilter[]): Promise<PermissionDto[]> => {
     const users = Object.values(this.list).filter((item: Permission) =>
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;
@@ -44,8 +44,9 @@ export class PermissionMockRepository extends MockRepository implements Permissi
 
     if (dtos === false) return [];
     return dtos;
-  }
-  async getByIdList(ids: number[]): Promise<PermissionDto[] | false> {
+  };
+
+  getByIdList = async (ids: number[]): Promise<PermissionDto[] | false> => {
     const permission = Object.values(this.list).filter((item) => {
       return ids.indexOf(item.id) != -1;
     });
@@ -57,9 +58,9 @@ export class PermissionMockRepository extends MockRepository implements Permissi
     if (permissionDto) return false;
 
     return permissionDto;
-  }
+  };
 
-  async getById(id: number): Promise<PermissionDto | false> {
+  getById = async (id: number): Promise<PermissionDto | false> => {
     const permission = Object.values(this.list).find((item) => item.id === id);
 
     if (!permission) return false;
@@ -69,5 +70,5 @@ export class PermissionMockRepository extends MockRepository implements Permissi
     if (!permissionDto) return false;
 
     return permissionDto;
-  }
+  };
 }

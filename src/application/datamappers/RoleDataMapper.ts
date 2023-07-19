@@ -10,7 +10,7 @@ export class RoleDataMapper implements RoleDataMapperInterface {
   constructor(repository: PermissionRepositoryInterface) {
     this.permissionRepository = repository;
   }
-  async getPermissions(roles: number[]): Promise<PermissionDto[] | false> {
+  getPermissions = async (roles: number[]): Promise<PermissionDto[] | false> => {
     const selectedPermissions = await Promise.all(
       roles.map(async (rol) => {
         return await this.permissionRepository.getById(rol);
@@ -20,8 +20,8 @@ export class RoleDataMapper implements RoleDataMapperInterface {
     return selectedPermissions.filter((result): result is PermissionDto => result !== undefined) as
       | PermissionDto[]
       | false;
-  }
-  async mapItem(role: Role): Promise<RoleDto | false> {
+  };
+  mapItem = async (role: Role): Promise<RoleDto | false> => {
     const selectedPermissions = await this.getPermissions(role.permissions);
 
     if (!selectedPermissions) return false;
@@ -30,8 +30,8 @@ export class RoleDataMapper implements RoleDataMapperInterface {
       name: role.name,
       permissions: selectedPermissions,
     };
-  }
-  async mapList(roles: Role[]): Promise<RoleDto[] | false> {
+  };
+  mapList = async (roles: Role[]): Promise<RoleDto[] | false> => {
     const results = await Promise.all(
       roles.map(async (item: Role) => {
         const roleDto = await this.mapItem(item);
@@ -41,5 +41,5 @@ export class RoleDataMapper implements RoleDataMapperInterface {
     );
 
     return results.filter((result): result is RoleDto => result !== undefined) as RoleDto[] | false;
-  }
+  };
 }

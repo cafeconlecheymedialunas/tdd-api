@@ -16,7 +16,7 @@ export class RegisterUseCase implements RegisterUseCaseInterface {
     this.hash = hash;
   }
 
-  validate(email: string, password: string, name: string): void {
+  validate = (email: string, password: string, name: string): void => {
     const errors = [];
 
     if (typeof email !== 'string') {
@@ -43,25 +43,25 @@ export class RegisterUseCase implements RegisterUseCaseInterface {
       errors.push({ key: 'email', error: 'Password must be a string' });
     }
     if (errors.length > 0) throw new ValidationException(errors);
-  }
+  };
 
-  async userExist(email: string): Promise<void> {
+  userExist = async (email: string): Promise<void> => {
     const conditions = [{ key: 'email', condition: Condition.Equal, value: email }];
 
     const userExist = await this.repository.filter(conditions);
 
     if (userExist.length > 0) throw new UserWithThatEmailAlreadyExistsException(email);
-  }
+  };
 
-  async generateHash(password: string): Promise<string> {
+  generateHash = async (password: string): Promise<string> => {
     const passwordHash = await this.hash.hash(password);
 
     if (!passwordHash) throw new ClientError();
 
     return passwordHash;
-  }
+  };
 
-  async register(user: UserRequestParams): Promise<UserDto | false> {
+  register = async (user: UserRequestParams): Promise<UserDto | false> => {
     const { email, password, name } = user;
 
     this.validate(email, password, name);
@@ -74,5 +74,5 @@ export class RegisterUseCase implements RegisterUseCaseInterface {
     const newUser = await this.repository.add(user);
 
     return newUser;
-  }
+  };
 }

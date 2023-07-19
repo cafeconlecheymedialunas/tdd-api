@@ -21,7 +21,7 @@ const userRepository = new UserMockRepository(
 
 const registerUseCase = new RegisterUseCase(userRepository, hashPasswordService);
 
-export default async function registerController(req: Request, res: Response, next: NextFunction): Promise<void> {
+const registerController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { name, email, password, roles } = req.body;
 
@@ -33,4 +33,6 @@ export default async function registerController(req: Request, res: Response, ne
   } catch (error) {
     next(error);
   }
-}
+};
+
+export default registerController;

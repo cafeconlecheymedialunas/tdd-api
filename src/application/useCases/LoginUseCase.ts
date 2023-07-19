@@ -32,7 +32,7 @@ export class LoginUseCase {
     this.jwt = jwt;
   }
 
-  validate(email: string, password: string): void {
+  validate = (email: string, password: string): void => {
     const errors = [];
 
     if (!email) {
@@ -53,9 +53,9 @@ export class LoginUseCase {
       errors.push({ key: 'email', error: 'Email must be a string' });
     }
     if (errors.length > 0) throw new ValidationException(errors);
-  }
+  };
 
-  private async sigIn(email: string, password: string): Promise<UserDto> {
+  private sigIn = async (email: string, password: string): Promise<UserDto> => {
     this.validate(email, password);
     const conditions = [{ key: 'email', condition: Condition.Equal, value: email }];
 
@@ -70,24 +70,24 @@ export class LoginUseCase {
     }
 
     return users[0];
-  }
+  };
 
-  private async generateToken(payload: Payload): Promise<string> {
+  private generateToken = async (payload: Payload): Promise<string> => {
     const token = await this.jwt.generateToken(payload, '1h');
 
     if (!token) throw new WrongAuthenticationTokenException();
     return token;
-  }
+  };
 
-  private generatePayload(user: UserDto): Payload {
+  private generatePayload = (user: UserDto): Payload => {
     const permissions = [...new Set(user.roles.flatMap((item) => item.permissions))];
 
     const payload = { id: user.id, permissions };
 
     return payload;
-  }
+  };
 
-  async login(email: string, password: string): Promise<string> {
+  login = async (email: string, password: string): Promise<string> => {
     this.validate(email, password);
 
     const userDto = await this.sigIn(email, password);
@@ -97,5 +97,5 @@ export class LoginUseCase {
     const token = this.generateToken(payload);
 
     return token;
-  }
+  };
 }

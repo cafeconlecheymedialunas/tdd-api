@@ -10,7 +10,8 @@ export class UserDataMapper implements DataMapperInterface {
   constructor(repository: RoleRepositoryInterface) {
     this.roleRepository = repository;
   }
-  async getRoles(roles: number[]): Promise<RoleDto[] | false> {
+
+  getRoles = async (roles: number[]): Promise<RoleDto[] | false> => {
     const selectedRoles = await Promise.all(
       roles.map(async (rol) => {
         return await this.roleRepository.getById(rol);
@@ -18,9 +19,9 @@ export class UserDataMapper implements DataMapperInterface {
     );
 
     return selectedRoles.filter((result): result is RoleDto => result !== undefined) as RoleDto[] | false;
-  }
+  };
 
-  async mapItem(user: User): Promise<UserDto | false> {
+  mapItem = async (user: User): Promise<UserDto | false> => {
     const selectedRoles = await this.getRoles(user.roles);
 
     if (!selectedRoles) return false;
@@ -32,8 +33,9 @@ export class UserDataMapper implements DataMapperInterface {
       password: user.password,
       roles: selectedRoles,
     };
-  }
-  async mapList(users: User[]): Promise<UserDto[] | false> {
+  };
+
+  mapList = async (users: User[]): Promise<UserDto[] | false> => {
     const results = await Promise.all(
       users.map(async (item: User) => {
         const userDto = await this.mapItem(item);
@@ -43,5 +45,5 @@ export class UserDataMapper implements DataMapperInterface {
     );
 
     return results.filter((result): result is UserDto => result !== undefined) as UserDto[] | false;
-  }
+  };
 }

@@ -12,13 +12,13 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     this.jwt = jwt;
   }
 
-  async generateToken(payload: Payload, expiresIn: string): Promise<string> {
+  generateToken = async (payload: Payload, expiresIn: string): Promise<string> => {
     const token = await this.jwt.sign(payload, config.SECRET_KEY, { expiresIn });
 
     return token;
-  }
+  };
 
-  async verifyToken(token: string) {
+  verifyToken = async (token: string) => {
     if (token === '') {
       throw new ClientError();
     }
@@ -31,20 +31,20 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
       throw new ClientError();
     }
     return decoded;
-  }
+  };
 
-  async check(token: string): Promise<boolean> {
+  check = async (token: string): Promise<boolean> => {
     const decoded = await this.verifyToken(token);
 
     return decoded.id ? true : false;
-  }
+  };
 
-  async decode(token: string): Promise<Payload> {
+  decode = async (token: string): Promise<Payload> => {
     const decoded = await this.verifyToken(token);
 
     return {
       id: decoded.id,
       permissions: decoded.permissions,
     };
-  }
+  };
 }

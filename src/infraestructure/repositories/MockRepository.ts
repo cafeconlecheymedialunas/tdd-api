@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 export class MockRepository {
-  generateId(): number {
+  generateId = (): number => {
     const timestamp = Date.now();
 
     const random = Math.floor(Math.random() * 1000000);
@@ -9,10 +9,10 @@ export class MockRepository {
     const uniqueNumber = timestamp + random;
 
     return uniqueNumber;
-  }
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async readFile(fileName: string): Promise<any[]> {
+  readFile = async (fileName: string): Promise<any[]> => {
     try {
       const filePath = `${__dirname}/${fileName}.json`;
 
@@ -23,9 +23,9 @@ export class MockRepository {
       console.error('Error al leer el archivo de usuarios:', error);
       throw error;
     }
-  }
+  };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async writeFile(fileName: string, data: any[]): Promise<void> {
+  writeFile = async (fileName: string, data: any[]): Promise<void> => {
     try {
       const filePath = `${__dirname}/${fileName}.json`;
 
@@ -34,5 +34,5 @@ export class MockRepository {
       console.error('Error al escribir en el archivo de usuarios:', error);
       throw error;
     }
-  }
+  };
 }

@@ -16,7 +16,7 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     this.dataMapper = dataMapper;
   }
 
-  async getById(id: number): Promise<RoleDto | false> {
+  getById = async (id: number): Promise<RoleDto | false> => {
     const role = this.list.find((item) => item.id === id);
 
     if (!role) return false;
@@ -26,9 +26,9 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     if (!roleDto) return false;
 
     return roleDto;
-  }
+  };
 
-  async getByIdList(ids: number[]): Promise<RoleDto[] | false> {
+  getByIdList = async (ids: number[]): Promise<RoleDto[] | false> => {
     const roles = this.list.filter((item) => {
       return ids.indexOf(item.id) != -1;
     });
@@ -38,5 +38,5 @@ export class RoleMockRepository extends MockRepository implements RoleRepository
     if (!rolesDto) return false;
 
     return rolesDto;
-  }
+  };
 }

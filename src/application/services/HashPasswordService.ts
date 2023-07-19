@@ -12,7 +12,7 @@ export class HashPasswordService implements HashPasswordServiceInterface {
     this.saltRounds = saltRounds;
   }
 
-  async hash(password: string): Promise<string | false> {
+  hash = async (password: string): Promise<string | false> => {
     const salt = await this.hashing.genSalt(this.saltRounds);
 
     const hash = await this.hashing.hash(password, salt);
@@ -20,9 +20,9 @@ export class HashPasswordService implements HashPasswordServiceInterface {
     if (!hash) throw new ClientError();
 
     return hash;
-  }
+  };
 
-  async verify(password: string, hashedPassword: string): Promise<boolean> {
+  verify = async (password: string, hashedPassword: string): Promise<boolean> => {
     return await this.hashing.compare(password, hashedPassword);
-  }
+  };
 }

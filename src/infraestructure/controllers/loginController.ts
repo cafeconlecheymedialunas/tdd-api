@@ -27,7 +27,7 @@ const loginUseCase = new LoginUseCase({
   jwt: new JsonWebTokenService(jwt),
 });
 
-export default async function loginController(req: Request, res: Response, next: NextFunction): Promise<void> {
+const loginController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email, password } = req.body;
 
@@ -41,4 +41,6 @@ export default async function loginController(req: Request, res: Response, next:
   } catch (error) {
     next(error);
   }
-}
+};
+
+export default loginController;
