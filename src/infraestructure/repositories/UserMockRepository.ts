@@ -2,15 +2,15 @@ import { UserRepositoryInterface } from '../../domain/interfaces/repositories/Us
 
 import { MockRepository } from './MockRepository';
 
-import { Condition, FilterCondition, UserInput } from '../../domain/types/inputsParams';
+import { Condition, QueryFilter, UserRequestParams } from '../../domain/types/requestParams';
 
 import { UserDto } from '../../application/dtos/UserDto';
 
 import UserDataMapperInterface from '../../domain/interfaces/datamappers/UserDataMapperInterface';
 
-import { UserNotFoundException } from '../../domain/types/response';
+import { UserNotFoundException } from '../../domain/types/errors';
 
-import { User } from '../../domain/entities/User.entity';
+import { User } from '../../domain/entities/User';
 
 export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
   list: User[] = [];
@@ -31,7 +31,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
     return results;
   }
 
-  async filter(conditions: FilterCondition[]): Promise<UserDto[]> {
+  async filter(conditions: QueryFilter[]): Promise<UserDto[]> {
     await this.getAll();
     const users = this.list.filter((item: User) =>
       conditions.every((condition) => {
@@ -60,7 +60,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
     return dtos;
   }
 
-  async add(user: UserInput): Promise<UserDto | false> {
+  async add(user: UserRequestParams): Promise<UserDto | false> {
     let id = this.generateId();
 
     this.list = await this.readFile(this.collection);
@@ -98,7 +98,7 @@ export class UserMockRepository extends MockRepository implements UserRepository
     }
   }
 
-  async update(id: number, user: UserInput): Promise<UserDto | false> {
+  async update(id: number, user: UserRequestParams): Promise<UserDto | false> {
     if (!id) return false;
 
     this.list = await this.readFile(this.collection);

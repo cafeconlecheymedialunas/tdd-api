@@ -1,7 +1,7 @@
 import { UserDto } from '../../../application/dtos/UserDto';
 
-import { UserInput } from '../../types/inputsParams';
+import { UserRequestParams } from '../../types/requestParams';
 
 export interface RegisterUseCaseInterface {
-  register(user: UserInput): Promise<UserDto | false>;
+  register(user: UserRequestParams): Promise<UserDto | false>;
 }

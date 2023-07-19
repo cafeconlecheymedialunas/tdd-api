@@ -1,10 +1,10 @@
-import { Permission } from '../../domain/entities/Permission.entity';
+import { Permission } from '../../domain/entities/Permission';
 
 import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/PermissionDataMapperInterface';
 
 import { PermissionDto } from '../dtos/PermissionDto';
 
-export class PermissionDtoMapper implements PermissionDataMapperInterface {
+export class PermissionDataMapper implements PermissionDataMapperInterface {
   mapItem(permission: Permission): PermissionDto | false {
     if (!permission) return false;
 

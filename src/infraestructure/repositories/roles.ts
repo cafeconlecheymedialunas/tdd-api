@@ -1,4 +1,4 @@
-import { Role } from '../entities/Role.entity';
+import { Role } from '../../domain/entities/Role';
 
 import { PERMISSIONS_DEFAULT } from './permissions';
 
@@ -12,6 +12,6 @@ const ADMIN = new Role(1, 'Admin', [
   PERMISSIONS_DEFAULT.DELETE_ROLE.id,
 ]);
 
-const USER = new Role(2, 'User', [PERMISSIONS_DEFAULT.UPDATE_USER.id, PERMISSIONS_DEFAULT.ALL_USERS.id]);
+const USER = new Role(2, 'User', [PERMISSIONS_DEFAULT.UPDATE_USER.id]);
 
 export const ROLES = [ADMIN, USER];

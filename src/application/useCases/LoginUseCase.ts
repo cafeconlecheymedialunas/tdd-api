@@ -7,14 +7,14 @@ import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/J
 import { validateEmail } from '../../infraestructure/utils';
 
 import {
-  Payload,
   ValidationException,
   WrongAuthenticationTokenException,
   WrongCredentialsException,
-} from '../../domain/types/response';
+} from '../../domain/types/errors';
 
+import { Payload } from '../../domain/types/response';
 import { UserDto } from '../dtos/UserDto';
-import { Condition } from '../../domain/types/inputsParams';
+import { Condition } from '../../domain/types/requestParams';
 
 export class LoginUseCase {
   private readonly repository: UserRepositoryInterface;

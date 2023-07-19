@@ -1,4 +1,4 @@
-import { Role } from '../../domain/entities/Role.entity';
+import { Role } from '../../domain/entities/Role';
 
 import RoleDataMapperInterface from '../../domain/interfaces/datamappers/RoleDataMapperInterface';
 
@@ -8,7 +8,7 @@ import { PermissionDto } from '../dtos/PermissionDto';
 
 import { RoleDto } from '../dtos/RoleDto';
 
-export class RoleDtoMapper implements RoleDataMapperInterface {
+export class RoleDataMapper implements RoleDataMapperInterface {
   private readonly permissionRepository;
   constructor(repository: PermissionRepositoryInterface) {
     this.permissionRepository = repository;

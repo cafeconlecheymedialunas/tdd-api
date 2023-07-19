@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { ClientError } from '../domain/types/response';
+
+import { ValidationError } from '../domain/types/response';
 
 export function catchedAsync(...functions: any[]): any {
   return function (req: Request, res: Response, next: NextFunction): void {
@@ -9,14 +10,15 @@ export function catchedAsync(...functions: any[]): any {
   };
 }
 
-export function resError(res: Response, status = 400, message: string): void {
+export function resError(res: Response, status = 400, message = 'Server Error', errors: ValidationError[] = []): void {
   res.status(status).json({
     error: true,
     message,
+    errors,
   });
 }
 
-export function response(res: Response, status = 400, data: object): void {
+export function response(res: Response, status = 200, data: object): void {
   res.status(status).json({
     error: false,
     data,

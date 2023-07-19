@@ -1,15 +1,19 @@
-import { CheckRoutePermissionInterface } from '../../domain/interfaces/services/CheckRoutePermissionsInterface';
+import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/services/CheckRoutePermissionsServiceInterface';
 
 import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface';
 
 import { AuthorizationUseCaseInterface } from '../../domain/interfaces/useCases/AuthorizationUseCaseInterface';
-import { WrongAuthenticationTokenException } from '../../domain/types/response';
+
+import { WrongAuthenticationTokenException } from '../../domain/types/errors';
 
 export class AuthorizationUseCase implements AuthorizationUseCaseInterface {
   private readonly jsonWebTokenService: JsonWebTokenServiceInterface;
-  private readonly checkRoutePermission: CheckRoutePermissionInterface;
+  private readonly checkRoutePermission: CheckRoutePermissionServiceInterface;
 
-  constructor(jsonWebTokenService: JsonWebTokenServiceInterface, checkRoutePermission: CheckRoutePermissionInterface) {
+  constructor(
+    jsonWebTokenService: JsonWebTokenServiceInterface,
+    checkRoutePermission: CheckRoutePermissionServiceInterface,
+  ) {
     this.jsonWebTokenService = jsonWebTokenService;
 
     this.checkRoutePermission = checkRoutePermission;

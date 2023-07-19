@@ -8,10 +8,6 @@ import bodyParser from 'body-parser';
 
 import config from './config';
 
-import { Request, Response, NextFunction } from 'express';
-
-import { ClientError } from './domain/types/response';
-import { resError } from './infraestructure/utils';
 import errorHandler from './infraestructure/middlewares/errorHandler';
 
 const app = express();

@@ -1,34 +1,35 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import bcrypt from 'bcrypt';
 
-import { RegisterUserUseCase } from '../../application/useCases/RegisterUserUseCase';
+import { RegisterUseCase } from '../../application/useCases/RegisterUseCase';
 
 import { UserMockRepository } from '../repositories/UserMockRepository';
 
 import { HashPasswordService } from '../../application/services/HashPasswordService';
 
-import { ClientError } from '../../domain/types/response';
+import { ClientError } from '../../domain/types/errors';
 
-import { UserDtoMapper } from '../../application/datamappers/UserDtoMapper';
+import { UserDataMapper } from '../../application/datamappers/UserDataMapper';
 
 import { RoleMockRepository } from '../repositories/RoleMockRepository';
 
-import { RoleDtoMapper } from '../../application/datamappers/RoleDtoMapper';
+import { RoleDataMapper } from '../../application/datamappers/RoleDataMapper';
 
 import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 
-import { PermissionDtoMapper } from '../../application/datamappers/PermissionDtoMapper';
+import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
 import { response } from '../utils';
-import { NextFunction } from 'connect';
 
 const hashPasswordService = new HashPasswordService(bcrypt);
 
 const userRepository = new UserMockRepository(
-  new UserDtoMapper(new RoleMockRepository(new RoleDtoMapper(new PermissionMockRepository(new PermissionDtoMapper())))),
+  new UserDataMapper(
+    new RoleMockRepository(new RoleDataMapper(new PermissionMockRepository(new PermissionDataMapper()))),
+  ),
 );
 
-const registerUseCase = new RegisterUserUseCase(userRepository, hashPasswordService);
+const registerUseCase = new RegisterUseCase(userRepository, hashPasswordService);
 
 export default async function registerController(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {

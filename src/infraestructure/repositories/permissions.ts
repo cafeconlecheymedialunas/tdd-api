@@ -1,4 +1,4 @@
-import { Permission } from '../entities/Permission.entity';
+import { Permission } from '../../domain/entities/Permission';
 
 const UPDATE_USER = new Permission(1, '/users/:id', 'PUT');
 

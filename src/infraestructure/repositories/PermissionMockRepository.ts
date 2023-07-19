@@ -1,14 +1,14 @@
 import { PermissionDto } from '../../application/dtos/PermissionDto';
-import { Permission } from '../../domain/entities/Permission.entity';
+import { Permission } from '../../domain/entities/Permission';
 
 import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/PermissionDataMapperInterface';
 
 import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionRepositoryInterface';
-import { Condition, FilterCondition } from '../../domain/types/inputsParams';
+import { Condition, QueryFilter } from '../../domain/types/requestParams';
 
-import { PERMISSIONS_DEFAULT } from '../../domain/types/permissions';
+import { PERMISSIONS_DEFAULT } from './permissions';
 
-import { ClientError } from '../../domain/types/response';
+import { ClientError } from '../../domain/types/errors';
 
 import { MockRepository } from './MockRepository';
 
@@ -22,7 +22,7 @@ export class PermissionMockRepository extends MockRepository implements Permissi
     this.dataMapper = dataMapper;
   }
 
-  async filter(conditions: FilterCondition[]): Promise<PermissionDto[]> {
+  async filter(conditions: QueryFilter[]): Promise<PermissionDto[]> {
     const users = Object.values(this.list).filter((item: Permission) =>
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;

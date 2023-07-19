@@ -1,4 +1,4 @@
-import { Permission } from '../../entities/Permission.entity';
+import { Permission } from '../../entities/Permission';
 
 export interface RoleDtoInterface {
   id: number;

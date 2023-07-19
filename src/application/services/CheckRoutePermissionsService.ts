@@ -1,14 +1,14 @@
-import { Permission } from '../../domain/entities/Permission.entity';
+import { Permission } from '../../domain/entities/Permission';
 
 import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionRepositoryInterface';
 
-import { CheckRoutePermissionInterface } from '../../domain/interfaces/services/CheckRoutePermissionsInterface';
-import { Condition } from '../../domain/types/inputsParams';
+import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/services/CheckRoutePermissionsServiceInterface';
+import { Condition } from '../../domain/types/requestParams';
 
-import { PermissionNotFoundException } from '../../domain/types/response';
+import { PermissionNotFoundException } from '../../domain/types/errors';
 import { PermissionDto } from '../dtos/PermissionDto';
 
-export class CheckRoutePermissionsService implements CheckRoutePermissionInterface {
+export class CheckRoutePermissionsService implements CheckRoutePermissionServiceInterface {
   private readonly repository: PermissionRepositoryInterface;
   permissionRoute: Permission | false = false;
   constructor(repository: PermissionRepositoryInterface) {

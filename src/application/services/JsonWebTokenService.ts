@@ -4,7 +4,7 @@ import { Payload } from '../../domain/types/response';
 
 import config from '../../config';
 
-import { ClientError } from '../../domain/types/response';
+import { ClientError } from '../../domain/types/errors';
 
 export class JsonWebTokenService implements JsonWebTokenServiceInterface {
   private jwt;

@@ -1,5 +1,5 @@
-import { Permission } from '../../entities/Permission.entity';
+import { Permission } from '../../entities/Permission';
 
-export interface CheckRoutePermissionInterface {
+export interface CheckRoutePermissionServiceInterface {
   checkRouteWithUserPermission(route: string, method: string, userPermissions: Permission[]): Promise<boolean>;
 }

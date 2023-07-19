@@ -4,19 +4,15 @@ import { HashPasswordServiceInterface } from '../../domain/interfaces/services/H
 
 import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/RegisterUseCaseInterface';
 
-import {
-  ClientError,
-  UserNotFoundException,
-  UserWithThatEmailAlreadyExistsException,
-  ValidationException,
-} from '../../domain/types/response';
+import { ClientError, UserWithThatEmailAlreadyExistsException, ValidationException } from '../../domain/types/errors';
 
 import { UserDto } from '../dtos/UserDto';
 
-import { Condition, UserInput } from '../../domain/types/inputsParams';
+import { Condition, UserRequestParams } from '../../domain/types/requestParams';
+
 import { validateEmail } from '../../infraestructure/utils';
 
-export class RegisterUserUseCase implements RegisterUseCaseInterface {
+export class RegisterUseCase implements RegisterUseCaseInterface {
   private readonly repository: UserRepositoryInterface;
   private readonly hash: HashPasswordServiceInterface;
   constructor(repository: UserRepositoryInterface, hash: HashPasswordServiceInterface) {
@@ -70,7 +66,7 @@ export class RegisterUserUseCase implements RegisterUseCaseInterface {
     return passwordHash;
   }
 
-  async register(user: UserInput): Promise<UserDto | false> {
+  async register(user: UserRequestParams): Promise<UserDto | false> {
     const { email, password, name } = user;
 
     this.validate(email, password, name);

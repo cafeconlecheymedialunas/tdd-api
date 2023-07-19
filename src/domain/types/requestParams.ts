@@ -1,14 +1,14 @@
-export interface PermissionInput {
+export interface PermissionRequestParams {
   route: string;
   method: string;
 }
 
-export interface RoleInput {
+export interface RoleRequestParams {
   name: string;
   permissions: number[];
 }
 
-export interface UserInput {
+export interface UserRequestParams {
   name: string;
   email: string;
   password: string;
@@ -21,11 +21,6 @@ export enum Condition {
   LessThan = 'less_than',
 }
 export type QueryFilter = {
-  key: string;
-  operation: 'greater_than' | 'less_than' | 'equal' | 'starts_with' | 'contains';
-  value: string | number;
-};
-export type FilterCondition = {
   key: string;
   condition: Condition;
   value: string;

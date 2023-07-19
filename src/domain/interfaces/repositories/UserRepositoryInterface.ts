@@ -1,13 +1,13 @@
 import { UserDto } from '../../../application/dtos/UserDto';
 
-import { FilterCondition, UserInput } from '../../types/inputsParams';
+import { QueryFilter, UserRequestParams } from '../../types/requestParams';
 
 export interface UserRepositoryInterface {
   getAll(): Promise<UserDto[] | false>;
-  filter(conditions: FilterCondition[]): Promise<UserDto[]>;
-  add(user: UserInput): Promise<UserDto | false>;
+  filter(conditions: QueryFilter[]): Promise<UserDto[]>;
+  add(user: UserRequestParams): Promise<UserDto | false>;
   delete(id: number): Promise<boolean>;
-  update(id: number, user: UserInput): Promise<UserDto | false>;
+  update(id: number, user: UserRequestParams): Promise<UserDto | false>;
   generateId(): number; // TODO
   getById(id: number): Promise<UserDto | false>;
 }

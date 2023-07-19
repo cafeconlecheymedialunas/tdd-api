@@ -8,13 +8,12 @@ import { CheckRoutePermissionsService } from '../../application/services/CheckRo
 
 import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 
-import { ClientError, NotAuthorizedException } from '../../domain/types/response';
-
-import { PermissionDtoMapper } from '../../application/datamappers/PermissionDtoMapper';
+import { PermissionDataMapper } from '../../application/datamappers/PermissionDataMapper';
 
 import { AuthorizationUseCase } from '../../application/useCases/AuthorizationUseCase';
+import { ClientError, NotAuthorizedException } from '../../domain/types/errors';
 
-export const CheckAuthorization = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const checkAuthorization = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
 
@@ -28,7 +27,7 @@ export const CheckAuthorization = async (req: Request, res: Response, next: Next
 
     const checkUserPermisionsUseCase = new AuthorizationUseCase(
       new JsonWebTokenService(jsonwebtoken),
-      new CheckRoutePermissionsService(new PermissionMockRepository(new PermissionDtoMapper())),
+      new CheckRoutePermissionsService(new PermissionMockRepository(new PermissionDataMapper())),
     );
 
     const isAuthorized = await checkUserPermisionsUseCase.authorize(route, method, token);

@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import loginController from '../controllers/login.controller';
+import loginController from '../controllers/loginController';
 
-import registerController from '../controllers/register.controller';
+import registerController from '../controllers/registerController';
 
 import { catchedAsync } from '../utils';
 

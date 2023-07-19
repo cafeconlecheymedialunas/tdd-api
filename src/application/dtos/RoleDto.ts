@@ -1,4 +1,4 @@
-import { Permission } from '../../domain/entities/Permission.entity';
+import { Permission } from '../../domain/entities/Permission';
 
 import { RoleDtoInterface } from '../../domain/interfaces/dtos/RoleDtoInterface';
 
