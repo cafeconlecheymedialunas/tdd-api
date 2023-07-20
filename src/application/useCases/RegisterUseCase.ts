@@ -4,7 +4,7 @@ import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/
 import { ClientError, UserWithThatEmailAlreadyExistsException, ValidationException } from '../../domain/types/errors';
 import { Condition, UserRequestParams } from '../../domain/types/requestParams';
 import { UserDto } from '../dtos/UserDto';
-import { validateEmail } from '../../infraestructure/utils';
+import { validateEmail } from '../../infrastructure/utils';
 
 export class RegisterUseCase implements RegisterUseCaseInterface {
   private readonly repository: UserRepositoryInterface;

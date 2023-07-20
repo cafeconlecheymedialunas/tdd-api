@@ -11,6 +11,7 @@ describe('Authentification API', () => {
 
       expect(response.status).toBe(200);
     } catch (error) {
+      console.log(error)
       expect(error).toBe(error);
     }
   });

@@ -11,7 +11,7 @@ pids
 logs
 results
 tmp
-*.json
+
 # Build
 public/css/main.css
 # Coverage reports
@@ -32,5 +32,5 @@ public/**/*
 # ignore yarn.lock
 yarn.lock
 
-/src/**/**/**/.json
+/src/infraestructure/repository/users.json
 

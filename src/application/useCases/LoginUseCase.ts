@@ -9,7 +9,7 @@ import {
 import { Payload } from '../../domain/types/response';
 import { UserDto } from '../dtos/UserDto';
 import { Condition } from '../../domain/types/requestParams';
-import { validateEmail } from '../../infraestructure/utils';
+import { validateEmail } from '../../infrastructure/utils';
 
 export class LoginUseCase {
   private readonly repository: UserRepositoryInterface;
