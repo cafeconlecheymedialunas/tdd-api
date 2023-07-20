@@ -1,5 +1,5 @@
-import RoleDataMapperInterface from '../../domain/interfaces/datamappers/RoleDataMapperInterface';
-import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionRepositoryInterface';
+import RoleDataMapperInterface from '../../domain/interfaces/datamappers/Roleable';
+import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionMockable';
 import { Role } from '../../domain/entities/Role';
 import { PermissionDto } from '../dtos/PermissionDto';
 import { RoleDto } from '../dtos/RoleDto';

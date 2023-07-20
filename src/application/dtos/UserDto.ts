@@ -1,4 +1,4 @@
-import { UserDtoInterface } from '../../domain/interfaces/dtos/UserDtoInterface';
+import { UserDtoInterface } from '../../domain/interfaces/dtos/Userable';
 import { RoleDto } from './RoleDto';
 
 export class UserDto implements UserDtoInterface {

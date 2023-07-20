@@ -1,6 +1,6 @@
-import { type UserRepositoryInterface } from '../../domain/interfaces/repositories/UserRepositoryInterface';
-import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordServiceInterface';
-import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/RegisterUseCaseInterface';
+import { type UserRepositoryInterface } from '../../domain/interfaces/repositories/UserMockable';
+import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordable';
+import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/Registerable';
 import { ClientError, UserWithThatEmailAlreadyExistsException, ValidationException } from '../../domain/types/errors';
 import { Condition, UserRequestParams } from '../../domain/types/requestParams';
 import { UserDto } from '../dtos/UserDto';

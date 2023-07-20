@@ -1,4 +1,4 @@
-import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/PermissionDataMapperInterface';
+import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/Permissionable';
 import { Permission } from '../../domain/entities/Permission';
 import { PermissionDto } from '../dtos/PermissionDto';
 
