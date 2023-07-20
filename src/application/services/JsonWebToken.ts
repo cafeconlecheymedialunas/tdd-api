@@ -33,12 +33,6 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     return decoded;
   };
 
-  check = async (token: string): Promise<boolean> => {
-    const decoded = await this.verifyToken(token);
-
-    return decoded.id ? true : false;
-  };
-
   decode = async (token: string): Promise<Payload> => {
     const decoded = await this.verifyToken(token);
 
