@@ -1,9 +1,9 @@
 import { ClientError } from '../../domain/types/errors';
-import { UserDataMapper } from '../../application/dataMappers/UserDataMapper';
-import { RoleDataMapper } from '../../application/dataMappers/RoleDataMapper';
-import { PermissionDataMapper } from '../../application/dataMappers/PermissionDataMapper';
-import { HashPasswordService } from '../../application/services/HashPasswordService';
-import { RegisterUseCase } from '../../application/useCases/RegisterUseCase';
+import { UserDataMapper } from '../../application/datamappers/User';
+import { RoleDataMapper } from '../../application/datamappers/Role';
+import { PermissionDataMapper } from '../../application/datamappers/Permission';
+import { HashPasswordService } from '../../application/services/HashPassword';
+import { RegisterUseCase } from '../../application/useCases/Register';
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import { response } from '../utils';

@@ -1,8 +1,8 @@
 import { ClientError, NotAuthorizedException } from '../../domain/types/errors';
-import { PermissionDataMapper } from '../../application/dataMappers/PermissionDataMapper';
-import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
-import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissionsService';
-import { AuthorizationUseCase } from '../../application/useCases/AuthorizationUseCase';
+import { PermissionDataMapper } from '../../application/datamappers/Permission';
+import { JsonWebTokenService } from '../../application/services/JsonWebToken';
+import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissions';
+import { AuthorizationUseCase } from '../../application/useCases/Authorization';
 import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
 import { PermissionMockRepository } from '../repositories/PermissionMockRepository';

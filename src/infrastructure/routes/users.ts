@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import pruebaController from '../controllers/pruebaController';
-import { checkAuthorization } from '../middlewares/checkAuthorization';
+import pruebaController from '../controllers/prueba';
+import { checkAuthorization } from '../middlewares/CheckAuthorization';
 import { catchedAsync } from '../utils';
 
 const router = Router();

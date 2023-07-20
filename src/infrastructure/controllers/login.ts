@@ -1,10 +1,10 @@
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
-import { UserDataMapper } from '../../application/dataMappers/UserDataMapper';
-import { RoleDataMapper } from '../../application/dataMappers/RoleDataMapper';
-import { PermissionDataMapper } from '../../application/dataMappers/PermissionDataMapper';
-import { JsonWebTokenService } from '../../application/services/JsonWebTokenService';
-import { HashPasswordService } from '../../application/services/HashPasswordService';
-import { LoginUseCase } from '../../application/useCases/LoginUseCase';
+import { UserDataMapper } from '../../application/datamappers/User';
+import { RoleDataMapper } from '../../application/datamappers/Role';
+import { PermissionDataMapper } from '../../application/datamappers/Permission';
+import { JsonWebTokenService } from '../../application/services/JsonWebToken';
+import { HashPasswordService } from '../../application/services/HashPassword';
+import { LoginUseCase } from '../../application/useCases/Login';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
