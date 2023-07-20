@@ -1,6 +1,6 @@
-import { UserRepositoryInterface } from '../../domain/interfaces/repositories/UserRepositoryInterface';
-import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordServiceInterface';
-import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface';
+import { UserRepositoryInterface } from '../../domain/interfaces/repositories/UserMockable';
+import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordable';
+import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenable';
 import {
   ValidationException,
   WrongAuthenticationTokenException,

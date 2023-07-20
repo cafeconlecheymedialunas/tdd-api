@@ -1,6 +1,6 @@
-import { type UserRepositoryInterface } from '../../domain/interfaces/repositories/UserRepositoryInterface';
-import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordServiceInterface';
-import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/RegisterUseCaseInterface';
+import { type UserRepositoryInterface } from '../../domain/interfaces/repositories/UserMockable';
+import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordable';
+import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/Registerable';
 import { ClientError, UserWithThatEmailAlreadyExistsException, ValidationException } from '../../domain/types/errors';
 import { Condition, UserRequestParams } from '../../domain/types/requestParams';
 import { UserDto } from '../dtos/User';
@@ -33,14 +33,14 @@ export class RegisterUseCase implements RegisterUseCaseInterface {
     if (!Validation.isNotEmpty(name)) {
       errors.push({ key: 'name', error: 'Name is required' });
     }
-    if (Validation.isString(name)) {
+    if (!Validation.isString(name)) {
       errors.push({ key: 'name', error: 'Name must be a string' });
     }
 
     if (!Validation.isNotEmpty(password)) {
       errors.push({ key: 'password', error: 'Password is required' });
     }
-    if (Validation.isStrongPassword(password)) {
+    if (!Validation.isStrongPassword(password)) {
       errors.push({ key: 'password', error: 'The password must be at least 8 characters long, contain at least one uppercase letter and one lowercase letter, have at least one digit, and include one special character' });
     }
     if (errors.length > 0) throw new ValidationException(errors);

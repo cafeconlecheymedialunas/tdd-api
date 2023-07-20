@@ -1,5 +1,5 @@
-import RoleDataMapperInterface from '../../domain/interfaces/datamappers/RoleDataMapperInterface';
-import { RoleRepositoryInterface } from '../../domain/interfaces/repositories/RoleRepositoryInterface';
+import RoleDataMapperInterface from '../../domain/interfaces/datamappers/Roleable';
+import { RoleRepositoryInterface } from '../../domain/interfaces/repositories/RoleMockable';
 import { Role } from '../../domain/entities/Role';
 import { RoleDto } from '../../application/dtos/Role';
 import { MockRepository } from './MockRepository';

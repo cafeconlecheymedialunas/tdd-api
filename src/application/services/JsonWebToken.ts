@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface';
+import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenable';
 import { Payload } from '../../domain/types/response';
 import { AuthenticationTokenMissingException, ClientError } from '../../domain/types/errors';
 import config from '../../config';

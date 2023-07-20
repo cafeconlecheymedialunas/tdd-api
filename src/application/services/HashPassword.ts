@@ -1,4 +1,4 @@
-import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordServiceInterface';
+import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordable';
 import { ClientError } from '../../domain/types/errors';
 
 export class HashPasswordService implements HashPasswordServiceInterface {

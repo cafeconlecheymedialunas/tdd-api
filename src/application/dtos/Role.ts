@@ -1,4 +1,4 @@
-import { RoleDtoInterface } from '../../domain/interfaces/dtos/RoleDtoInterface';
+import { RoleDtoInterface } from '../../domain/interfaces/dtos/Roleable';
 import { Permission } from '../../domain/entities/Permission';
 
 export class RoleDto implements RoleDtoInterface {

@@ -7,7 +7,6 @@ const errorHandler = (err: ClientError, req: Request, res: Response, next: NextF
 
   const message = err.message ?? 'Server Error';
 
-  console.log(err);
   resError(res, status, message);
   next();
 };

@@ -1,5 +1,5 @@
-import { UserRepositoryInterface } from '../../domain/interfaces/repositories/UserRepositoryInterface';
-import UserDataMapperInterface from '../../domain/interfaces/datamappers/UserDataMapperInterface';
+import { UserRepositoryInterface } from '../../domain/interfaces/repositories/UserMockable';
+import UserDataMapperInterface from '../../domain/interfaces/datamappers/Userable';
 import { UserNotFoundException } from '../../domain/types/errors';
 import { User } from '../../domain/entities/User';
 import { Condition, QueryFilter, UserRequestParams } from '../../domain/types/requestParams';

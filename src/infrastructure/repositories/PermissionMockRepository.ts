@@ -1,5 +1,5 @@
-import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/PermissionDataMapperInterface';
-import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionRepositoryInterface';
+import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/Permissionable';
+import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionMockable';
 import { Permission } from '../../domain/entities/Permission';
 import { Condition, QueryFilter } from '../../domain/types/requestParams';
 import { ClientError } from '../../domain/types/errors';

@@ -1,5 +1,5 @@
-import DataMapperInterface from '../../domain/interfaces/datamappers/UserDataMapperInterface';
-import { RoleRepositoryInterface } from '../../domain/interfaces/repositories/RoleRepositoryInterface';
+import DataMapperInterface from '../../domain/interfaces/datamappers/Userable';
+import { RoleRepositoryInterface } from '../../domain/interfaces/repositories/RoleMockable';
 import { User } from '../../domain/entities/User';
 import { UserDto } from '../dtos/User';
 import { RoleDto } from '../dtos/Role';

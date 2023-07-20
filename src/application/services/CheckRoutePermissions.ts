@@ -1,6 +1,6 @@
-import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionRepositoryInterface';
+import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionMockable';
 // eslint-disable-next-line max-len
-import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/services/CheckRoutePermissionsServiceInterface';
+import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/services/CheckRoutePermissionsable';
 import { Condition } from '../../domain/types/requestParams';
 import { Permission } from '../../domain/entities/Permission';
 import { PermissionNotFoundException } from '../../domain/types/errors';

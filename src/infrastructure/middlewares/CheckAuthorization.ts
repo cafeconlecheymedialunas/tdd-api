@@ -26,7 +26,6 @@ export const checkAuthorization = async (req: Request, res: Response, next: Next
 
     const isAuthorized = await checkUserPermisionsUseCase.authorize(route, method, token);
 
-    console.log(isAuthorized);
     if (!isAuthorized) {
       throw new NotAuthorizedException();
     }

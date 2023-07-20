@@ -1,5 +1,10 @@
+<<<<<<< HEAD:src/application/dtos/User.ts
 import { UserDtoInterface } from '../../domain/interfaces/dtos/UserDtoInterface';
 import { RoleDto } from './Role';
+=======
+import { UserDtoInterface } from '../../domain/interfaces/dtos/Userable';
+import { RoleDto } from './RoleDto';
+>>>>>>> 70df5610a0a7eb61d7232c7c5acaefce03f04557:src/application/dtos/UserDto.ts
 
 export class UserDto implements UserDtoInterface {
   id: number;
