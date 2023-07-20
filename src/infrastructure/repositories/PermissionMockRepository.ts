@@ -3,7 +3,7 @@ import { PermissionRepositoryInterface } from '../../domain/interfaces/repositor
 import { Permission } from '../../domain/entities/Permission';
 import { Condition, QueryFilter } from '../../domain/types/requestParams';
 import { ClientError } from '../../domain/types/errors';
-import { PermissionDto } from '../../application/dtos/PermissionDto';
+import { PermissionDto } from '../../application/dtos/Permission';
 import { MockRepository } from './MockRepository';
 import { PERMISSIONS_DEFAULT } from './permissions';
 

@@ -3,8 +3,9 @@ import { HashPasswordServiceInterface } from '../../domain/interfaces/services/H
 import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/RegisterUseCaseInterface';
 import { ClientError, UserWithThatEmailAlreadyExistsException, ValidationException } from '../../domain/types/errors';
 import { Condition, UserRequestParams } from '../../domain/types/requestParams';
-import { UserDto } from '../dtos/UserDto';
-import { validateEmail } from '../../infrastructure/utils';
+import { UserDto } from '../dtos/User';
+import { Validation } from '../services/Validation';
+
 
 export class RegisterUseCase implements RegisterUseCaseInterface {
   private readonly repository: UserRepositoryInterface;
@@ -19,28 +20,28 @@ export class RegisterUseCase implements RegisterUseCaseInterface {
   validate = (email: string, password: string, name: string): void => {
     const errors = [];
 
-    if (typeof email !== 'string') {
+    if (!Validation.isString(email)) {
       errors.push({ key: 'email', error: 'Email must be a string' });
     }
-    if (!email) {
+    if (!Validation.isNotEmpty(email)) {
       errors.push({ key: 'email', error: 'Email is required' });
     }
-    if (!validateEmail(email)) {
+    if (!Validation.isEmail(email)) {
       errors.push({ key: 'email', error: 'This Is not a valid Email' });
     }
 
-    if (!name) {
+    if (!Validation.isNotEmpty(name)) {
       errors.push({ key: 'name', error: 'Name is required' });
     }
-    if (typeof name !== 'string') {
-      errors.push({ key: 'email', error: 'Name must be a string' });
+    if (Validation.isString(name)) {
+      errors.push({ key: 'name', error: 'Name must be a string' });
     }
 
-    if (!password) {
+    if (!Validation.isNotEmpty(password)) {
       errors.push({ key: 'password', error: 'Password is required' });
     }
-    if (typeof password !== 'string') {
-      errors.push({ key: 'email', error: 'Password must be a string' });
+    if (Validation.isStrongPassword(password)) {
+      errors.push({ key: 'password', error: 'The password must be at least 8 characters long, contain at least one uppercase letter and one lowercase letter, have at least one digit, and include one special character' });
     }
     if (errors.length > 0) throw new ValidationException(errors);
   };

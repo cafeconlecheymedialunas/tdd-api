@@ -7,11 +7,11 @@ describe('Authentification API', () => {
 
       const response = await request(app)
         .post('/auth/register')
-        .send({ name: 'Test User', email: email_default, password: 'testpass', roles: [1] });
+        .send({ name: 'Test User', email: email_default, password: 'TestPassworde31@', roles: [1] });
 
       expect(response.status).toBe(200);
     } catch (error) {
-      console.log(error)
+    
       expect(error).toBe(error);
     }
   });
@@ -22,11 +22,11 @@ describe('Authentification API', () => {
 
       const responseRegister = await request(app)
         .post('/auth/register')
-        .send({ name: 'Test User', email: email_default, password: 'testpass', roles: [1] });
+        .send({ name: 'Test User', email: email_default, password: 'TestPassworde31@', roles: [1] });
 
       expect(responseRegister.status).toBe(200);
 
-      const response = await request(app).post('/auth/login').send({ email: email_default, password: 'testpass' });
+      const response = await request(app).post('/auth/login').send({ email: email_default, password: 'TestPassworde31@' });
 
       expect(response.status).toBe(200);
     } catch (error) {
@@ -40,11 +40,11 @@ describe('Authentification API', () => {
 
       const responseRegister = await request(app)
         .post('/auth/register')
-        .send({ name: 'test name', email: email_default, password: 'pass', roles: [1] });
+        .send({ name: 'test name', email: email_default, password: 'TestPassworde31@', roles: [1] });
 
       expect(responseRegister.status).toBe(200);
 
-      const response = await request(app).post('/auth/login').send({ email: email_default, password: '' });
+      const response = await request(app).post('/auth/login').send({ email: email_default, password: 'sdsdfsdf' });
 
       expect(response.status).toBe(422);
     } catch (error) {
@@ -70,11 +70,11 @@ describe('Authentification API', () => {
 
       const responseRegister = await request(app)
         .post('/auth/register')
-        .send({ name: 'test name', email: email_default, password: 'pass', roles: [1] });
+        .send({ name: 'test name', email: email_default, password: 'TestPassworde31@', roles: [1] });
 
       expect(responseRegister.status).toBe(200);
 
-      const responseLogin = await request(app).post('/auth/login').send({ email: email_default, password: 'pass' });
+      const responseLogin = await request(app).post('/auth/login').send({ email: email_default, password: 'TestPassworde31@' });
 
       expect(responseLogin.status).toBe(200);
 

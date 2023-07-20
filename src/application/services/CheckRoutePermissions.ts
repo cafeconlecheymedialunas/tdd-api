@@ -4,7 +4,7 @@ import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/se
 import { Condition } from '../../domain/types/requestParams';
 import { Permission } from '../../domain/entities/Permission';
 import { PermissionNotFoundException } from '../../domain/types/errors';
-import { PermissionDto } from '../dtos/PermissionDto';
+import { PermissionDto } from '../dtos/Permission';
 
 export class CheckRoutePermissionsService implements CheckRoutePermissionServiceInterface {
   private readonly repository: PermissionRepositoryInterface;

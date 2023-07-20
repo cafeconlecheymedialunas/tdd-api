@@ -1,5 +1,5 @@
 import { QueryFilter, UserRequestParams } from '../../types/requestParams';
-import { UserDto } from '../../../application/dtos/UserDto';
+import { UserDto } from '../../../application/dtos/User';
 
 export interface UserRepositoryInterface {
   getAll(): Promise<UserDto[] | false>;

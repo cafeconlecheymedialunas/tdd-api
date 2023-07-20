@@ -1,8 +1,8 @@
 import DataMapperInterface from '../../domain/interfaces/datamappers/UserDataMapperInterface';
 import { RoleRepositoryInterface } from '../../domain/interfaces/repositories/RoleRepositoryInterface';
 import { User } from '../../domain/entities/User';
-import { UserDto } from '../dtos/UserDto';
-import { RoleDto } from '../dtos/RoleDto';
+import { UserDto } from '../dtos/User';
+import { RoleDto } from '../dtos/Role';
 
 export class UserDataMapper implements DataMapperInterface {
   private readonly roleRepository;

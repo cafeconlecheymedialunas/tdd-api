@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenServiceInterface';
 import { Payload } from '../../domain/types/response';
-import { ClientError } from '../../domain/types/errors';
+import { AuthenticationTokenMissingException, ClientError } from '../../domain/types/errors';
 import config from '../../config';
 
 export class JsonWebTokenService implements JsonWebTokenServiceInterface {
@@ -28,7 +28,7 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
     const currentTime = Math.floor(Date.now() / 1000);
 
     if (decoded.exp && decoded.exp < currentTime) {
-      throw new ClientError();
+      throw new AuthenticationTokenMissingException();
     }
     return decoded;
   };

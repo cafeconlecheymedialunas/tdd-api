@@ -63,10 +63,11 @@ export class WrongCredentialsException extends ClientError {
 }
 
 export class ValidationException extends ClientError {
-  public errors: ValidationError[];
+  
 
   constructor(errors: ValidationError[]) {
-    super(422, `${errors[0].error}. (and ${errors.length} more errors)`);
-    this.errors = errors;
+    console.log(errors)
+    super(422, `${errors[0].error}. (and ${errors.length} more errors)`, errors);
+
   }
 }

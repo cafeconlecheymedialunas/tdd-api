@@ -1,5 +1,5 @@
 import { UserDtoInterface } from '../../domain/interfaces/dtos/UserDtoInterface';
-import { RoleDto } from './RoleDto';
+import { RoleDto } from './Role';
 
 export class UserDto implements UserDtoInterface {
   id: number;

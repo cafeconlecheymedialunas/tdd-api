@@ -1,8 +1,8 @@
 import RoleDataMapperInterface from '../../domain/interfaces/datamappers/RoleDataMapperInterface';
 import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionRepositoryInterface';
 import { Role } from '../../domain/entities/Role';
-import { PermissionDto } from '../dtos/PermissionDto';
-import { RoleDto } from '../dtos/RoleDto';
+import { PermissionDto } from '../dtos/Permission';
+import { RoleDto } from '../dtos/Role';
 
 export class RoleDataMapper implements RoleDataMapperInterface {
   private readonly permissionRepository;

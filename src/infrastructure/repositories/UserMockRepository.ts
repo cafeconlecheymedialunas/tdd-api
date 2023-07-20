@@ -3,7 +3,7 @@ import UserDataMapperInterface from '../../domain/interfaces/datamappers/UserDat
 import { UserNotFoundException } from '../../domain/types/errors';
 import { User } from '../../domain/entities/User';
 import { Condition, QueryFilter, UserRequestParams } from '../../domain/types/requestParams';
-import { UserDto } from '../../application/dtos/UserDto';
+import { UserDto } from '../../application/dtos/User';
 import { MockRepository } from './MockRepository';
 
 export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
