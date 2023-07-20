@@ -9,7 +9,7 @@ const errorHandler = (err: ClientError, req: Request, res: Response, next: NextF
 
   console.log(err);
   resError(res, status, message);
-  next()
+  next();
 };
 
 export default errorHandler;
