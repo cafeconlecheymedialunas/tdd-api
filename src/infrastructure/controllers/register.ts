@@ -10,16 +10,17 @@ import { response } from '../utils';
 import { UserMockRepository } from '../repositories/UserMockRepository';
 import { RoleMockRepository } from '../repositories/RoleMockRepository';
 import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
+import { ValidatorService } from '../../application/services/Validator';
 
-const hashPasswordService = new HashPasswordService(bcrypt);
-
-const userRepository = new UserMockRepository(
-  new UserDataMapper(
-    new RoleMockRepository(new RoleDataMapper(new PermissionMockRepository(new PermissionDataMapper()))),
+const registerUseCase = new RegisterUseCase(
+  new UserMockRepository(
+    new UserDataMapper(
+      new RoleMockRepository(new RoleDataMapper(new PermissionMockRepository(new PermissionDataMapper()))),
+    ),
   ),
+  new HashPasswordService(bcrypt),
+  new ValidatorService(),
 );
-
-const registerUseCase = new RegisterUseCase(userRepository, hashPasswordService);
 
 const registerController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

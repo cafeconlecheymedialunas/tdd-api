@@ -9,51 +9,40 @@ import {
 import { Payload } from '../../domain/types/response';
 import { UserDto } from '../dtos/User';
 import { Condition } from '../../domain/types/requestParams';
-import { Validation } from '../services/Validation';
+import { ValidatorInterface } from '../../domain/interfaces/services/Validatorable';
+import { Rules } from '../../domain/types/validationRules';
 
 export class LoginUseCase {
   private readonly repository: UserRepositoryInterface;
   private readonly hashService: HashPasswordServiceInterface;
   private readonly jwt: JsonWebTokenServiceInterface;
+  private readonly validator: ValidatorInterface;
 
-  constructor({
-    repository,
-    hashService,
-    jwt,
-  }: {
-    repository: UserRepositoryInterface;
-    hashService: HashPasswordServiceInterface;
-    jwt: JsonWebTokenServiceInterface;
-  }) {
+  constructor(
+    repository: UserRepositoryInterface,
+    hashService: HashPasswordServiceInterface,
+    jwt: JsonWebTokenServiceInterface,
+    validator: ValidatorInterface,
+  ) {
     this.repository = repository;
 
     this.hashService = hashService;
 
     this.jwt = jwt;
+
+    this.validator = validator;
   }
 
   validate = (email: string, password: string): void => {
-    const errors = [];
+    const rules = [
+      { key: 'email', rules: [Rules.isNotEmpty, Rules.isEmail], value: email },
+      { key: 'password', rules: [Rules.isNotEmpty], value: password },
+    ];
 
-    if (!Validation.isNotEmpty(email)) {
-      errors.push({ key: 'email', error: 'Email is required' });
-    }
-    if (!Validation.isString(email)) {
-      errors.push({ key: 'email', error: 'Email must be a string' });
-    }
-    if (!Validation.isEmail(email)) {
-      errors.push({ key: 'email', error: 'This Is not a valid Email' });
-    }
+    const errors = this.validator.validate(rules);
 
-    if (!Validation.isNotEmpty(password)) {
-      errors.push({ key: 'password', error: 'Password is required' });
-    }
-    if (!Validation.isStrongPassword(password)) {
-      errors.push({ key: 'password', error: 'The password must be at least 8 characters long, contain at least one uppercase letter and one lowercase letter, have at least one digit, and include one special character' });
-    }
     if (errors.length > 0) throw new ValidationException(errors);
-  
-  }
+  };
 
   private sigIn = async (email: string, password: string): Promise<UserDto> => {
     this.validate(email, password);

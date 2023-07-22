@@ -11,7 +11,6 @@ const catchedAsync = (...functions: any[]): any => {
 };
 
 const resError = (res: Response, status = 400, message = 'Server Error', errors: ValidationError[] = []): void => {
- 
   res.status(status).json({
     error: true,
     message,
@@ -25,6 +24,5 @@ const response = (res: Response, status = 200, data: object): void => {
     data,
   });
 };
-
 
 export { catchedAsync, resError, response };

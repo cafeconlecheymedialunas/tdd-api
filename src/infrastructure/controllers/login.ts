@@ -12,20 +12,18 @@ import { response } from '../utils';
 import { UserMockRepository } from '../repositories/UserMockRepository';
 import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
 import { RoleMockRepository } from '../repositories/RoleMockRepository';
+import { ValidatorService } from '../../application/services/Validator';
 
-const hashPasswordService = new HashPasswordService(bcrypt);
-
-const userRepository = new UserMockRepository(
-  new UserDataMapper(
-    new RoleMockRepository(new RoleDataMapper(new PermissionMockRepository(new PermissionDataMapper()))),
+const loginUseCase = new LoginUseCase(
+  new UserMockRepository(
+    new UserDataMapper(
+      new RoleMockRepository(new RoleDataMapper(new PermissionMockRepository(new PermissionDataMapper()))),
+    ),
   ),
+  new HashPasswordService(bcrypt),
+  new JsonWebTokenService(jwt),
+  new ValidatorService(),
 );
-
-const loginUseCase = new LoginUseCase({
-  repository: userRepository,
-  hashService: hashPasswordService,
-  jwt: new JsonWebTokenService(jwt),
-});
 
 const loginController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

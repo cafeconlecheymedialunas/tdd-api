@@ -11,8 +11,7 @@ describe('Authentification API', () => {
 
       expect(response.status).toBe(200);
     } catch (error) {
-    
-      expect(error).toBe(error);
+      console.log(error);
     }
   });
 
@@ -26,11 +25,13 @@ describe('Authentification API', () => {
 
       expect(responseRegister.status).toBe(200);
 
-      const response = await request(app).post('/auth/login').send({ email: email_default, password: 'TestPassworde31@' });
+      const response = await request(app)
+        .post('/auth/login')
+        .send({ email: email_default, password: 'TestPassworde31@' });
 
       expect(response.status).toBe(200);
     } catch (error) {
-      expect(error).toBe(error);
+      console.log(error);
     }
   });
 
@@ -48,7 +49,7 @@ describe('Authentification API', () => {
 
       expect(response.status).toBe(422);
     } catch (error) {
-      expect(error).toBe(error);
+      console.log(error);
     }
   });
 
@@ -60,7 +61,7 @@ describe('Authentification API', () => {
 
       expect(responseRegister.status).toBe(422);
     } catch (error) {
-      expect(error).toBe(error);
+      console.log(error);
     }
   });
 
@@ -74,7 +75,9 @@ describe('Authentification API', () => {
 
       expect(responseRegister.status).toBe(200);
 
-      const responseLogin = await request(app).post('/auth/login').send({ email: email_default, password: 'TestPassworde31@' });
+      const responseLogin = await request(app)
+        .post('/auth/login')
+        .send({ email: email_default, password: 'TestPassworde31@' });
 
       expect(responseLogin.status).toBe(200);
 
@@ -82,7 +85,7 @@ describe('Authentification API', () => {
 
       expect(responseUser.status).toBe(200);
     } catch (error) {
-      expect(error).toBe(error);
+      console.log(error);
     }
   });
 
@@ -104,7 +107,7 @@ describe('Authentification API', () => {
 
       expect(responseUser.status).toBe(403);
     } catch (error) {
-      expect(error).toBe(error);
+      console.log(error);
     }
   });
 });
