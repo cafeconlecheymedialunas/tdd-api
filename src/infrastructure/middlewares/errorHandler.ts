@@ -7,7 +7,7 @@ const errorHandler = (err: ClientError, req: Request, res: Response, next: NextF
 
   const message = err.message ?? 'Server Error';
 
-  resError(res, status, message);
+  resError(res, status, message, err.errors);
   next();
 };
 
