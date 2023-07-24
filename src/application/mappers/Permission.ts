@@ -13,14 +13,12 @@ export class Permission implements Permissionable {
     };
   };
 
-  mapList = async (permissions: PermissionEntity[]): Promise<PermissionDto[] | false> => {
-    const results = await Promise.all(
-      permissions.map((item: PermissionEntity) => {
-        const permissionDto = this.mapItem(item);
+  mapList = (permissions: PermissionEntity[]): PermissionDto[] | false => {
+    const results = permissions.map((item: PermissionEntity) => {
+      const permissionDto = this.mapItem(item);
 
-        return permissionDto !== false ? permissionDto : undefined;
-      }),
-    );
+      return permissionDto !== false ? permissionDto : undefined;
+    });
 
     return results.filter((result): result is PermissionDto => result !== undefined) as PermissionDto[] | false;
   };

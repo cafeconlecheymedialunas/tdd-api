@@ -3,5 +3,5 @@ import { Permission as PermissionDto } from '../../../application/dtos/Permissio
 
 export default interface Permissionable {
   mapItem(permission: Permission): PermissionDto | false;
-  mapList(permissions: Permission[]): Promise<PermissionDto[] | false>;
+  mapList(permissions: Permission[]): PermissionDto[] | false;
 }

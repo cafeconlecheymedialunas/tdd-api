@@ -2,13 +2,6 @@ import { ValidationError } from '../domain/types/response';
 import { Request, Response, NextFunction } from 'express';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const catchedAsync = (...functions: any[]): any => {
-  return function (req: Request, res: Response, next: NextFunction): void {
-    functions.forEach((f) => {
-      Promise.resolve(f(req, res, next)).catch(next);
-    });
-  };
-};
 
 const resError = (res: Response, status = 400, message = 'Server Error', errors: ValidationError[] = []): void => {
   res.status(status).json({
@@ -25,4 +18,4 @@ const response = (res: Response, status = 200, data: object): void => {
   });
 };
 
-export { catchedAsync, resError, response };
+export { resError, response };

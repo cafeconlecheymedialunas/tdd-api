@@ -4,12 +4,10 @@ import login from '../controllers/login';
 
 import register from '../controllers/register';
 
-import { catchedAsync } from '../utils';
-
 const router = Router();
 
-router.post('/login', catchedAsync(login));
+router.post('/login', login);
 
-router.post('/register', catchedAsync(register));
+router.post('/register', register);
 
 export { router };

@@ -1,10 +1,9 @@
 import { Router } from 'express';
 import pruebaController from '../controllers/prueba';
 import { checkAuthorization } from '../middlewares/CheckAuthorization';
-import { catchedAsync } from '../utils';
 
 const router = Router();
 
-router.get('/', checkAuthorization, catchedAsync(pruebaController));
+router.get('/', checkAuthorization, pruebaController);
 
 export { router };
