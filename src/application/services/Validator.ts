@@ -7,19 +7,19 @@ import { RuleTypes, Rules, ValidationRule } from '../../domain/types/validationR
 export class ValidatorService implements ValidatorInterface {
   validations: ValidationRule[] = [];
   errors: ValidationError[] = [];
-
-  private getMessages = (field: any): { [key: string]: string } => {
-    return {
-      isNotEmpty: `The ${field} is required`,
-      isString: `The ${field} must be a string`,
-      isNumber: `The ${field} must be a string`, // Corrected typo here
-      isBoolean: `The ${field} must be a boolean`,
-      min: `The ${field} have at least one digit`,
-      max: `The ${field} have at least 120 digit`,
-      isEmail: `The ${field} is not a valid email`,
-      // eslint-disable-next-line max-len
-      isStrongPassword: `The ${field} must be at least 8 characters long, contain at least one uppercase letter and one lowercase letter, have at least one digit, and include one special character`,
-    };
+  messages = {
+    isNotEmpty: `The %s is required`,
+    isString: `The %s must be a string`,
+    isNumber: `The %s must be a string`, // Corrected typo here
+    isBoolean: `The %s must be a boolean`,
+    min: `The %s have at least one digit`,
+    max: `The %s have at least 120 digit`,
+    isEmail: `The %s is not a valid email`,
+    // eslint-disable-next-line max-len
+    isStrongPassword: `The %s must be at least 8 characters long, contain at least one uppercase letter and one lowercase letter, have at least one digit, and include one special character`,
+  };
+  private getMessage = (field: string, rule: RuleTypes): string => {
+    return this.messages[rule].split('%s').join(field);
   };
 
   validate = (validations: ValidationRule[]): ValidationError[] => {
@@ -27,11 +27,11 @@ export class ValidatorService implements ValidatorInterface {
     this.errors = [];
 
     this.validations.map((item) => {
-      const messages = this.getMessages(item.key);
-
       item.rules.map((rule) => {
         if (!this.executeMethood(rule, item.value)) {
-          this.setError(item.key, messages[rule]);
+          const message = this.getMessage(item.key, rule);
+
+          this.setError(item.key, message);
         }
       });
     });

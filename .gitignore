@@ -32,5 +32,5 @@ public/**/*
 # ignore yarn.lock
 yarn.lock
 
-/src/infraestructure/repository/users.json
 
+src/infrastructure/repositories/users.json
