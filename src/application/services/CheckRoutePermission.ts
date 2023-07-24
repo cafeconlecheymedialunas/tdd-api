@@ -14,12 +14,8 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
     this.repository = repository;
   }
 
-  checkRouteWithUserPermissions = async (
-    route: string,
-    method: string,
-    userPermissions: Permission[],
-  ): Promise<boolean> => {
-    const routePermission = await this.getPermissionRoute(route, method);
+  checkRouteWithUserPermissions = (route: string, method: string, userPermissions: Permission[]): boolean => {
+    const routePermission = this.getPermissionRoute(route, method);
 
     if (!routePermission) throw new PermissionNotFoundException();
 
@@ -32,13 +28,13 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
     return permission.length > 0 ? true : false;
   };
 
-  private getPermissionRoute = async (route: string, method: string): Promise<PermissionDto> => {
+  private getPermissionRoute = (route: string, method: string): PermissionDto => {
     const conditions = [
       { key: 'route', condition: Condition.Equal, value: route },
       { key: 'method', condition: Condition.Equal, value: method },
     ];
 
-    const permissionRoute = await this.repository.filter(conditions);
+    const permissionRoute = this.repository.filter(conditions);
 
     if (permissionRoute.length !== 1) throw new PermissionNotFoundException();
 

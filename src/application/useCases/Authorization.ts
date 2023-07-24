@@ -27,7 +27,7 @@ export class Authorization implements Authorizationable {
   authorize = async (route: string, method: string, token: string): Promise<boolean> => {
     const decodedToken = await this.getDecodedToken(token);
 
-    const routePermission = await this.checkRoutePermission.checkRouteWithUserPermissions(
+    const routePermission = this.checkRoutePermission.checkRouteWithUserPermissions(
       route,
       method,
       decodedToken.permissions,
