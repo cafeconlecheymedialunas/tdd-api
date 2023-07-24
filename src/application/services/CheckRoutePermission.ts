@@ -14,7 +14,7 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
     this.repository = repository;
   }
 
-  checkRouteWithUserPermission = async (
+  checkRouteWithUserPermissions = async (
     route: string,
     method: string,
     userPermissions: Permission[],
