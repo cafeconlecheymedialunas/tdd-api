@@ -1,16 +1,16 @@
-import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionMockable';
+import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
 // eslint-disable-next-line max-len
-import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/services/CheckRoutePermissionsable';
-import { Condition } from '../../domain/types/requestParams';
+import { CheckRoutePermissionable } from '../../domain/interfaces/services/CheckRoutePermissionable';
+import { Condition } from '../../domain/types/response';
 import { Permission } from '../../domain/entities/Permission';
 import { PermissionNotFoundException } from '../../domain/types/errors';
-import { PermissionDto } from '../dtos/Permission';
+import { Permission as PermissionDto } from '../dtos/Permission';
 
-export class CheckRoutePermissionsService implements CheckRoutePermissionServiceInterface {
-  private readonly repository: PermissionRepositoryInterface;
+export class CheckRoutePermission implements CheckRoutePermissionable {
+  private readonly repository: PermissionMockable;
   permissionRoute: Permission | false = false;
 
-  constructor(repository: PermissionRepositoryInterface) {
+  constructor(repository: PermissionMockable) {
     this.repository = repository;
   }
 

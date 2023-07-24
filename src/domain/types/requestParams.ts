@@ -14,14 +14,3 @@ export interface UserRequestParams {
   password: string;
   roles: number[];
 }
-export enum Condition {
-  Equal = 'equal',
-  NotEqual = 'not_equal',
-  GreaterThan = 'greater_than',
-  LessThan = 'less_than',
-}
-export type QueryFilter = {
-  key: string;
-  condition: Condition;
-  value: string;
-};

@@ -1,11 +1,11 @@
-import { ClientError, NotAuthorizedException } from '../../domain/types/errors';
-import { PermissionDataMapper } from '../../application/datamappers/Permission';
-import { JsonWebTokenService } from '../../application/services/JsonWebToken';
-import { CheckRoutePermissionsService } from '../../application/services/CheckRoutePermissions';
-import { AuthorizationUseCase } from '../../application/useCases/Authorization';
+import { ClientException, NotAuthorizedException } from '../../domain/types/errors';
+import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
+import { JsonWebToken } from '../../application/services/JsonWebToken';
+import { CheckRoutePermission } from '../../application/services/CheckRoutePermission';
+import { Authorization } from '../../application/useCases/Authorization';
 import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
-import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
+import { PermissionMock } from '../repositories/PermissionMock';
 
 export const checkAuthorization = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -16,12 +16,12 @@ export const checkAuthorization = async (req: Request, res: Response, next: Next
     const method = req.method;
 
     if (!token || !route || !method) {
-      throw new ClientError();
+      throw new ClientException();
     }
 
-    const checkUserPermisionsUseCase = new AuthorizationUseCase(
-      new JsonWebTokenService(jsonwebtoken),
-      new CheckRoutePermissionsService(new PermissionMockRepository(new PermissionDataMapper())),
+    const checkUserPermisionsUseCase = new Authorization(
+      new JsonWebToken(jsonwebtoken),
+      new CheckRoutePermission(new PermissionMock(new PermissionDataMapper())),
     );
 
     const isAuthorized = await checkUserPermisionsUseCase.authorize(route, method, token);

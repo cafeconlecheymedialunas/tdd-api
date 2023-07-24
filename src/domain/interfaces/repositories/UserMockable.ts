@@ -1,7 +1,8 @@
-import { QueryFilter, UserRequestParams } from '../../types/requestParams';
+import { UserRequestParams } from '../../types/requestParams';
+import { QueryFilter } from '../../types/response';
 import { UserDto } from '../../../application/dtos/User';
 
-export interface UserRepositoryInterface {
+export interface UserMockable {
   getAll(): Promise<UserDto[] | false>;
   filter(conditions: QueryFilter[]): Promise<UserDto[]>;
   add(user: UserRequestParams): Promise<UserDto | false>;

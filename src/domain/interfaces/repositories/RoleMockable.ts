@@ -1,6 +1,6 @@
-import { RoleDto } from '../../../application/dtos/Role';
+import { Role as RoleDto } from '../../../application/dtos/Role';
 
-export interface RoleRepositoryInterface {
+export interface RoleMockable {
   getById(id: number): Promise<RoleDto | false>;
   getByIdList(role: number[]): Promise<RoleDto[] | false>;
 }

@@ -1,24 +1,21 @@
 // eslint-disable-next-line max-len
-import { CheckRoutePermissionServiceInterface } from '../../domain/interfaces/services/CheckRoutePermissionsable';
-import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenable';
-import { AuthorizationUseCaseInterface } from '../../domain/interfaces/useCases/Authorizationable';
+import { CheckRoutePermissionable } from '../../domain/interfaces/services/CheckRoutePermissionable';
+import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
+import { Authorizationable } from '../../domain/interfaces/useCases/Authorizationable';
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
 
-export class AuthorizationUseCase implements AuthorizationUseCaseInterface {
-  private readonly jsonWebTokenService: JsonWebTokenServiceInterface;
-  private readonly checkRoutePermission: CheckRoutePermissionServiceInterface;
+export class Authorization implements Authorizationable {
+  private readonly jsonWebToken: JsonWebTokenable;
+  private readonly checkRoutePermission: CheckRoutePermissionable;
 
-  constructor(
-    jsonWebTokenService: JsonWebTokenServiceInterface,
-    checkRoutePermission: CheckRoutePermissionServiceInterface,
-  ) {
-    this.jsonWebTokenService = jsonWebTokenService;
+  constructor(jsonWebToken: JsonWebTokenable, checkRoutePermission: CheckRoutePermissionable) {
+    this.jsonWebToken = jsonWebToken;
 
     this.checkRoutePermission = checkRoutePermission;
   }
 
   getDecodedToken = async (token: string): Promise<any> => {
-    const decodedToken = await this.jsonWebTokenService.decode(token);
+    const decodedToken = await this.jsonWebToken.decode(token);
 
     if (!decodedToken) {
       throw new WrongAuthenticationTokenException();

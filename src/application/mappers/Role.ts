@@ -1,13 +1,13 @@
-import RoleDataMapperInterface from '../../domain/interfaces/datamappers/Roleable';
-import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionMockable';
-import { Role } from '../../domain/entities/Role';
-import { PermissionDto } from '../dtos/Permission';
-import { RoleDto } from '../dtos/Role';
+import Roleable from '../../domain/interfaces/mappers/Roleable';
+import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
+import { Role as RoleEntity } from '../../domain/entities/Role';
+import { Permission as PermissionDto } from '../dtos/Permission';
+import { Role as RoleDto } from '../dtos/Role';
 
-export class RoleDataMapper implements RoleDataMapperInterface {
+export class Role implements Roleable {
   private readonly permissionRepository;
 
-  constructor(repository: PermissionRepositoryInterface) {
+  constructor(repository: PermissionMockable) {
     this.permissionRepository = repository;
   }
   getPermissions = async (roles: number[]): Promise<PermissionDto[] | false> => {
@@ -21,7 +21,7 @@ export class RoleDataMapper implements RoleDataMapperInterface {
       | PermissionDto[]
       | false;
   };
-  mapItem = async (role: Role): Promise<RoleDto | false> => {
+  mapItem = async (role: RoleEntity): Promise<RoleDto | false> => {
     const selectedPermissions = await this.getPermissions(role.permissions);
 
     if (!selectedPermissions) return false;
@@ -31,9 +31,9 @@ export class RoleDataMapper implements RoleDataMapperInterface {
       permissions: selectedPermissions,
     };
   };
-  mapList = async (roles: Role[]): Promise<RoleDto[] | false> => {
+  mapList = async (roles: RoleEntity[]): Promise<RoleDto[] | false> => {
     const results = await Promise.all(
-      roles.map(async (item: Role) => {
+      roles.map(async (item: RoleEntity) => {
         const roleDto = await this.mapItem(item);
 
         return roleDto !== false ? roleDto : undefined;

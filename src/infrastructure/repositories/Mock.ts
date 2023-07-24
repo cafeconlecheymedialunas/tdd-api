@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export class MockRepository {
+export class Mock {
   generateId = (): number => {
     const timestamp = Date.now();
 

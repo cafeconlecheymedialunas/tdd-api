@@ -1,13 +1,13 @@
-import DataMapperInterface from '../../domain/interfaces/datamappers/Userable';
-import { RoleRepositoryInterface } from '../../domain/interfaces/repositories/RoleMockable';
+import DataMapperInterface from '../../domain/interfaces/mappers/Userable';
+import { RoleMockable } from '../../domain/interfaces/repositories/RoleMockable';
 import { User } from '../../domain/entities/User';
 import { UserDto } from '../dtos/User';
-import { RoleDto } from '../dtos/Role';
+import { Role as RoleDto } from '../dtos/Role';
 
 export class UserDataMapper implements DataMapperInterface {
   private readonly roleRepository;
 
-  constructor(repository: RoleRepositoryInterface) {
+  constructor(repository: RoleMockable) {
     this.roleRepository = repository;
   }
 

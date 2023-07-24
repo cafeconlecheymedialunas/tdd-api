@@ -1,7 +1,7 @@
-import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordable';
-import { ClientError } from '../../domain/types/errors';
+import { HashPasswordable } from '../../domain/interfaces/services/HashPasswordable';
+import { ClientException } from '../../domain/types/errors';
 
-export class HashPasswordService implements HashPasswordServiceInterface {
+export class HashPassword implements HashPasswordable {
   readonly hashing;
   readonly saltRounds;
 
@@ -17,7 +17,7 @@ export class HashPasswordService implements HashPasswordServiceInterface {
 
     const hash = await this.hashing.hash(password, salt);
 
-    if (!hash) throw new ClientError();
+    if (!hash) throw new ClientException();
 
     return hash;
   };

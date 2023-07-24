@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ValidatorInterface } from '../../domain/interfaces/services/Validatorable';
-import { ClientError } from '../../domain/types/errors';
+import { Validatorable } from '../../domain/interfaces/services/Validatorable';
+import { ClientException } from '../../domain/types/errors';
 import { ValidationError } from '../../domain/types/response';
 import { RuleTypes, Rules, ValidationRule } from '../../domain/types/validationRules';
 
-export class ValidatorService implements ValidatorInterface {
+export class Validator implements Validatorable {
   validations: ValidationRule[] = [];
   errors: ValidationError[] = [];
   messages = {
@@ -58,7 +58,7 @@ export class ValidatorService implements ValidatorInterface {
       case Rules.max:
         return this.max(value, 10000);
       default:
-        throw new ClientError(500, 'Undefined Types');
+        throw new ClientException(500, 'Undefined Types');
     }
   };
   private setError = (key: string, message: string): void => {

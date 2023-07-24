@@ -1,6 +1,6 @@
-import { RoleDto } from '../../../application/dtos/Role';
+import { Role as RoleDto } from '../../../application/dtos/Role';
 
-export interface UserDtoInterface {
+export interface Userable {
   id: number;
   name: string;
   email: string;

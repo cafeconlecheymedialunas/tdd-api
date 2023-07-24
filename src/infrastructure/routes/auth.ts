@@ -1,15 +1,15 @@
 import { Router } from 'express';
 
-import loginController from '../controllers/login';
+import login from '../controllers/login';
 
-import registerController from '../controllers/register';
+import register from '../controllers/register';
 
 import { catchedAsync } from '../utils';
 
 const router = Router();
 
-router.post('/login', catchedAsync(loginController));
+router.post('/login', catchedAsync(login));
 
-router.post('/register', catchedAsync(registerController));
+router.post('/register', catchedAsync(register));
 
 export { router };

@@ -1,31 +1,27 @@
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
-import { UserDataMapper } from '../../application/datamappers/User';
-import { RoleDataMapper } from '../../application/datamappers/Role';
-import { PermissionDataMapper } from '../../application/datamappers/Permission';
-import { JsonWebTokenService } from '../../application/services/JsonWebToken';
-import { HashPasswordService } from '../../application/services/HashPassword';
-import { LoginUseCase } from '../../application/useCases/Login';
+import { UserDataMapper } from '../../application/mappers/User';
+import { Role as RoleDataMapper } from '../../application/mappers/Role';
+import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
+import { JsonWebToken } from '../../application/services/JsonWebToken';
+import { HashPassword } from '../../application/services/HashPassword';
+import { Login } from '../../application/useCases/Login';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { response } from '../utils';
-import { UserMockRepository } from '../repositories/UserMockRepository';
-import { PermissionMockRepository } from '../repositories/PermissionMockRepository';
-import { RoleMockRepository } from '../repositories/RoleMockRepository';
-import { ValidatorService } from '../../application/services/Validator';
+import { UserMock } from '../repositories/UserMock';
+import { PermissionMock } from '../repositories/PermissionMock';
+import { RoleMock } from '../repositories/RoleMock';
+import { Validator } from '../../application/services/Validator';
 
-const loginUseCase = new LoginUseCase(
-  new UserMockRepository(
-    new UserDataMapper(
-      new RoleMockRepository(new RoleDataMapper(new PermissionMockRepository(new PermissionDataMapper()))),
-    ),
-  ),
-  new HashPasswordService(bcrypt),
-  new JsonWebTokenService(jwt),
-  new ValidatorService(),
+const loginUseCase = new Login(
+  new UserMock(new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper()))))),
+  new HashPassword(bcrypt),
+  new JsonWebToken(jwt),
+  new Validator(),
 );
 
-const loginController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email, password } = req.body;
 
@@ -41,4 +37,4 @@ const loginController = async (req: Request, res: Response, next: NextFunction):
   }
 };
 
-export default loginController;
+export default login;

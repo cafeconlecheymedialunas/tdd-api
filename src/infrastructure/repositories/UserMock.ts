@@ -1,17 +1,18 @@
-import { UserRepositoryInterface } from '../../domain/interfaces/repositories/UserMockable';
-import UserDataMapperInterface from '../../domain/interfaces/datamappers/Userable';
+import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
+import Userable from '../../domain/interfaces/mappers/Userable';
 import { UserNotFoundException } from '../../domain/types/errors';
 import { User } from '../../domain/entities/User';
-import { Condition, QueryFilter, UserRequestParams } from '../../domain/types/requestParams';
+import { UserRequestParams } from '../../domain/types/requestParams';
+import { Condition, QueryFilter } from '../../domain/types/response';
 import { UserDto } from '../../application/dtos/User';
-import { MockRepository } from './MockRepository';
+import { Mock } from './Mock';
 
-export class UserMockRepository extends MockRepository implements UserRepositoryInterface {
+export class UserMock extends Mock implements UserMockable {
   list: User[] = [];
   collection = 'users';
-  dataMapper: UserDataMapperInterface;
+  dataMapper: Userable;
 
-  constructor(dataMapper: UserDataMapperInterface) {
+  constructor(dataMapper: Userable) {
     super();
 
     this.dataMapper = dataMapper;

@@ -1,17 +1,22 @@
-import { type UserRepositoryInterface } from '../../domain/interfaces/repositories/UserMockable';
-import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordable';
-import { ValidatorInterface } from '../../domain/interfaces/services/Validatorable';
-import { type RegisterUseCaseInterface } from '../../domain/interfaces/useCases/Registerable';
-import { ClientError, UserWithThatEmailAlreadyExistsException, ValidationException } from '../../domain/types/errors';
-import { Condition, UserRequestParams } from '../../domain/types/requestParams';
+import { type UserMockable } from '../../domain/interfaces/repositories/UserMockable';
+import { HashPasswordable } from '../../domain/interfaces/services/HashPasswordable';
+import { Validatorable } from '../../domain/interfaces/services/Validatorable';
+import { type Registerable } from '../../domain/interfaces/useCases/Registerable';
+import {
+  ClientException,
+  UserWithThatEmailAlreadyExistsException,
+  ValidationException,
+} from '../../domain/types/errors';
+import { UserRequestParams } from '../../domain/types/requestParams';
+import { Condition } from '../../domain/types/response';
 import { Rules } from '../../domain/types/validationRules';
 import { UserDto } from '../dtos/User';
 
-export class RegisterUseCase implements RegisterUseCaseInterface {
-  private readonly repository: UserRepositoryInterface;
-  private readonly hash: HashPasswordServiceInterface;
-  private readonly validator: ValidatorInterface;
-  constructor(repository: UserRepositoryInterface, hash: HashPasswordServiceInterface, validator: ValidatorInterface) {
+export class Register implements Registerable {
+  private readonly repository: UserMockable;
+  private readonly hash: HashPasswordable;
+  private readonly validator: Validatorable;
+  constructor(repository: UserMockable, hash: HashPasswordable, validator: Validatorable) {
     this.repository = repository;
 
     this.hash = hash;
@@ -42,7 +47,7 @@ export class RegisterUseCase implements RegisterUseCaseInterface {
   private generateHash = async (password: string): Promise<string> => {
     const passwordHash = await this.hash.hash(password);
 
-    if (!passwordHash) throw new ClientError();
+    if (!passwordHash) throw new ClientException();
 
     return passwordHash;
   };

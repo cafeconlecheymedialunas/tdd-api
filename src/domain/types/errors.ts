@@ -1,6 +1,6 @@
 import { ValidationError } from './response';
 
-export class ClientError extends Error {
+export class ClientException extends Error {
   public status: number;
   public message: string;
   public errors: ValidationError[];
@@ -15,54 +15,54 @@ export class ClientError extends Error {
   }
 }
 
-export class AuthenticationTokenMissingException extends ClientError {
+export class AuthenticationTokenMissingException extends ClientException {
   constructor() {
     super(401, 'Authentication token missing');
   }
 }
 
-export class NotAuthorizedException extends ClientError {
+export class NotAuthorizedException extends ClientException {
   constructor() {
     super(403, "You're not authorized");
   }
 }
 
-export class PostNotFoundException extends ClientError {
+export class PostNotFoundException extends ClientException {
   constructor(id: number) {
     super(404, `Post with id ${id} not found`);
   }
 }
 
-export class PermissionNotFoundException extends ClientError {
+export class PermissionNotFoundException extends ClientException {
   constructor() {
     super(404, `Permission not found`);
   }
 }
-export class UserNotFoundException extends ClientError {
+export class UserNotFoundException extends ClientException {
   constructor(id: number) {
     super(404, `User with id ${id} not found`);
   }
 }
 
-export class UserWithThatEmailAlreadyExistsException extends ClientError {
+export class UserWithThatEmailAlreadyExistsException extends ClientException {
   constructor(email: string) {
     super(400, `User with email ${email} already exists`);
   }
 }
 
-export class WrongAuthenticationTokenException extends ClientError {
+export class WrongAuthenticationTokenException extends ClientException {
   constructor() {
     super(401, 'Wrong authentication token');
   }
 }
 
-export class WrongCredentialsException extends ClientError {
+export class WrongCredentialsException extends ClientException {
   constructor() {
     super(401, 'Wrong credentials provided');
   }
 }
 
-export class ValidationException extends ClientError {
+export class ValidationException extends ClientException {
   constructor(errors: ValidationError[]) {
     super(422, `There are ${errors.length} validation error${errors.length > 1 ? 's' : ''}`, errors);
   }

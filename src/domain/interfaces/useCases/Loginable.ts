@@ -1,7 +1,7 @@
 import { Payload } from '../../types/response';
 import { UserDto } from '../../../application/dtos/User';
 
-export interface LoginUseCaseInterface {
+export interface Loginable {
   login(email: string, password: string): Promise<object>;
   validate(email: string, password: string): void;
   sigIn(email: string, password: string): Promise<UserDto>;

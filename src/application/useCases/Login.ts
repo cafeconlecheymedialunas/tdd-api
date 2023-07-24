@@ -1,6 +1,6 @@
-import { UserRepositoryInterface } from '../../domain/interfaces/repositories/UserMockable';
-import { HashPasswordServiceInterface } from '../../domain/interfaces/services/HashPasswordable';
-import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenable';
+import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
+import { HashPasswordable } from '../../domain/interfaces/services/HashPasswordable';
+import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import {
   ValidationException,
   WrongAuthenticationTokenException,
@@ -8,21 +8,21 @@ import {
 } from '../../domain/types/errors';
 import { Payload } from '../../domain/types/response';
 import { UserDto } from '../dtos/User';
-import { Condition } from '../../domain/types/requestParams';
-import { ValidatorInterface } from '../../domain/interfaces/services/Validatorable';
+import { Condition } from '../../domain/types/response';
+import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { Rules } from '../../domain/types/validationRules';
 
-export class LoginUseCase {
-  private readonly repository: UserRepositoryInterface;
-  private readonly hashService: HashPasswordServiceInterface;
-  private readonly jwt: JsonWebTokenServiceInterface;
-  private readonly validator: ValidatorInterface;
+export class Login {
+  private readonly repository: UserMockable;
+  private readonly hashService: HashPasswordable;
+  private readonly jwt: JsonWebTokenable;
+  private readonly validator: Validatorable;
 
   constructor(
-    repository: UserRepositoryInterface,
-    hashService: HashPasswordServiceInterface,
-    jwt: JsonWebTokenServiceInterface,
-    validator: ValidatorInterface,
+    repository: UserMockable,
+    hashService: HashPasswordable,
+    jwt: JsonWebTokenable,
+    validator: Validatorable,
   ) {
     this.repository = repository;
 

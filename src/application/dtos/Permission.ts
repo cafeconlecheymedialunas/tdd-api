@@ -1,6 +1,6 @@
-import { PermissionDtoInterface } from '../../domain/interfaces/dtos/Permissionable';
+import { Permissionable } from '../../domain/interfaces/dtos/Permissionable';
 
-export class PermissionDto implements PermissionDtoInterface {
+export class Permission implements Permissionable {
   id: number;
   route: string;
   method: string;

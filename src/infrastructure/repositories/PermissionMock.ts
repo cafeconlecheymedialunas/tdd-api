@@ -1,18 +1,18 @@
-import PermissionDataMapperInterface from '../../domain/interfaces/datamappers/Permissionable';
-import { PermissionRepositoryInterface } from '../../domain/interfaces/repositories/PermissionMockable';
+import Permissionable from '../../domain/interfaces/mappers/Permissionable';
+import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
 import { Permission } from '../../domain/entities/Permission';
-import { Condition, QueryFilter } from '../../domain/types/requestParams';
-import { ClientError } from '../../domain/types/errors';
-import { PermissionDto } from '../../application/dtos/Permission';
-import { MockRepository } from './MockRepository';
+import { Condition, QueryFilter } from '../../domain/types/response';
+import { ClientException } from '../../domain/types/errors';
+import { Permission as PermissionDto } from '../../application/dtos/Permission';
+import { Mock } from './Mock';
 import { PERMISSIONS_DEFAULT } from './permissions';
 
-export class PermissionMockRepository extends MockRepository implements PermissionRepositoryInterface {
+export class PermissionMock extends Mock implements PermissionMockable {
   list = PERMISSIONS_DEFAULT;
   collection = 'permissions';
-  dataMapper: PermissionDataMapperInterface;
+  dataMapper: Permissionable;
 
-  constructor(dataMapper: PermissionDataMapperInterface) {
+  constructor(dataMapper: Permissionable) {
     super();
 
     this.dataMapper = dataMapper;
@@ -51,7 +51,7 @@ export class PermissionMockRepository extends MockRepository implements Permissi
       return ids.indexOf(item.id) != -1;
     });
 
-    if (permission === undefined) throw new ClientError(400, 'nO SE PUDO OBTENER');
+    if (permission === undefined) throw new ClientException(400, 'nO SE PUDO OBTENER');
 
     const permissionDto = await this.dataMapper.mapList(permission);
 

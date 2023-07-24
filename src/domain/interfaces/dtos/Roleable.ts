@@ -1,6 +1,6 @@
 import { Permission } from '../../entities/Permission';
 
-export interface RoleDtoInterface {
+export interface Roleable {
   id: number;
   name: string;
   permissions: Permission[];

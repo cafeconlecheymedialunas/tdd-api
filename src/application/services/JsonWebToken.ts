@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { JsonWebTokenServiceInterface } from '../../domain/interfaces/services/JsonWebTokenable';
+import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import { Payload } from '../../domain/types/response';
-import { AuthenticationTokenMissingException, ClientError } from '../../domain/types/errors';
+import { AuthenticationTokenMissingException, ClientException } from '../../domain/types/errors';
 import config from '../../config';
 
-export class JsonWebTokenService implements JsonWebTokenServiceInterface {
+export class JsonWebToken implements JsonWebTokenable {
   private jwt;
 
   constructor(jwt: any) {
@@ -20,7 +20,7 @@ export class JsonWebTokenService implements JsonWebTokenServiceInterface {
 
   verifyToken = async (token: string) => {
     if (token === '') {
-      throw new ClientError();
+      throw new ClientException();
     }
 
     const decoded = await this.jwt.verify(token, config.SECRET_KEY);
