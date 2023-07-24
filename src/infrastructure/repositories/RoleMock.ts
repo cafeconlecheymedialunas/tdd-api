@@ -3,10 +3,10 @@ import { RoleMockable } from '../../domain/interfaces/repositories/RoleMockable'
 import { Role } from '../../domain/entities/Role';
 import { Role as RoleDto } from '../../application/dtos/Role';
 import { Mock } from './Mock';
-import { ROLES } from './roles';
+import { ROLES_DEFAULT } from './roles';
 
 export class RoleMock extends Mock implements RoleMockable {
-  list: Role[] = ROLES;
+  list: Role[] = ROLES_DEFAULT;
   collection = 'roles';
   dataMapper: Roleable;
 

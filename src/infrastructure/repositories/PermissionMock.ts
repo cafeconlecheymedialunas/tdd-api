@@ -5,7 +5,7 @@ import { Condition, QueryFilter } from '../../domain/types/response';
 import { ClientException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../../application/dtos/Permission';
 import { Mock } from './Mock';
-import { PERMISSIONS_DEFAULT } from './permissions';
+import { PERMISSIONS_DEFAULT } from './roles';
 
 export class PermissionMock extends Mock implements PermissionMockable {
   list = PERMISSIONS_DEFAULT;
