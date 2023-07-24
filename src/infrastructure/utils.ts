@@ -1,7 +1,5 @@
 import { ValidationError } from '../domain/types/response';
-import { Request, Response, NextFunction } from 'express';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+import { Response } from 'express';
 
 const resError = (res: Response, status = 400, message = 'Server Error', errors: ValidationError[] = []): void => {
   res.status(status).json({

@@ -14,6 +14,7 @@ export class Authorization implements Authorizationable {
     this.checkRoutePermission = checkRoutePermission;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getDecodedToken = async (token: string): Promise<any> => {
     const decodedToken = await this.jsonWebToken.decode(token);
 
