@@ -18,7 +18,7 @@ export class PermissionMock extends Mock implements PermissionMockable {
     this.dataMapper = dataMapper;
   }
 
-  filter = async (conditions: QueryFilter[]): Promise<PermissionDto[]> => {
+  filter = (conditions: QueryFilter[]): PermissionDto[] => {
     const users = Object.values(this.list).filter((item: Permission) =>
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;
@@ -40,32 +40,32 @@ export class PermissionMock extends Mock implements PermissionMockable {
       }),
     );
 
-    const dtos = await this.dataMapper.mapList(users);
+    const dtos = this.dataMapper.mapList(users);
 
     if (dtos === false) return [];
     return dtos;
   };
 
-  getByIdList = async (ids: number[]): Promise<PermissionDto[] | false> => {
+  getByIdList = (ids: number[]): PermissionDto[] | false => {
     const permission = Object.values(this.list).filter((item) => {
       return ids.indexOf(item.id) != -1;
     });
 
     if (permission === undefined) throw new ClientException(400, 'nO SE PUDO OBTENER');
 
-    const permissionDto = await this.dataMapper.mapList(permission);
+    const permissionDto = this.dataMapper.mapList(permission);
 
     if (permissionDto) return false;
 
     return permissionDto;
   };
 
-  getById = async (id: number): Promise<PermissionDto | false> => {
+  getById = (id: number): PermissionDto | false => {
     const permission = Object.values(this.list).find((item) => item.id === id);
 
     if (!permission) return false;
 
-    const permissionDto = await this.dataMapper.mapItem(permission);
+    const permissionDto = this.dataMapper.mapItem(permission);
 
     if (!permissionDto) return false;
 
