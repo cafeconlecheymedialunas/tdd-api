@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import config from './config';
-import router from './infrastructure/routes';
+import router from './infrastructure/routes/index';
 import errorHandler from './infrastructure/middlewares/errorHandler';
 
 const app = express();

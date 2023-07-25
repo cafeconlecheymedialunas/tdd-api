@@ -7,6 +7,15 @@ import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
 import { PermissionMock } from '../repositories/PermissionMock';
 
+/**
+ * Checks the authorization of a request by validating the token, route, and method.
+ * @param {Request} req - The request Express .
+ * @param {Response} res - The response Express .
+ * @param {NextFunction} next - The next express.
+ * @returns {Promise<void>} - A promise that resolves when the authorization check is complete.
+ * @throws {ClientException} - If the token, route, or method is missing.
+ * @throws {NotAuthorizedException} - If the user is not authorized to access the route.
+ */
 export const checkAuthorization = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
@@ -19,12 +28,12 @@ export const checkAuthorization = async (req: Request, res: Response, next: Next
       throw new ClientException();
     }
 
-    const checkUserPermisionsUseCase = new Authorization(
+    const authorizationUseCase = new Authorization(
       new JsonWebToken(jsonwebtoken),
       new CheckRoutePermission(new PermissionMock(new PermissionDataMapper())),
     );
 
-    const isAuthorized = await checkUserPermisionsUseCase.authorize(route, method, token);
+    const isAuthorized = await authorizationUseCase.authorize(route, method, token);
 
     if (!isAuthorized) {
       throw new NotAuthorizedException();

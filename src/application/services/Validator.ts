@@ -2,26 +2,28 @@
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { ClientException } from '../../domain/types/errors';
 import { ValidationError } from '../../domain/types/response';
-import { RuleTypes, Rules, ValidationRule } from '../../domain/types/validationRules';
+import { RuleTypes, RULES, ValidationRule, MESSAGES } from '../../domain/types/validationRules';
 
 export class Validator implements Validatorable {
   validations: ValidationRule[] = [];
   errors: ValidationError[] = [];
-  messages = {
-    isNotEmpty: `The %s is required`,
-    isString: `The %s must be a string`,
-    isNumber: `The %s must be a string`, // Corrected typo here
-    isBoolean: `The %s must be a boolean`,
-    min: `The %s have at least one digit`,
-    max: `The %s have at least 120 digit`,
-    isEmail: `The %s is not a valid email`,
-    // eslint-disable-next-line max-len
-    isStrongPassword: `The %s must be at least 8 characters long, contain at least one uppercase letter and one lowercase letter, have at least one digit, and include one special character`,
-  };
+  messages = MESSAGES;
+
+  /**
+   * Retrieves the error message for a given field and rule.
+   * @param {string} field - The field for which the error message is retrieved.
+   * @param {RuleTypes} rule - The rule for which the error message is retrieved.
+   * @returns The formatted error message with the field name inserted.
+   */
   private getMessage = (field: string, rule: RuleTypes): string => {
     return this.messages[rule].split('%s').join(field);
   };
 
+  /**
+   * Validates a set of validation rules against a given set of values.
+   * @param {ValidationRule[]} validations - An array of validation rules to apply.
+   * @returns {ValidationError[]} An array of validation errors, if any.
+   */
   validate = (validations: ValidationRule[]): ValidationError[] => {
     this.validations = validations;
     this.errors = [];
@@ -39,28 +41,42 @@ export class Validator implements Validatorable {
     return this.errors;
   };
 
+  /**
+   * Executes a validation method based on the given rule type and value.
+   * @param {RuleTypes} rule - The rule type to execute.
+   * @param {any} value - The value to validate.
+   * @returns {boolean} - The result of the validation.
+   * @throws {ClientException} - If the rule type is undefined.
+   */
   private executeMethood = (rule: RuleTypes, value: any): boolean => {
     switch (rule) {
-      case Rules.isNotEmpty:
+      case RULES.isNotEmpty:
         return this.isNotEmpty(value);
-      case Rules.isBoolean:
+      case RULES.isBoolean:
         return this.isBoolean(value);
-      case Rules.isEmail:
+      case RULES.isEmail:
         return this.isEmail(value);
-      case Rules.isNumber:
+      case RULES.isNumber:
         return this.isNumber(value);
-      case Rules.isString:
+      case RULES.isString:
         return this.isString(value);
-      case Rules.isStrongPassword:
+      case RULES.isStrongPassword:
         return this.isStrongPassword(value);
-      case Rules.min:
+      case RULES.min:
         return this.min(value, 10);
-      case Rules.max:
+      case RULES.max:
         return this.max(value, 10000);
       default:
         throw new ClientException(500, 'Undefined Types');
     }
   };
+
+  /**
+   * Sets an error message for a given key and adds it to the list of errors.
+   * @param {string} key - The key associated with the error.
+   * @param {string} message - The error message.
+   * @returns None
+   */
   private setError = (key: string, message: string): void => {
     this.errors.push({ key: key, error: message });
   };

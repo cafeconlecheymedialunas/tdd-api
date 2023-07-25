@@ -16,6 +16,11 @@ export class RoleMock extends Mock implements RoleMockable {
     this.dataMapper = dataMapper;
   }
 
+  /**
+   * Retrieves a RoleDto by its ID from the list of roles.
+   * @param {number} id - The ID of the role to retrieve.
+   * @returns {Promise<RoleDto | false>} - A promise that resolves to the RoleDto object if found, or false if not found.
+   */
   getById = async (id: number): Promise<RoleDto | false> => {
     const role = this.list.find((item) => item.id === id);
 
@@ -28,6 +33,11 @@ export class RoleMock extends Mock implements RoleMockable {
     return roleDto;
   };
 
+  /**
+   * Retrieves a list of RoleDto objects based on the provided list of ids.
+   * @param {number[]} ids - The list of Role ids to retrieve RoleDto objects for.
+   * @returns {Promise<RoleDto[] | false>} - A promise that resolves to an array of RoleDto objects if successful, or false if no roles were found.
+   */
   getByIdList = async (ids: number[]): Promise<RoleDto[] | false> => {
     const roles = this.list.filter((item) => {
       return ids.indexOf(item.id) != -1;

@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { ClientException } from '../../domain/types/errors';
 
 export class Mock {
   generateId = (): number => {
@@ -11,6 +12,13 @@ export class Mock {
     return uniqueNumber;
   };
 
+  /**
+   * Reads the contents of a JSON file asynchronously and returns the parsed data as an array.
+   * If the file does not exist, it creates an empty file with the given file name.
+   * @param {string} fileName - The name of the JSON file to read.
+   * @returns {Promise<any[]>} - A promise that resolves to an array containing the parsed data from the file.
+   * @throws {ClientException} - If there is an error reading the file.
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readFile = async (fileName: string): Promise<any[]> => {
     try {
@@ -23,11 +31,15 @@ export class Mock {
 
       return JSON.parse(data);
     } catch (error) {
-      console.error('Error al leer el archivo de usuarios:', error);
-      throw error;
+      throw new ClientException();
     }
   };
 
+  /**
+   * Checks if a file exists at the given path.
+   * @param {string} path - The path to the file.
+   * @returns {Promise<boolean>} - A promise that resolves to true if the file exists, and false otherwise.
+   */
   fileExists = async (path: string): Promise<boolean> => {
     try {
       await fs.promises.access(path, fs.constants.F_OK);
@@ -37,6 +49,13 @@ export class Mock {
     }
   };
 
+  /**
+   * Writes the given data to a JSON file with the specified file name.
+   * @param {string} fileName - The name of the file to write to.
+   * @param {any[]} data - The data to write to the file.
+   * @returns {Promise<void>} - A promise that resolves when the file is successfully written.
+   * @throws {ClientException} - If there is an error while writing the file.
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   writeFile = async (fileName: string, data: any[]): Promise<void> => {
     try {
@@ -44,8 +63,7 @@ export class Mock {
 
       await fs.promises.writeFile(filePath, JSON.stringify(data));
     } catch (error) {
-      console.error('Error al escribir en el archivo de usuarios:', error);
-      throw error;
+      throw new ClientException();
     }
   };
 }

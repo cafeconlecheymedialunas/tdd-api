@@ -14,8 +14,14 @@ export class Authorization implements Authorizationable {
     this.checkRoutePermission = checkRoutePermission;
   }
 
+  /**
+   * Decodes the given token using a jsonWebToken library.
+   * @param {string} token - The token to decode.
+   * @returns {Promise<any>} - A promise that resolves to the decoded token.
+   * @throws {WrongAuthenticationTokenException} - If the token cannot be decoded.
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getDecodedToken = async (token: string): Promise<any> => {
+  private getDecodedToken = async (token: string): Promise<any> => {
     const decodedToken = await this.jsonWebToken.decode(token);
 
     if (!decodedToken) {
@@ -24,6 +30,13 @@ export class Authorization implements Authorizationable {
     return decodedToken;
   };
 
+  /**
+   * Authorizes a user's access to a specific route and method using a token.
+   * @param {string} route - The route to authorize access to.
+   * @param {string} method - The HTTP method to authorize access to.
+   * @param {string} token - The user's token for authentication.
+   * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating whether the user is authorized or not.
+   */
   authorize = async (route: string, method: string, token: string): Promise<boolean> => {
     const decodedToken = await this.getDecodedToken(token);
 

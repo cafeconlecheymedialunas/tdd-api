@@ -18,6 +18,10 @@ export class UserMock extends Mock implements UserMockable {
     this.dataMapper = dataMapper;
   }
 
+  /**
+   * Retrieves all UserDto data from the collection.
+   * @returns {Promise<UserDto[] | false>} - A promise that resolves to an array of UserDto objects if successful, or false if an error occurs.
+   */
   getAll = async (): Promise<UserDto[] | false> => {
     this.list = await this.readFile(this.collection);
 
@@ -26,6 +30,11 @@ export class UserMock extends Mock implements UserMockable {
     return results;
   };
 
+  /**
+   * Filters the list of users based on the given conditions and returns a promise that resolves to an array of UserDto objects.
+   * @param {QueryFilter[]} conditions - An array of query filters to apply to the list of users.
+   * @returns {Promise<UserDto[]>} - A promise that resolves to an array of UserDto objects that match the given conditions.
+   */
   filter = async (conditions: QueryFilter[]): Promise<UserDto[]> => {
     await this.getAll();
     const users = this.list.filter((item: User) =>
@@ -55,6 +64,11 @@ export class UserMock extends Mock implements UserMockable {
     return dtos;
   };
 
+  /**
+   * Adds a new User to the collection and return a UserDto.
+   * @param {UserRequestParams} user - The user object to add.
+   * @returns {Promise<UserDto | false>} - A promise that resolves to the added user object (as a UserDto) if successful, or false if unsuccessful.
+   */
   add = async (user: UserRequestParams): Promise<UserDto | false> => {
     let id = this.generateId();
 
@@ -78,6 +92,11 @@ export class UserMock extends Mock implements UserMockable {
     return userDto;
   };
 
+  /**
+   * Deletes an item from the collection based on its ID.
+   * @param {number} id - The ID of the item to delete.
+   * @returns {Promise<boolean>} - A promise that resolves to true if the item was successfully deleted, or false if the item was not found.
+   */
   delete = async (id: number): Promise<boolean> => {
     this.list = await this.readFile(this.collection);
 
@@ -94,6 +113,12 @@ export class UserMock extends Mock implements UserMockable {
     }
   };
 
+  /**
+   * Updates a user with the specified ID and returns the updated UserDto.
+   * @param {number} id - The ID of the user to update.
+   * @param {UserRequestParams} user - The updated user data.
+   * @returns {Promise<UserDto | false>} - A promise that resolves to the updated user object if successful, or false if unsuccessful.
+   */
   update = async (id: number, user: UserRequestParams): Promise<UserDto | false> => {
     if (!id) return false;
 
@@ -119,6 +144,12 @@ export class UserMock extends Mock implements UserMockable {
     return userDto;
   };
 
+  /**
+   * Retrieves a UserDto by their ID from the collection.
+   * @param {number} id - The ID of the user to retrieve.
+   * @returns {Promise<UserDto | false>} - A promise that resolves to the UserDto object if the user is found, or false if the user is not found.
+   * @throws {UserNotFoundException} - If the user with the specified ID is not found in the collection.
+   */
   getById = async (id: number): Promise<UserDto | false> => {
     this.list = await this.readFile(this.collection);
 

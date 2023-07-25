@@ -14,6 +14,14 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
     this.repository = repository;
   }
 
+  /**
+   * Checks if a user has the necessary permissions to access a specific route with a given method.
+   * @param {string} route - The route to check permissions for.
+   * @param {string} method - The HTTP method to check permissions for.
+   * @param {Permission[]} userPermissions - An array of user permissions.
+   * @returns {boolean} - True if the user has the necessary permissions, false otherwise.
+   * @throws {PermissionNotFoundException} - If the permission for the route and method is not found.
+   */
   checkRouteWithUserPermissions = (route: string, method: string, userPermissions: Permission[]): boolean => {
     const routePermission = this.getPermissionRoute(route, method);
 
@@ -28,6 +36,13 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
     return permission.length > 0 ? true : false;
   };
 
+  /**
+   * Retrieves the permission route based on the given route and method.
+   * @param {string} route - The route to search for.
+   * @param {string} method - The HTTP method to search for.
+   * @returns {PermissionDto} - The permission route that matches the given route and method.
+   * @throws {PermissionNotFoundException} - If no permission route is found or if multiple permission routes are found.
+   */
   private getPermissionRoute = (route: string, method: string): PermissionDto => {
     const conditions = [
       { key: 'route', condition: Condition.Equal, value: route },

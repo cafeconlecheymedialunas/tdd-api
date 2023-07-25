@@ -10,19 +10,18 @@ export class Role implements Roleable {
   constructor(repository: PermissionMockable) {
     this.permissionRepository = repository;
   }
-  getPermissions = async (roles: number[]): Promise<PermissionDto[] | false> => {
-    const selectedPermissions = await Promise.all(
-      roles.map(async (rol) => {
-        return await this.permissionRepository.getById(rol);
-      }),
-    );
+  getPermissions = (roles: number[]): PermissionDto[] | false => {
+    const selectedPermissions = roles.map((rol) => {
+      return this.permissionRepository.getById(rol);
+    });
 
     return selectedPermissions.filter((result): result is PermissionDto => result !== undefined) as
       | PermissionDto[]
       | false;
   };
-  mapItem = async (role: RoleEntity): Promise<RoleDto | false> => {
-    const selectedPermissions = await this.getPermissions(role.permissions);
+
+  mapItem = (role: RoleEntity): RoleDto | false => {
+    const selectedPermissions = this.getPermissions(role.permissions);
 
     if (!selectedPermissions) return false;
     return {
@@ -31,14 +30,13 @@ export class Role implements Roleable {
       permissions: selectedPermissions,
     };
   };
-  mapList = async (roles: RoleEntity[]): Promise<RoleDto[] | false> => {
-    const results = await Promise.all(
-      roles.map(async (item: RoleEntity) => {
-        const roleDto = await this.mapItem(item);
 
-        return roleDto !== false ? roleDto : undefined;
-      }),
-    );
+  mapList = (roles: RoleEntity[]): RoleDto[] | false => {
+    const results = roles.map((item: RoleEntity) => {
+      const roleDto = this.mapItem(item);
+
+      return roleDto !== false ? roleDto : undefined;
+    });
 
     return results.filter((result): result is RoleDto => result !== undefined) as RoleDto[] | false;
   };
