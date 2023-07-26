@@ -2,7 +2,7 @@ import Permissionable from '../../domain/interfaces/mappers/Permissionable';
 import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
 import { Permission } from '../../domain/entities/Permission';
 import { Condition, QueryFilter } from '../../domain/types/response';
-import { ClientException, NotFoundException } from '../../domain/types/errors';
+import { NotFoundException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../../application/dtos/Permission';
 import { Mock } from './Mock';
 import { PERMISSIONS_DEFAULT } from './rolesDefault';

@@ -1,15 +1,17 @@
 import fs from 'fs';
 import { ClientException } from '../../domain/types/errors';
+import { Mockable } from '../../domain/interfaces/repositories/Mockable';
 
-export class Mock {
-  generateId = (): number => {
+export class Mock implements Mockable {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  generateId = (list: any[]): number => {
     const timestamp = Date.now();
 
     const random = Math.floor(Math.random() * 1000000);
 
-    const uniqueNumber = timestamp + random;
+    const uuii = timestamp + random;
 
-    return uniqueNumber;
+    return !uuii ? list?.length : uuii;
   };
 
   /**

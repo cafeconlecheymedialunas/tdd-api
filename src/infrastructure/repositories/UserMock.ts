@@ -1,14 +1,14 @@
 import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
 import Userable from '../../domain/interfaces/mappers/Userable';
 import { NotFoundException } from '../../domain/types/errors';
-import { User } from '../../domain/entities/User';
+import { User as UserEntity } from '../../domain/entities/User';
 import { UserRequestParams } from '../../domain/types/requestParams';
 import { Condition, QueryFilter } from '../../domain/types/response';
 import { UserDto } from '../../application/dtos/User';
 import { Mock } from './Mock';
 
 export class UserMock extends Mock implements UserMockable {
-  list: User[] = [];
+  list: UserEntity[] = [];
   collection = 'users';
   dataMapper: Userable;
 
@@ -37,7 +37,7 @@ export class UserMock extends Mock implements UserMockable {
    */
   filter = async (conditions: QueryFilter[]): Promise<UserDto[]> => {
     await this.getAll();
-    const users = this.list.filter((item: User) =>
+    const users = this.list.filter((item: UserEntity) =>
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;
 
@@ -70,11 +70,9 @@ export class UserMock extends Mock implements UserMockable {
    * @returns {Promise<UserDto | false>} - A promise that resolves to the added user object (as a UserDto) if successful, or false if unsuccessful.
    */
   add = async (user: UserRequestParams): Promise<UserDto | false> => {
-    let id = this.generateId();
+    const id = this.generateId(this.list);
 
     this.list = await this.readFile(this.collection);
-
-    id = !id ? this.list?.length : id;
 
     const newUser = {
       ...user,

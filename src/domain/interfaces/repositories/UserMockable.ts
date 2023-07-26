@@ -8,6 +8,5 @@ export interface UserMockable {
   add(user: UserRequestParams): Promise<UserDto | false>;
   delete(id: number): Promise<boolean>;
   update(id: number, user: UserRequestParams): Promise<UserDto | false>;
-  generateId(): number; // TODO
   getById(id: number): Promise<UserDto | false>;
 }
