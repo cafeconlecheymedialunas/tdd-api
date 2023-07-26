@@ -2,13 +2,13 @@ import Permissionable from '../../domain/interfaces/mappers/Permissionable';
 import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
 import { Permission } from '../../domain/entities/Permission';
 import { Condition, QueryFilter } from '../../domain/types/response';
-import { ClientException } from '../../domain/types/errors';
+import { ClientException, NotFoundException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../../application/dtos/Permission';
 import { Mock } from './Mock';
-import { PERMISSIONS_DEFAULT } from './roles';
+import { PERMISSIONS_DEFAULT } from './rolesDefault';
 
 export class PermissionMock extends Mock implements PermissionMockable {
-  list = PERMISSIONS_DEFAULT;
+  list = Object.values(PERMISSIONS_DEFAULT);
   collection = 'permissions';
   dataMapper: Permissionable;
 
@@ -19,7 +19,7 @@ export class PermissionMock extends Mock implements PermissionMockable {
   }
 
   filter = (conditions: QueryFilter[]): PermissionDto[] => {
-    const users = Object.values(this.list).filter((item: Permission) =>
+    const users = this.list.filter((item: Permission) =>
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;
 
@@ -47,11 +47,11 @@ export class PermissionMock extends Mock implements PermissionMockable {
   };
 
   getByIdList = (ids: number[]): PermissionDto[] | false => {
-    const permission = Object.values(this.list).filter((item) => {
+    const permission = this.list.filter((item) => {
       return ids.indexOf(item.id) != -1;
     });
 
-    if (permission === undefined) throw new ClientException(400, 'nO SE PUDO OBTENER');
+    if (permission === undefined) throw new NotFoundException(ids[0], 'Permission');
 
     const permissionDto = this.dataMapper.mapList(permission);
 

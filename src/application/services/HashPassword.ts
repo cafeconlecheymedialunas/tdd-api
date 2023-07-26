@@ -12,6 +12,12 @@ export class HashPassword implements HashPasswordable {
     this.saltRounds = saltRounds;
   }
 
+  /**
+   * Hashes a password using a salt and returns the hashed password.
+   * @param {string} password - The password to hash.
+   * @returns {Promise<string | false>} - A promise that resolves to the hashed password or false if an error occurs.
+   * @throws {ClientException} - If an error occurs during the hashing process.
+   */
   hash = async (password: string): Promise<string | false> => {
     const salt = await this.hashing.genSalt(this.saltRounds);
 
@@ -22,6 +28,12 @@ export class HashPassword implements HashPasswordable {
     return hash;
   };
 
+  /**
+   * Verifies if a given password matches a hashed password.
+   * @param {string} password - The password to verify.
+   * @param {string} hashedPassword - The hashed password to compare against.
+   * @returns {Promise<boolean>} - A promise that resolves to true if the password matches the hashed password, false otherwise.
+   */
   verify = async (password: string, hashedPassword: string): Promise<boolean> => {
     return await this.hashing.compare(password, hashedPassword);
   };

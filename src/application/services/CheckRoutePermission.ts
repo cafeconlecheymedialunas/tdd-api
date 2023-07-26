@@ -3,7 +3,7 @@ import { PermissionMockable } from '../../domain/interfaces/repositories/Permiss
 import { CheckRoutePermissionable } from '../../domain/interfaces/services/CheckRoutePermissionable';
 import { Condition } from '../../domain/types/response';
 import { Permission } from '../../domain/entities/Permission';
-import { PermissionNotFoundException } from '../../domain/types/errors';
+import { NotFoundException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../dtos/Permission';
 
 export class CheckRoutePermission implements CheckRoutePermissionable {
@@ -20,12 +20,12 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
    * @param {string} method - The HTTP method to check permissions for.
    * @param {Permission[]} userPermissions - An array of user permissions.
    * @returns {boolean} - True if the user has the necessary permissions, false otherwise.
-   * @throws {PermissionNotFoundException} - If the permission for the route and method is not found.
+   * @throws {NotFoundException} - If the permission for the route and method is not found.
    */
   checkRouteWithUserPermissions = (route: string, method: string, userPermissions: Permission[]): boolean => {
     const routePermission = this.getPermissionRoute(route, method);
 
-    if (!routePermission) throw new PermissionNotFoundException();
+    if (!routePermission) throw new NotFoundException(route, 'Permission');
 
     const permission = userPermissions.filter((elem) => {
       if (elem.id === routePermission.id) {
@@ -37,11 +37,11 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
   };
 
   /**
-   * Retrieves the permission route based on the given route and method.
+   * Retrieves the permission route based on the given route and method. Use Permission Repository filter method. This method receive a QueryFilter Array.
    * @param {string} route - The route to search for.
    * @param {string} method - The HTTP method to search for.
    * @returns {PermissionDto} - The permission route that matches the given route and method.
-   * @throws {PermissionNotFoundException} - If no permission route is found or if multiple permission routes are found.
+   * @throws {NotFoundException} - If no permission route is found or if multiple permission routes are found.
    */
   private getPermissionRoute = (route: string, method: string): PermissionDto => {
     const conditions = [
@@ -51,7 +51,7 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
 
     const permissionRoute = this.repository.filter(conditions);
 
-    if (permissionRoute.length !== 1) throw new PermissionNotFoundException();
+    if (permissionRoute.length !== 1) throw new NotFoundException(route, 'Permission');
 
     return permissionRoute[0];
   };

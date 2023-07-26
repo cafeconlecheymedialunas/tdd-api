@@ -1,6 +1,6 @@
 import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
 import Userable from '../../domain/interfaces/mappers/Userable';
-import { UserNotFoundException } from '../../domain/types/errors';
+import { NotFoundException } from '../../domain/types/errors';
 import { User } from '../../domain/entities/User';
 import { UserRequestParams } from '../../domain/types/requestParams';
 import { Condition, QueryFilter } from '../../domain/types/response';
@@ -148,14 +148,14 @@ export class UserMock extends Mock implements UserMockable {
    * Retrieves a UserDto by their ID from the collection.
    * @param {number} id - The ID of the user to retrieve.
    * @returns {Promise<UserDto | false>} - A promise that resolves to the UserDto object if the user is found, or false if the user is not found.
-   * @throws {UserNotFoundException} - If the user with the specified ID is not found in the collection.
+   * @throws {NotFoundException} - If the user with the specified ID is not found in the collection.
    */
   getById = async (id: number): Promise<UserDto | false> => {
     this.list = await this.readFile(this.collection);
 
     const user = this.list.find((item) => item.id === id);
 
-    if (!user) throw new UserNotFoundException(id);
+    if (!user) throw new NotFoundException(id, 'User');
 
     const userDto = await this.dataMapper.mapItem(user);
 

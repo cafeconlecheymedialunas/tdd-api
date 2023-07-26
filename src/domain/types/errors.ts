@@ -27,20 +27,9 @@ export class NotAuthorizedException extends ClientException {
   }
 }
 
-export class PostNotFoundException extends ClientException {
-  constructor(id: number) {
-    super(404, `Post with id ${id} not found`);
-  }
-}
-
-export class PermissionNotFoundException extends ClientException {
-  constructor() {
-    super(404, `Permission not found`);
-  }
-}
-export class UserNotFoundException extends ClientException {
-  constructor(id: number) {
-    super(404, `User with id ${id} not found`);
+export class NotFoundException extends ClientException {
+  constructor(id: any, entity: string) {
+    super(404, `${entity} with propertie ${id} not found`);
   }
 }
 
