@@ -10,7 +10,7 @@ import { Mock } from './Mock';
 export class UserMock extends Mock implements UserMockable {
   list: UserEntity[] = [];
   collection = 'users';
-  dataMapper: Userable;
+  private readonly dataMapper: Userable;
 
   constructor(dataMapper: Userable) {
     super();

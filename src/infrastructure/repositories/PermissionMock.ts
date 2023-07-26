@@ -10,7 +10,7 @@ import { PERMISSIONS_DEFAULT } from './rolesDefault';
 export class PermissionMock extends Mock implements PermissionMockable {
   list = Object.values(PERMISSIONS_DEFAULT);
   collection = 'permissions';
-  dataMapper: Permissionable;
+  private readonly dataMapper: Permissionable;
 
   constructor(dataMapper: Permissionable) {
     super();

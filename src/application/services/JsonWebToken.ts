@@ -6,7 +6,7 @@ import { AuthenticationTokenMissingException, ClientException } from '../../doma
 import config from '../../config';
 
 export class JsonWebToken implements JsonWebTokenable {
-  private jwt;
+  private readonly jwt;
 
   constructor(jwt: any) {
     this.jwt = jwt;

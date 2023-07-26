@@ -2,8 +2,8 @@ import { HashPasswordable } from '../../domain/interfaces/services/HashPassworda
 import { ClientException } from '../../domain/types/errors';
 
 export class HashPassword implements HashPasswordable {
-  readonly hashing;
-  readonly saltRounds;
+  private readonly hashing;
+  saltRounds;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(hashing: any, saltRounds = 10) {

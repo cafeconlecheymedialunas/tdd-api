@@ -16,6 +16,7 @@ export class Register implements Registerable {
   private readonly repository: UserMockable;
   private readonly hash: HashPasswordable;
   private readonly validator: Validatorable;
+
   constructor(repository: UserMockable, hash: HashPasswordable, validator: Validatorable) {
     this.repository = repository;
 

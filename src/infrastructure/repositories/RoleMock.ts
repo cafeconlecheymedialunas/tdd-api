@@ -8,7 +8,7 @@ import { ROLES_DEFAULT } from './rolesDefault';
 export class RoleMock extends Mock implements RoleMockable {
   list: Role[] = ROLES_DEFAULT;
   collection = 'roles';
-  dataMapper: Roleable;
+  private readonly dataMapper: Roleable;
 
   constructor(dataMapper: Roleable) {
     super();
