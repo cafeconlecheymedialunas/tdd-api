@@ -32,10 +32,6 @@ export class JsonWebToken implements JsonWebTokenable {
    * @returns {Promise<object>} The decoded token payload.
    */
   private verifyToken = async (token: string): Promise<any> => {
-    if (token === '') {
-      throw new ClientException();
-    }
-
     const decoded = await this.jwtLibrary.verify(token, config.SECRET_KEY);
 
     const currentTime = Math.floor(Date.now() / 1000);

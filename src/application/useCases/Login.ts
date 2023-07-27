@@ -1,5 +1,5 @@
 import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
-import { Hashable } from '../../domain/interfaces/services/HashPasswordable';
+import { Hashable } from '../../domain/interfaces/services/Hashable';
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import {
   ValidationException,

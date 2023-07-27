@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import pruebaController from '../controllers/prueba';
+import usersController from '../controllers/users';
 import { checkAuthorization } from '../middlewares/CheckAuthorization';
 
 const router = Router();
 
-router.get('/', checkAuthorization, pruebaController);
+router.get('/', checkAuthorization, usersController);
 
 export { router };

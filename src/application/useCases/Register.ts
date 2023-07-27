@@ -1,5 +1,5 @@
 import { type UserMockable } from '../../domain/interfaces/repositories/UserMockable';
-import { Hashable } from '../../domain/interfaces/services/HashPasswordable';
+import { Hashable } from '../../domain/interfaces/services/Hashable';
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { type Registerable } from '../../domain/interfaces/useCases/Registerable';
 import {
@@ -33,7 +33,7 @@ export class Register implements Registerable {
    * @throws {ValidationException} If any of the validation rules fail.
    * @returns None
    */
-  private validate = (email: string, password: string, name: string): void => {
+  validate = (email: string, password: string, name: string): void => {
     const VALIDATION_RULES = [
       { key: 'email', rules: [RULES.isNotEmpty, RULES.isString, RULES.isEmail], value: email },
       { key: 'password', rules: [RULES.isNotEmpty, RULES.isStrongPassword], value: password },

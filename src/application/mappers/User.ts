@@ -11,7 +11,7 @@ export class UserDataMapper implements DataMapperInterface {
     this.roleRepository = roleRepository;
   }
 
-  getRoles = async (roles: number[]): Promise<RoleDto[] | false> => {
+  private getRoles = async (roles: number[]): Promise<RoleDto[] | false> => {
     const selectedRoles = await Promise.all(
       roles.map(async (rol) => {
         return await this.roleRepository.getById(rol);

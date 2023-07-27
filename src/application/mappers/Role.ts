@@ -10,7 +10,7 @@ export class Role implements Roleable {
   constructor(permissionRepository: PermissionMockable) {
     this.permissionRepository = permissionRepository;
   }
-  getPermissions = (roles: number[]): PermissionDto[] | false => {
+  private getPermissions = (roles: number[]): PermissionDto[] | false => {
     const selectedPermissions = roles.map((rol) => {
       return this.permissionRepository.getById(rol);
     });
