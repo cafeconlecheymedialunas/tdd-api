@@ -43,12 +43,12 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
    * @throws {NotFoundException} - If no permission route is found or if multiple permission routes are found.
    */
   private getPermissionRoute = (route: string, method: string): PermissionDto => {
-    const conditions = [
+    const QUERY_FILTERS = [
       { key: 'route', condition: Condition.Equal, value: route },
       { key: 'method', condition: Condition.Equal, value: method },
     ];
 
-    const permissionRoute = this.permissionRepository.filter(conditions);
+    const permissionRoute = this.permissionRepository.filter(QUERY_FILTERS);
 
     if (permissionRoute.length !== 1) throw new NotFoundException(route, 'Permission');
 

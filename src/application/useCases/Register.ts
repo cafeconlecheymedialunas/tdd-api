@@ -34,15 +34,15 @@ export class Register implements Registerable {
    * @returns None
    */
   private validate = (email: string, password: string, name: string): void => {
-    const rules = [
+    const VALIDATION_RULES = [
       { key: 'email', rules: [RULES.isNotEmpty, RULES.isString, RULES.isEmail], value: email },
       { key: 'password', rules: [RULES.isNotEmpty, RULES.isStrongPassword], value: password },
       { key: 'name', rules: [RULES.isNotEmpty, RULES.isString], value: name },
     ];
 
-    const errors = this.validatorService.validate(rules);
+    const validationErrors = this.validatorService.validate(VALIDATION_RULES);
 
-    if (errors.length > 0) throw new ValidationException(errors);
+    if (validationErrors.length > 0) throw new ValidationException(validationErrors);
   };
 
   /**
@@ -53,9 +53,9 @@ export class Register implements Registerable {
    * @throws {UserWithThatEmailAlreadyExistsException} - If a user with the same email is found.
    */
   private userExist = async (email: string): Promise<void> => {
-    const conditions = [{ key: 'email', condition: Condition.Equal, value: email }];
+    const QUERY_FILTER = [{ key: 'email', condition: Condition.Equal, value: email }];
 
-    const userExist = await this.userRepository.filter(conditions);
+    const userExist = await this.userRepository.filter(QUERY_FILTER);
 
     if (userExist.length > 0) throw new UserWithThatEmailAlreadyExistsException(email);
   };

@@ -41,14 +41,14 @@ export class Login {
    * @returns None
    */
   validate = (email: string, password: string): void => {
-    const rules = [
+    const VALIDATION_RULES = [
       { key: 'email', rules: [RULES.isNotEmpty, RULES.isEmail], value: email },
       { key: 'password', rules: [RULES.isNotEmpty], value: password },
     ];
 
-    const errors = this.validatorService.validate(rules);
+    const validationErrors = this.validatorService.validate(VALIDATION_RULES);
 
-    if (errors.length > 0) throw new ValidationException(errors);
+    if (validationErrors.length > 0) throw new ValidationException(validationErrors);
   };
 
   /**
@@ -60,9 +60,9 @@ export class Login {
    */
   private sigIn = async (email: string, password: string): Promise<UserDto> => {
     this.validate(email, password);
-    const conditions = [{ key: 'email', condition: Condition.Equal, value: email }];
+    const QUERY_FILTER = [{ key: 'email', condition: Condition.Equal, value: email }];
 
-    const users = await this.UserRepository.filter(conditions);
+    const users = await this.UserRepository.filter(QUERY_FILTER);
 
     if (users.length === 0) throw new WrongCredentialsException();
 
