@@ -4,15 +4,15 @@ import { resError } from '../utils';
 
 /**
  * This function send a response in json format to handle ClientExceptions errors throw in appilcation.
- * @param {Request} req - The request Express .
- * @param {Request} req - The request Express .
+ * @param {ClientException} err - Error .
+ * @param {Request} _req - The request Express .
  * @param {Response} res - The response Express .
  * @param {NextFunction} next - The next express.
  * @returns {Promise<void>} - A promise that resolves when the authorization check is complete.
  * @throws {ClientException} - If the token, route, or method is missing.
  * @throws {NotAuthorizedException} - If the user is not authorized to access the route.
  */
-const errorHandler = (err: ClientException, req: Request, res: Response, next: NextFunction): void => {
+const errorHandler = (err: ClientException, _req: Request, res: Response, next: NextFunction): void => {
   const status = err.status ?? 500;
 
   const message = err.message ?? 'Server Error';

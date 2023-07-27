@@ -28,8 +28,8 @@ export class NotAuthorizedException extends ClientException {
 }
 
 export class NotFoundException extends ClientException {
-  constructor(id: any, entity: string) {
-    super(404, `${entity} with propertie ${id} not found`);
+  constructor(id: string | number, entity: string) {
+    super(404, `${entity} with ${typeof id == 'number' ? 'id' : 'propertie'} ${id} not found`);
   }
 }
 

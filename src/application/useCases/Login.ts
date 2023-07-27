@@ -1,5 +1,5 @@
 import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
-import { HashPasswordable } from '../../domain/interfaces/services/HashPasswordable';
+import { Hashable } from '../../domain/interfaces/services/HashPasswordable';
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import {
   ValidationException,
@@ -13,24 +13,24 @@ import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { RULES } from '../../domain/types/validationRules';
 
 export class Login {
-  private readonly repository: UserMockable;
-  private readonly hashService: HashPasswordable;
-  private readonly jwt: JsonWebTokenable;
-  private readonly validator: Validatorable;
+  private readonly UserRepository: UserMockable;
+  private readonly hashService: Hashable;
+  private readonly JsonWebTokenService: JsonWebTokenable;
+  private readonly validatorService: Validatorable;
 
   constructor(
-    repository: UserMockable,
-    hashService: HashPasswordable,
-    jwt: JsonWebTokenable,
-    validator: Validatorable,
+    UserRepository: UserMockable,
+    hashService: Hashable,
+    JsonWebTokenService: JsonWebTokenable,
+    validatorService: Validatorable,
   ) {
-    this.repository = repository;
+    this.UserRepository = UserRepository;
 
     this.hashService = hashService;
 
-    this.jwt = jwt;
+    this.JsonWebTokenService = JsonWebTokenService;
 
-    this.validator = validator;
+    this.validatorService = validatorService;
   }
 
   /**
@@ -46,7 +46,7 @@ export class Login {
       { key: 'password', rules: [RULES.isNotEmpty], value: password },
     ];
 
-    const errors = this.validator.validate(rules);
+    const errors = this.validatorService.validate(rules);
 
     if (errors.length > 0) throw new ValidationException(errors);
   };
@@ -62,7 +62,7 @@ export class Login {
     this.validate(email, password);
     const conditions = [{ key: 'email', condition: Condition.Equal, value: email }];
 
-    const users = await this.repository.filter(conditions);
+    const users = await this.UserRepository.filter(conditions);
 
     if (users.length === 0) throw new WrongCredentialsException();
 
@@ -76,13 +76,13 @@ export class Login {
   };
 
   /**
-   * Generates a JWT token using the provided payload.
+   * Generates a JsonWebTokenService token using the provided payload.
    * @param {Payload} payload - The payload object containing the data to be encoded in the token.
    * @returns {Promise<string>} A promise that resolves to the generated token.
    * @throws {WrongAuthenticationTokenException} If the token generation fails.
    */
   private generateToken = async (payload: Payload): Promise<string> => {
-    const token = await this.jwt.generateToken(payload, '1h');
+    const token = await this.JsonWebTokenService.generateToken(payload, '1h');
 
     if (!token) throw new WrongAuthenticationTokenException();
     return token;

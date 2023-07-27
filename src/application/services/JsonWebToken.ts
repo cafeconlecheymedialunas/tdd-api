@@ -6,10 +6,10 @@ import { AuthenticationTokenMissingException, ClientException } from '../../doma
 import config from '../../config';
 
 export class JsonWebToken implements JsonWebTokenable {
-  private readonly jwt;
+  private readonly jwtLibrary;
 
-  constructor(jwt: any) {
-    this.jwt = jwt;
+  constructor(jwtLibrary: any) {
+    this.jwtLibrary = jwtLibrary;
   }
 
   /**
@@ -19,7 +19,7 @@ export class JsonWebToken implements JsonWebTokenable {
    * @returns {Promise<string>} - A promise that resolves to the generated token.
    */
   generateToken = async (payload: Payload, expiresIn: string): Promise<string> => {
-    const token = await this.jwt.sign(payload, config.SECRET_KEY, { expiresIn });
+    const token = await this.jwtLibrary.sign(payload, config.SECRET_KEY, { expiresIn });
 
     return token;
   };
@@ -31,12 +31,12 @@ export class JsonWebToken implements JsonWebTokenable {
    * @throws {AuthenticationTokenMissingException} If the token has expired.
    * @returns {Promise<object>} The decoded token payload.
    */
-  private verifyToken = async (token: string) => {
+  private verifyToken = async (token: string): Promise<any> => {
     if (token === '') {
       throw new ClientException();
     }
 
-    const decoded = await this.jwt.verify(token, config.SECRET_KEY);
+    const decoded = await this.jwtLibrary.verify(token, config.SECRET_KEY);
 
     const currentTime = Math.floor(Date.now() / 1000);
 

@@ -10,12 +10,12 @@ import { PERMISSIONS_DEFAULT } from './rolesDefault';
 export class PermissionMock extends Mock implements PermissionMockable {
   list = Object.values(PERMISSIONS_DEFAULT);
   collection = 'permissions';
-  private readonly dataMapper: Permissionable;
+  private readonly permissionDataMapper: Permissionable;
 
-  constructor(dataMapper: Permissionable) {
+  constructor(permissionDataMapper: Permissionable) {
     super();
 
-    this.dataMapper = dataMapper;
+    this.permissionDataMapper = permissionDataMapper;
   }
 
   filter = (conditions: QueryFilter[]): PermissionDto[] => {
@@ -40,7 +40,7 @@ export class PermissionMock extends Mock implements PermissionMockable {
       }),
     );
 
-    const dtos = this.dataMapper.mapList(users);
+    const dtos = this.permissionDataMapper.mapList(users);
 
     if (dtos === false) return [];
     return dtos;
@@ -53,7 +53,7 @@ export class PermissionMock extends Mock implements PermissionMockable {
 
     if (permission === undefined) throw new NotFoundException(ids[0], 'Permission');
 
-    const permissionDto = this.dataMapper.mapList(permission);
+    const permissionDto = this.permissionDataMapper.mapList(permission);
 
     if (permissionDto) return false;
 
@@ -65,7 +65,7 @@ export class PermissionMock extends Mock implements PermissionMockable {
 
     if (!permission) return false;
 
-    const permissionDto = this.dataMapper.mapItem(permission);
+    const permissionDto = this.permissionDataMapper.mapItem(permission);
 
     if (!permissionDto) return false;
 

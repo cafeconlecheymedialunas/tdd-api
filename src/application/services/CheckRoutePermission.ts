@@ -7,11 +7,10 @@ import { NotFoundException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../dtos/Permission';
 
 export class CheckRoutePermission implements CheckRoutePermissionable {
-  private readonly repository: PermissionMockable;
-  permissionRoute: Permission | false = false;
+  private readonly permissionRepository: PermissionMockable;
 
-  constructor(repository: PermissionMockable) {
-    this.repository = repository;
+  constructor(permissionRepository: PermissionMockable) {
+    this.permissionRepository = permissionRepository;
   }
 
   /**
@@ -49,7 +48,7 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
       { key: 'method', condition: Condition.Equal, value: method },
     ];
 
-    const permissionRoute = this.repository.filter(conditions);
+    const permissionRoute = this.permissionRepository.filter(conditions);
 
     if (permissionRoute.length !== 1) throw new NotFoundException(route, 'Permission');
 

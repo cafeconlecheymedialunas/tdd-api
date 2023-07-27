@@ -8,12 +8,12 @@ import { ROLES_DEFAULT } from './rolesDefault';
 export class RoleMock extends Mock implements RoleMockable {
   list: Role[] = ROLES_DEFAULT;
   collection = 'roles';
-  private readonly dataMapper: Roleable;
+  private readonly roleDataMapper: Roleable;
 
-  constructor(dataMapper: Roleable) {
+  constructor(roleDataMapper: Roleable) {
     super();
 
-    this.dataMapper = dataMapper;
+    this.roleDataMapper = roleDataMapper;
   }
 
   /**
@@ -26,7 +26,7 @@ export class RoleMock extends Mock implements RoleMockable {
 
     if (!role) return false;
 
-    const roleDto = await this.dataMapper.mapItem(role);
+    const roleDto = await this.roleDataMapper.mapItem(role);
 
     if (!roleDto) return false;
 
@@ -43,7 +43,7 @@ export class RoleMock extends Mock implements RoleMockable {
       return ids.indexOf(item.id) != -1;
     });
 
-    const rolesDto = await this.dataMapper.mapList(roles);
+    const rolesDto = await this.roleDataMapper.mapList(roles);
 
     if (!rolesDto) return false;
 

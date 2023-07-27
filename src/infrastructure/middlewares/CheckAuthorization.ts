@@ -16,7 +16,7 @@ import { PermissionMock } from '../repositories/PermissionMock';
  * @throws {ClientException} - If the token, route, or method is missing.
  * @throws {NotAuthorizedException} - If the user is not authorized to access the route.
  */
-export const checkAuthorization = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const checkAuthorization = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
 

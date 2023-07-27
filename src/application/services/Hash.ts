@@ -1,13 +1,13 @@
-import { HashPasswordable } from '../../domain/interfaces/services/HashPasswordable';
+import { Hashable } from '../../domain/interfaces/services/HashPasswordable';
 import { ClientException } from '../../domain/types/errors';
 
-export class HashPassword implements HashPasswordable {
-  private readonly hashing;
+export class Hash implements Hashable {
+  private readonly hashLibrary;
   saltRounds;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(hashing: any, saltRounds = 10) {
-    this.hashing = hashing;
+  constructor(hashLibrary: any, saltRounds = 10) {
+    this.hashLibrary = hashLibrary;
 
     this.saltRounds = saltRounds;
   }
@@ -19,9 +19,9 @@ export class HashPassword implements HashPasswordable {
    * @throws {ClientException} - If an error occurs during the hashing process.
    */
   hash = async (password: string): Promise<string | false> => {
-    const salt = await this.hashing.genSalt(this.saltRounds);
+    const salt = await this.hashLibrary.genSalt(this.saltRounds);
 
-    const hash = await this.hashing.hash(password, salt);
+    const hash = await this.hashLibrary.hash(password, salt);
 
     if (!hash) throw new ClientException();
 
@@ -35,6 +35,6 @@ export class HashPassword implements HashPasswordable {
    * @returns {Promise<boolean>} - A promise that resolves to true if the password matches the hashed password, false otherwise.
    */
   verify = async (password: string, hashedPassword: string): Promise<boolean> => {
-    return await this.hashing.compare(password, hashedPassword);
+    return await this.hashLibrary.compare(password, hashedPassword);
   };
 }

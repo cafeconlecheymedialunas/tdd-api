@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Mockable {
   generateId(list: any[]): number;
   readFile(fileName: string): Promise<any[]>;

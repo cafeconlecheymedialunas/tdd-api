@@ -1,5 +1,5 @@
 import { type UserMockable } from '../../domain/interfaces/repositories/UserMockable';
-import { HashPasswordable } from '../../domain/interfaces/services/HashPasswordable';
+import { Hashable } from '../../domain/interfaces/services/HashPasswordable';
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { type Registerable } from '../../domain/interfaces/useCases/Registerable';
 import {
@@ -13,16 +13,16 @@ import { RULES } from '../../domain/types/validationRules';
 import { UserDto } from '../dtos/User';
 
 export class Register implements Registerable {
-  private readonly repository: UserMockable;
-  private readonly hash: HashPasswordable;
-  private readonly validator: Validatorable;
+  private readonly userRepository: UserMockable;
+  private readonly hashService: Hashable;
+  private readonly validatorService: Validatorable;
 
-  constructor(repository: UserMockable, hash: HashPasswordable, validator: Validatorable) {
-    this.repository = repository;
+  constructor(userRepository: UserMockable, hashService: Hashable, validatorService: Validatorable) {
+    this.userRepository = userRepository;
 
-    this.hash = hash;
+    this.hashService = hashService;
 
-    this.validator = validator;
+    this.validatorService = validatorService;
   }
 
   /**
@@ -40,7 +40,7 @@ export class Register implements Registerable {
       { key: 'name', rules: [RULES.isNotEmpty, RULES.isString], value: name },
     ];
 
-    const errors = this.validator.validate(rules);
+    const errors = this.validatorService.validate(rules);
 
     if (errors.length > 0) throw new ValidationException(errors);
   };
@@ -55,23 +55,23 @@ export class Register implements Registerable {
   private userExist = async (email: string): Promise<void> => {
     const conditions = [{ key: 'email', condition: Condition.Equal, value: email }];
 
-    const userExist = await this.repository.filter(conditions);
+    const userExist = await this.userRepository.filter(conditions);
 
     if (userExist.length > 0) throw new UserWithThatEmailAlreadyExistsException(email);
   };
 
   /**
-   * Generates a hash for the given password using a HashPassword services.
+   * Generates a hash for the given password using a Hash services.
    * @param {string} password - The password to generate a hash for.
    * @returns {Promise<string>} A promise that resolves to the generated hash.
    * @throws {ClientException} If the password hash is not generated successfully.
    */
   private generateHash = async (password: string): Promise<string> => {
-    const passwordHash = await this.hash.hash(password);
+    const hashedPassword = await this.hashService.hash(password);
 
-    if (!passwordHash) throw new ClientException();
+    if (!hashedPassword) throw new ClientException();
 
-    return passwordHash;
+    return hashedPassword;
   };
 
   /**
@@ -89,10 +89,10 @@ export class Register implements Registerable {
 
     await this.userExist(email);
 
-    const passwordHashed = await this.generateHash(password);
+    const hashedPassword = await this.generateHash(password);
 
-    user.password = passwordHashed;
-    const newUser = await this.repository.add(user);
+    user.password = hashedPassword;
+    const newUser = await this.userRepository.add(user);
 
     return newUser;
   };

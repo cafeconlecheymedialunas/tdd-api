@@ -1,8 +1,8 @@
-import { ClientException, WrongCredentialsException } from '../../domain/types/errors';
+import { WrongCredentialsException } from '../../domain/types/errors';
 import { UserDataMapper } from '../../application/mappers/User';
 import { Role as RoleDataMapper } from '../../application/mappers/Role';
 import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
-import { HashPassword } from '../../application/services/HashPassword';
+import { Hash } from '../../application/services/Hash';
 import { Register } from '../../application/useCases/Register';
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
@@ -15,12 +15,12 @@ import { Validator } from '../../application/services/Validator';
 /**
  * Registers a new use case with the given dependencies.
  * @param {UserMock} userMock - The UserMock repository.
- * @param {HashPassword} HashPassword - The HashPassword service.
- * @param {Validator} Validatpr - The Validator service.
+ * @param {Hash} Hash - The Hash service.
+ * @param {Validator} Validator - The Validator service.
  */
 const registerUseCase = new Register(
   new UserMock(new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper()))))),
-  new HashPassword(bcrypt),
+  new Hash(bcrypt),
   new Validator(),
 );
 

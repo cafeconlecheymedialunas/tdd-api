@@ -5,24 +5,24 @@ import { Authorizationable } from '../../domain/interfaces/useCases/Authorizatio
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
 
 export class Authorization implements Authorizationable {
-  private readonly jsonWebToken: JsonWebTokenable;
-  private readonly checkRoutePermission: CheckRoutePermissionable;
+  private readonly jsonWebTokenService: JsonWebTokenable;
+  private readonly checkRoutePermissionService: CheckRoutePermissionable;
 
-  constructor(jsonWebToken: JsonWebTokenable, checkRoutePermission: CheckRoutePermissionable) {
-    this.jsonWebToken = jsonWebToken;
+  constructor(jsonWebTokenService: JsonWebTokenable, checkRoutePermissionService: CheckRoutePermissionable) {
+    this.jsonWebTokenService = jsonWebTokenService;
 
-    this.checkRoutePermission = checkRoutePermission;
+    this.checkRoutePermissionService = checkRoutePermissionService;
   }
 
   /**
-   * Decodes the given token using a jsonWebToken library.
+   * Decodes the given token using a jsonWebToken Service.
    * @param {string} token - The token to decode.
    * @returns {Promise<any>} - A promise that resolves to the decoded token.
    * @throws {WrongAuthenticationTokenException} - If the token cannot be decoded.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private getDecodedToken = async (token: string): Promise<any> => {
-    const decodedToken = await this.jsonWebToken.decode(token);
+    const decodedToken = await this.jsonWebTokenService.decode(token);
 
     if (!decodedToken) {
       throw new WrongAuthenticationTokenException();
@@ -40,7 +40,7 @@ export class Authorization implements Authorizationable {
   authorize = async (route: string, method: string, token: string): Promise<boolean> => {
     const decodedToken = await this.getDecodedToken(token);
 
-    const routePermission = this.checkRoutePermission.checkRouteWithUserPermissions(
+    const routePermission = this.checkRoutePermissionService.checkRouteWithUserPermissions(
       route,
       method,
       decodedToken.permissions,

@@ -7,8 +7,8 @@ import { Role as RoleDto } from '../dtos/Role';
 export class UserDataMapper implements DataMapperInterface {
   private readonly roleRepository;
 
-  constructor(repository: RoleMockable) {
-    this.roleRepository = repository;
+  constructor(roleRepository: RoleMockable) {
+    this.roleRepository = roleRepository;
   }
 
   getRoles = async (roles: number[]): Promise<RoleDto[] | false> => {
