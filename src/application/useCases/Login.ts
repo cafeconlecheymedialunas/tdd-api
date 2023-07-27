@@ -58,7 +58,7 @@ export class Login {
    * @returns {Promise<UserDto>} - A promise that resolves to the user object if the sign in is successful.
    * @throws {WrongCredentialsException} - If the email or password is incorrect.
    */
-  private sigIn = async (email: string, password: string): Promise<UserDto> => {
+  private signIn = async (email: string, password: string): Promise<UserDto> => {
     this.validate(email, password);
     const QUERY_FILTER = [{ key: 'email', condition: Condition.Equal, value: email }];
 
@@ -112,7 +112,7 @@ export class Login {
   login = async (email: string, password: string): Promise<string> => {
     this.validate(email, password);
 
-    const userDto = await this.sigIn(email, password);
+    const userDto = await this.signIn(email, password);
 
     const payload = this.generatePayload(userDto);
 
