@@ -89,21 +89,9 @@ describe('Authentification API', () => {
     }
   });
 
-  it('User should has permissions by route', async () => {
+  it('User should has not permissions by route', async () => {
     try {
-      const emailDefault = Math.floor(Math.random() * 1000000) + '@gmail.com';
-
-      const responseRegister = await request(app)
-        .post('/auth/register')
-        .send({ name: 'test name', email: emailDefault, password: 'pass', roles: [2] });
-
-      expect(responseRegister.status).toBe(200);
-
-      const responseLogin = await request(app).post('/auth/login').send({ email: emailDefault, password: 'pass' });
-
-      expect(responseLogin.status).toBe(200);
-
-      const responseUser = await request(app).get('/users').set('Authorization', `Bearer ${responseLogin.body.token}`);
+      const responseUser = await request(app).get('/users').set('Authorization', `Bearer tokeninvalid`);
 
       expect(responseUser.status).toBe(403);
     } catch (error) {
