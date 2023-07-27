@@ -10,12 +10,12 @@ import { Mock } from './Mock';
 export class UserMock extends Mock implements UserMockable {
   list: UserEntity[] = [];
   collection = 'users';
-  private readonly dataMapper: Userable;
+  private readonly userDataMapper: Userable;
 
-  constructor(dataMapper: Userable) {
+  constructor(userDataMapper: Userable) {
     super();
 
-    this.dataMapper = dataMapper;
+    this.userDataMapper = userDataMapper;
   }
 
   /**
@@ -25,7 +25,7 @@ export class UserMock extends Mock implements UserMockable {
   getAll = async (): Promise<UserDto[] | false> => {
     this.list = await this.readFile(this.collection);
 
-    const results = await this.dataMapper.mapList(this.list);
+    const results = await this.userDataMapper.mapList(this.list);
 
     return results;
   };
@@ -58,7 +58,7 @@ export class UserMock extends Mock implements UserMockable {
       }),
     );
 
-    const dtos = await this.dataMapper.mapList(users);
+    const dtos = await this.userDataMapper.mapList(users);
 
     if (dtos === false) return [];
     return dtos;
@@ -83,7 +83,7 @@ export class UserMock extends Mock implements UserMockable {
 
     await this.writeFile(this.collection, this.list);
 
-    const userDto = await this.dataMapper.mapItem(newUser);
+    const userDto = await this.userDataMapper.mapItem(newUser);
 
     if (!userDto) return false;
 
@@ -135,7 +135,7 @@ export class UserMock extends Mock implements UserMockable {
 
     await this.writeFile(this.collection, this.list);
 
-    const userDto = await this.dataMapper.mapItem(updatedUser);
+    const userDto = await this.userDataMapper.mapItem(updatedUser);
 
     if (!userDto) return false;
 
@@ -155,7 +155,7 @@ export class UserMock extends Mock implements UserMockable {
 
     if (!user) throw new NotFoundException(id, 'User');
 
-    const userDto = await this.dataMapper.mapItem(user);
+    const userDto = await this.userDataMapper.mapItem(user);
 
     if (!userDto) return false;
 

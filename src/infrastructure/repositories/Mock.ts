@@ -5,11 +5,11 @@ import { Mockable } from '../../domain/interfaces/repositories/Mockable';
 export class Mock implements Mockable {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   generateId = (list: any[]): number => {
-    const timestamp = Date.now();
+    const timeStamp = Date.now();
 
     const random = Math.floor(Math.random() * 1000000);
 
-    const uuii = timestamp + random;
+    const uuii = timeStamp + random;
 
     return !uuii ? list?.length : uuii;
   };

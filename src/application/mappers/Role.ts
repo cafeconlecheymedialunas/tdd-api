@@ -7,8 +7,8 @@ import { Role as RoleDto } from '../dtos/Role';
 export class Role implements Roleable {
   private readonly permissionRepository;
 
-  constructor(repository: PermissionMockable) {
-    this.permissionRepository = repository;
+  constructor(permissionRepository: PermissionMockable) {
+    this.permissionRepository = permissionRepository;
   }
   getPermissions = (roles: number[]): PermissionDto[] | false => {
     const selectedPermissions = roles.map((rol) => {
