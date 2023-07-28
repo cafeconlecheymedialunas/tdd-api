@@ -1,7 +1,7 @@
 import Permissionable from '../../domain/interfaces/mappers/Permissionable';
 import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
 import { Permission } from '../../domain/entities/Permission';
-import { Condition, QueryFilter } from '../../domain/types/response';
+import { Condition, QueryFilter } from '../../domain/types/responseOutputs';
 import { NotFoundException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../../application/dtos/Permission';
 import { Mock } from './Mock';

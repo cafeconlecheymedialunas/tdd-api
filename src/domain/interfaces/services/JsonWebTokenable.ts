@@ -1,6 +1,6 @@
-import { Payload } from '../../types/response';
+import { Payload } from '../../types/responseOutputs';
 
 export interface JsonWebTokenable {
   generateToken(payload: object, expiresIn: string): Promise<string>;
-  decode(token: string): Promise<Payload | void>;
+  decodeToken(token: string): Promise<Payload | void>;
 }

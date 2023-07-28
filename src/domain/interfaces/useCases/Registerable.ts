@@ -1,4 +1,4 @@
-import { UserRequestParams } from '../../types/requestParams';
+import { UserRequestParams } from '../../types/requestInputs';
 import { UserDto } from '../../../application/dtos/User';
 
 export interface Registerable {

@@ -1,4 +1,4 @@
-import { ValidationError } from '../../types/response';
+import { ValidationError } from '../../types/responseOutputs';
 import { ValidationRule } from '../../types/validationRules';
 
 export interface Validatorable {

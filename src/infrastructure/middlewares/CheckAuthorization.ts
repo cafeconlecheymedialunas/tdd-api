@@ -8,7 +8,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import { PermissionMock } from '../repositories/PermissionMock';
 
 /**
- * Checks the authorization of a request by validating the token, route, and method.
+ * Checks the authorization of a request validating the token, route, and method.
  * @param {Request} req - The request Express .
  * @param {Response} res - The response Express .
  * @param {NextFunction} next - The next express.

@@ -1,4 +1,4 @@
-import { ValidationError } from './response';
+import { ValidationError } from './responseOutputs';
 
 export class ClientException extends Error {
   public status: number;

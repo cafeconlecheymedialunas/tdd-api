@@ -18,11 +18,6 @@ export interface Payload {
   permissions: Permission[];
 }
 
-export interface HttpResponse {
-  status: number;
-  message: string;
-  data?: unknown[];
-}
 export interface ValidationError {
   key: string;
   error: string;

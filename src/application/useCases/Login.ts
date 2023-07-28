@@ -6,9 +6,9 @@ import {
   WrongAuthenticationTokenException,
   WrongCredentialsException,
 } from '../../domain/types/errors';
-import { Payload } from '../../domain/types/response';
+import { Payload } from '../../domain/types/responseOutputs';
 import { UserDto } from '../dtos/User';
-import { Condition } from '../../domain/types/response';
+import { Condition } from '../../domain/types/responseOutputs';
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { RULES } from '../../domain/types/validationRules';
 
@@ -60,23 +60,34 @@ export class Login {
    */
   private sigIn = async (email: string, password: string): Promise<UserDto> => {
     this.validate(email, password);
+
+    const user = await this.checkUserEmail(email);
+
+    await this.checkUserPassword(password, user.password);
+    return user;
+  };
+
+  checkUserEmail = async (email: string): Promise<UserDto> => {
     const QUERY_FILTER = [{ key: 'email', condition: Condition.Equal, value: email }];
 
     const users = await this.UserRepository.filter(QUERY_FILTER);
 
     if (users.length === 0) throw new WrongCredentialsException();
 
-    const passwordMatch = await this.hashService.verify(password, users[0].password);
+    return users[0];
+  };
+
+  checkUserPassword = async (password: string, userPassword: string): Promise<boolean> => {
+    const passwordMatch = await this.hashService.verify(password, userPassword);
 
     if (!passwordMatch) {
       throw new WrongCredentialsException();
     }
-
-    return users[0];
+    return passwordMatch;
   };
 
   /**
-   * Generates a JsonWebTokenService token using the provided payload.
+   * Generates a token using the provided payload.
    * @param {Payload} payload - The payload object containing the data to be encoded in the token.
    * @returns {Promise<string>} A promise that resolves to the generated token.
    * @throws {WrongAuthenticationTokenException} If the token generation fails.
@@ -89,7 +100,7 @@ export class Login {
   };
 
   /**
-   * Generates a payload object based on the provided user object,Prevously get unique Users Permissions.
+   * Generates a payload object based on the provided UserDto.
    * @param {UserDto} user - The user object to generate the payload from.
    * @returns {Payload} - The generated payload object.
    */
@@ -101,14 +112,6 @@ export class Login {
     return payload;
   };
 
-  /**
-   * Logs in a user with the provided email and password.
-   * @param {string} email - The email of the user.
-   * @param {string} password - The password of the user.
-   * @returns {Promise<string>} - A promise that resolves to a token string.
-   * @throws {ValidationException} - If the email or password is invalid.
-   * @throws {WrongCredentialsException} - If there is an error during the sign-in process.
-   */
   login = async (email: string, password: string): Promise<string> => {
     this.validate(email, password);
 

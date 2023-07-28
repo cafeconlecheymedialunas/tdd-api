@@ -12,12 +12,6 @@ import { RoleMock } from '../repositories/RoleMock';
 import { PermissionMock } from '../repositories/PermissionMock';
 import { Validator } from '../../application/services/Validator';
 
-/**
- * Registers a new use case with the given dependencies.
- * @param {UserMock} userMock - The UserMock repository.
- * @param {Hash} Hash - The Hash service.
- * @param {Validator} Validator - The Validator service.
- */
 const registerUseCase = new Register(
   new UserMock(new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper()))))),
   new Hash(bcrypt),
