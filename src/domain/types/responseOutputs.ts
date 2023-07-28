@@ -1,4 +1,4 @@
-import { Permission } from '../entities/Permission';
+import { Permission as PermissionEntity } from '../entities/Permission';
 
 export enum Condition {
   Equal = 'equal',
@@ -15,7 +15,7 @@ export type QueryFilter = {
 
 export interface Payload {
   id: number;
-  permissions: Permission[];
+  permissions: PermissionEntity[];
 }
 
 export interface ValidationError {

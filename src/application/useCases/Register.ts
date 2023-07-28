@@ -10,7 +10,7 @@ import {
 import { UserRequestParams } from '../../domain/types/requestInputs';
 import { Condition } from '../../domain/types/responseOutputs';
 import { RULES } from '../../domain/types/validationRules';
-import { UserDto } from '../dtos/User';
+import { User as UserDto } from '../dtos/User';
 
 export class Register implements Registerable {
   private readonly userRepository: UserMockable;

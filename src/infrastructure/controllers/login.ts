@@ -1,5 +1,5 @@
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
-import { UserDataMapper } from '../../application/mappers/User';
+import { User as UserDataMapper } from '../../application/mappers/User';
 import { Role as RoleDataMapper } from '../../application/mappers/Role';
 import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
 import { JsonWebToken } from '../../application/services/JsonWebToken';

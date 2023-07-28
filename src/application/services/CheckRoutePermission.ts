@@ -2,7 +2,7 @@ import { PermissionMockable } from '../../domain/interfaces/repositories/Permiss
 // eslint-disable-next-line max-len
 import { CheckRoutePermissionable } from '../../domain/interfaces/services/CheckRoutePermissionable';
 import { Condition } from '../../domain/types/responseOutputs';
-import { Permission } from '../../domain/entities/Permission';
+import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 import { ClientException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../dtos/Permission';
 
@@ -17,10 +17,10 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
    * Checks users permissions against Route Permission.
    * @param {string} route - The route to check permissions for.
    * @param {string} method - The HTTP method to check permissions for.
-   * @param {Permission[]} userPermissions - An array of user permissions.
+   * @param {PermissionEntity[]} userPermissions - An array of user permissions.
    * @returns {boolean} - True if the user has the necessary permissions, false otherwise.
    */
-  checkRouteAgainstUserPermissions = (route: string, method: string, userPermissions: Permission[]): boolean => {
+  checkRouteAgainstUserPermissions = (route: string, method: string, userPermissions: PermissionEntity[]): boolean => {
     const routePermission = this.getPermissionRoute(route, method);
 
     const permissionsMatch = userPermissions.filter((elem) => elem.id === routePermission.id);

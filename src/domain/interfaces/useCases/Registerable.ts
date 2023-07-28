@@ -1,5 +1,5 @@
 import { UserRequestParams } from '../../types/requestInputs';
-import { UserDto } from '../../../application/dtos/User';
+import { User as UserDto } from '../../../application/dtos/User';
 
 export interface Registerable {
   validate(email: string, password: string, name: string): void;

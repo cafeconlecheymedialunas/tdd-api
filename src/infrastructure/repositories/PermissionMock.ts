@@ -1,6 +1,6 @@
 import Permissionable from '../../domain/interfaces/mappers/Permissionable';
 import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
-import { Permission } from '../../domain/entities/Permission';
+import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 import { Condition, QueryFilter } from '../../domain/types/responseOutputs';
 import { NotFoundException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../../application/dtos/Permission';
@@ -19,7 +19,7 @@ export class PermissionMock extends Mock implements PermissionMockable {
   }
 
   filter = (conditions: QueryFilter[]): PermissionDto[] => {
-    const users = this.list.filter((item: Permission) =>
+    const users = this.list.filter((item: PermissionEntity) =>
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;
 

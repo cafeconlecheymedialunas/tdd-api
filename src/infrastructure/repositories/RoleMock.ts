@@ -1,12 +1,12 @@
 import Roleable from '../../domain/interfaces/mappers/Roleable';
 import { RoleMockable } from '../../domain/interfaces/repositories/RoleMockable';
-import { Role } from '../../domain/entities/Role';
+import { Role as RoleEntity } from '../../domain/entities/Role';
 import { Role as RoleDto } from '../../application/dtos/Role';
 import { Mock } from './Mock';
 import { ROLES_DEFAULT } from './rolesDefault';
 
 export class RoleMock extends Mock implements RoleMockable {
-  list: Role[] = ROLES_DEFAULT;
+  list: RoleEntity[] = ROLES_DEFAULT;
   collection = 'roles';
   private readonly roleDataMapper: Roleable;
 

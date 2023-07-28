@@ -7,7 +7,7 @@ import {
   WrongCredentialsException,
 } from '../../domain/types/errors';
 import { Payload } from '../../domain/types/responseOutputs';
-import { UserDto } from '../dtos/User';
+import { User as UserDto } from '../dtos/User';
 import { Condition } from '../../domain/types/responseOutputs';
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { RULES } from '../../domain/types/validationRules';

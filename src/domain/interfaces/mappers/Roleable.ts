@@ -1,7 +1,7 @@
-import { Role } from '../../entities/Role';
+import { Role as RoleEntity } from '../../entities/Role';
 import { Role as RoleDto } from '../../../application/dtos/Role';
 
 export default interface Roleable {
-  mapItem(role: Role): RoleDto | false;
-  mapList(roles: Role[]): RoleDto[] | false;
+  mapItem(role: RoleEntity): RoleDto | false;
+  mapList(roles: RoleEntity[]): RoleDto[] | false;
 }
