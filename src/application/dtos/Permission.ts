@@ -1,6 +1,4 @@
-import { Permissionable } from '../../domain/interfaces/dtos/Permissionable';
-
-export class Permission implements Permissionable {
+export class Permission {
   id: number;
   route: string;
   method: string;

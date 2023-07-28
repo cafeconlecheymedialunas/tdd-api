@@ -1,7 +1,6 @@
-import { Roleable } from '../../domain/interfaces/dtos/Roleable';
 import { Permission } from '../../domain/entities/Permission';
 
-export class Role implements Roleable {
+export class Role {
   id: number;
   name: string;
   permissions: Permission[];

@@ -1,7 +1,6 @@
-import { Userable } from '../../domain/interfaces/dtos/Userable';
 import { Role as RoleDto } from './Role';
 
-export class UserDto implements Userable {
+export class UserDto {
   id: number;
   name: string;
   email: string;
