@@ -20,8 +20,8 @@ const registerUseCase = new Register(
 
 /**
  * Registers a new user with the provided name, email, password, and roles.
- * @param {Request} req - The request object containing the user's information.
- * @param {Response} res - The response object to send the result to.
+ * @param {Request} req - The Request Express containing the user's information.
+ * @param {Response} res - The Response Express to send the result to.
  * @param {NextFunction} next - The next function to call in the middleware chain.
  * @returns {Promise<void>} - A promise that resolves when the registration is complete.
  * @throws {WrongCredentialsException} - If the registration fails.

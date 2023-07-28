@@ -9,9 +9,9 @@ import { PermissionMock } from '../repositories/PermissionMock';
 
 /**
  * Checks the authorization of a request validating the token, route, and method.
- * @param {Request} req - The request Express .
- * @param {Response} res - The response Express .
- * @param {NextFunction} next - The next express.
+ * @param {Request} req - The Request Express .
+ * @param {Response} res - The  Response Express .
+ * @param {NextFunction} next - The   NextFunction express.
  * @returns {Promise<void>} - A promise that resolves when the authorization check is complete.
  * @throws {ClientException} - If the token, route, or method is missing.
  * @throws {NotAuthorizedException} - If the user is not authorized to access the route.
