@@ -1,7 +1,7 @@
-import { type UserMockable } from '../../domain/interfaces/repositories/UserMockable';
+import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
 import { Hashable } from '../../domain/interfaces/services/Hashable';
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
-import { type Registerable } from '../../domain/interfaces/useCases/Registerable';
+import { Registerable } from '../../domain/interfaces/useCases/Registerable';
 import {
   ClientException,
   UserWithThatEmailAlreadyExistsException,
