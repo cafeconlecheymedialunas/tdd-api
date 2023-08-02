@@ -17,6 +17,7 @@ export type ValidationRule = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
 };
+
 export const MESSAGES = {
   isNotEmpty: `The %s is required`,
   isString: `The %s must be a string`,

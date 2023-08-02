@@ -1,6 +1,6 @@
 import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
 import Userable from '../../domain/interfaces/mappers/Userable';
-import { NotFoundException } from '../../domain/types/errors';
+import { ClientException, NotFoundException } from '../../domain/types/errors';
 import { User as UserEntity } from '../../domain/entities/User';
 import { UserRequestParams } from '../../domain/types/requestInputs';
 import { Condition, QueryFilter } from '../../domain/types/responseOutputs';
@@ -22,10 +22,10 @@ export class UserMock extends Mock implements UserMockable {
    * Retrieves all UserDto data from the collection.
    * @returns {Promise<UserDto[] | false>} - A promise that resolves to an array of UserDto objects if successful, or false if an error occurs.
    */
-  getAll = async (): Promise<UserDto[] | false> => {
+  getAll = async (): Promise<UserDto[]> => {
     this.list = await this.readFile(this.collection);
 
-    const results = await this.userDataMapper.mapList(this.list);
+    const results = this.userDataMapper.mapList(this.list);
 
     return results;
   };
@@ -58,9 +58,8 @@ export class UserMock extends Mock implements UserMockable {
       }),
     );
 
-    const dtos = await this.userDataMapper.mapList(users);
+    const dtos = this.userDataMapper.mapList(users);
 
-    if (dtos === false) return [];
     return dtos;
   };
 
@@ -69,7 +68,7 @@ export class UserMock extends Mock implements UserMockable {
    * @param {UserRequestParams} user - The user object to add.
    * @returns {Promise<UserDto | false>} - A promise that resolves to the added user object (as a UserDto) if successful, or false if unsuccessful.
    */
-  add = async (user: UserRequestParams): Promise<UserDto | false> => {
+  add = async (user: UserRequestParams): Promise<UserDto> => {
     const id = this.generateId(this.list);
 
     this.list = await this.readFile(this.collection);
@@ -83,9 +82,9 @@ export class UserMock extends Mock implements UserMockable {
 
     await this.writeFile(this.collection, this.list);
 
-    const userDto = await this.userDataMapper.mapItem(newUser);
+    const userDto = this.userDataMapper.mapItem(newUser);
 
-    if (!userDto) return false;
+    if (!userDto) throw new ClientException();
 
     return userDto;
   };
@@ -95,20 +94,14 @@ export class UserMock extends Mock implements UserMockable {
    * @param {number} id - The ID of the item to delete.
    * @returns {Promise<boolean>} - A promise that resolves to true if the item was successfully deleted, or false if the item was not found.
    */
-  delete = async (id: number): Promise<boolean> => {
-    this.list = await this.readFile(this.collection);
+  delete = async (id: number): Promise<number> => {
+    const userIndex = await this.getUserIndex(id);
 
-    const index = this.list.findIndex((item) => item.id === id);
+    this.list.splice(userIndex, 1);
 
-    if (index !== -1) {
-      this.list.splice(index, 1);
+    await this.writeFile(this.collection, this.list);
 
-      await this.writeFile(this.collection, this.list);
-
-      return true;
-    } else {
-      return false;
-    }
+    return userIndex;
   };
 
   /**
@@ -117,14 +110,8 @@ export class UserMock extends Mock implements UserMockable {
    * @param {UserRequestParams} user - The updated user data.
    * @returns {Promise<UserDto | false>} - A promise that resolves to the updated user object if successful, or false if unsuccessful.
    */
-  update = async (id: number, user: UserRequestParams): Promise<UserDto | false> => {
-    if (!id) return false;
-
-    this.list = await this.readFile(this.collection);
-
-    const indexUser = this.list.findIndex((item) => item.id === id);
-
-    if (!this.list[indexUser]) return false;
+  update = async (id: number, user: UserRequestParams): Promise<UserDto> => {
+    const indexUser = await this.getUserIndex(id);
 
     const updatedUser = {
       ...user,
@@ -135,9 +122,9 @@ export class UserMock extends Mock implements UserMockable {
 
     await this.writeFile(this.collection, this.list);
 
-    const userDto = await this.userDataMapper.mapItem(updatedUser);
+    const userDto = this.userDataMapper.mapItem(updatedUser);
 
-    if (!userDto) return false;
+    if (!userDto) throw new ClientException();
 
     return userDto;
   };
@@ -148,17 +135,33 @@ export class UserMock extends Mock implements UserMockable {
    * @returns {Promise<UserDto | false>} - A promise that resolves to the UserDto object if the user is found, or false if the user is not found.
    * @throws {NotFoundException} - If the user with the specified ID is not found in the collection.
    */
-  getById = async (id: number): Promise<UserDto | false> => {
+  getById = async (id: number): Promise<UserDto> => {
+    const user = await this.getUser(id);
+
+    const userDto = this.userDataMapper.mapItem(user);
+
+    if (!userDto) throw new ClientException();
+
+    return userDto;
+  };
+
+  getUser = async (id: number): Promise<UserEntity> => {
     this.list = await this.readFile(this.collection);
 
     const user = this.list.find((item) => item.id === id);
 
     if (!user) throw new NotFoundException(id, 'User');
 
-    const userDto = await this.userDataMapper.mapItem(user);
+    return user;
+  };
 
-    if (!userDto) return false;
+  getUserIndex = async (id: number): Promise<number> => {
+    this.list = await this.readFile(this.collection);
 
-    return userDto;
+    const indexUser = this.list.findIndex((item) => item.id === id);
+
+    if (!this.list[indexUser].id) throw new NotFoundException(id, 'User');
+
+    return indexUser;
   };
 }

@@ -10,20 +10,15 @@ export class Role implements Roleable {
   constructor(permissionRepository: PermissionMockable) {
     this.permissionRepository = permissionRepository;
   }
-  private getPermissions = (roles: number[]): PermissionDto[] | false => {
-    const selectedPermissions = roles.map((rol) => {
-      return this.permissionRepository.getById(rol);
-    });
+  private getPermissions = (roles: number[]): PermissionDto[] => {
+    const selectedPermissions = this.permissionRepository.getByIdList(roles);
 
-    return selectedPermissions.filter((result): result is PermissionDto => result !== undefined) as
-      | PermissionDto[]
-      | false;
+    return selectedPermissions;
   };
 
-  mapItem = (role: RoleEntity): RoleDto | false => {
+  mapItem = (role: RoleEntity): RoleDto => {
     const selectedPermissions = this.getPermissions(role.permissions);
 
-    if (!selectedPermissions) return false;
     return {
       id: role.id,
       name: role.name,
@@ -31,13 +26,9 @@ export class Role implements Roleable {
     };
   };
 
-  mapList = (roles: RoleEntity[]): RoleDto[] | false => {
-    const results = roles.map((item: RoleEntity) => {
-      const roleDto = this.mapItem(item);
+  mapList = (roles: RoleEntity[]): RoleDto[] => {
+    const results = roles.map((item: RoleEntity) => this.mapItem(item));
 
-      return roleDto !== false ? roleDto : undefined;
-    });
-
-    return results.filter((result): result is RoleDto => result !== undefined) as RoleDto[] | false;
+    return results;
   };
 }

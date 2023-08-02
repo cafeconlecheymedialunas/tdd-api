@@ -42,11 +42,10 @@ export class PermissionMock extends Mock implements PermissionMockable {
 
     const dtos = this.permissionDataMapper.mapList(users);
 
-    if (dtos === false) return [];
     return dtos;
   };
 
-  getByIdList = (ids: number[]): PermissionDto[] | false => {
+  getByIdList = (ids: number[]): PermissionDto[] => {
     const permission = this.list.filter((item) => {
       return ids.indexOf(item.id) != -1;
     });
@@ -55,20 +54,30 @@ export class PermissionMock extends Mock implements PermissionMockable {
 
     const permissionDto = this.permissionDataMapper.mapList(permission);
 
-    if (permissionDto) return false;
+    return permissionDto;
+  };
+
+  getById = (id: number): PermissionDto => {
+    const permission = this.getPermission(id);
+
+    const permissionDto = this.permissionDataMapper.mapItem(permission);
 
     return permissionDto;
   };
 
-  getById = (id: number): PermissionDto | false => {
-    const permission = Object.values(this.list).find((item) => item.id === id);
+  getPermission = (id: number): PermissionEntity => {
+    const permission = this.list.find((item) => item.id === id);
 
-    if (!permission) return false;
+    if (!permission) throw new NotFoundException(id, 'Permission');
 
-    const permissionDto = this.permissionDataMapper.mapItem(permission);
+    return permission;
+  };
 
-    if (!permissionDto) return false;
+  getPermissionIndex = (id: number): number => {
+    const indexPermission = this.list.findIndex((item) => item.id === id);
 
-    return permissionDto;
+    if (!this.list[indexPermission].id) throw new NotFoundException(id, 'Permission');
+
+    return indexPermission;
   };
 }

@@ -3,9 +3,7 @@ import { Permission as PermissionEntity } from '../../domain/entities/Permission
 import { Permission as PermissionDto } from '../dtos/Permission';
 
 export class Permission implements Permissionable {
-  mapItem = (permission: PermissionEntity): PermissionDto | false => {
-    if (!permission) return false;
-
+  mapItem = (permission: PermissionEntity): PermissionDto => {
     return {
       id: permission.id,
       route: permission.route,
@@ -13,13 +11,9 @@ export class Permission implements Permissionable {
     };
   };
 
-  mapList = (permissions: PermissionEntity[]): PermissionDto[] | false => {
-    const results = permissions.map((item: PermissionEntity) => {
-      const permissionDto = this.mapItem(item);
+  mapList = (permissions: PermissionEntity[]): PermissionDto[] => {
+    const results = permissions.map((item: PermissionEntity) => this.mapItem(item));
 
-      return permissionDto !== false ? permissionDto : undefined;
-    });
-
-    return results.filter((result): result is PermissionDto => result !== undefined) as PermissionDto[] | false;
+    return results;
   };
 }
