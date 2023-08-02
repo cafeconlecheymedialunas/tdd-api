@@ -2,6 +2,7 @@ import { CheckRoutePermissionable } from '../../domain/interfaces/services/Check
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import { Authorizationable } from '../../domain/interfaces/useCases/Authorizationable';
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
+import { Payload } from '../../domain/types/responseOutputs';
 
 export class Authorization implements Authorizationable {
   private readonly jsonWebTokenService: JsonWebTokenable;
@@ -16,11 +17,10 @@ export class Authorization implements Authorizationable {
   /**
    * Decodes the user Data contained in Token. This method really check login credentials of user
    * @param {string} token - The token to decode.
-   * @returns {Promise<any>} - A promise that resolves to the decoded token.
+   * @returns {Promise<Payload>} - A promise that resolves to the decoded token.
    * @throws {WrongAuthenticationTokenException} - If the token cannot be decoded.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private getDecodedUserDatainToken = async (token: string): Promise<any> => {
+  private getDecodedUserDatainToken = async (token: string): Promise<Payload> => {
     const decodedUserData = await this.jsonWebTokenService.decodeToken(token);
 
     if (!decodedUserData) {
