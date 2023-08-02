@@ -2,9 +2,9 @@ import { UserMockable } from '../../domain/interfaces/repositories/UserMockable'
 import Userable from '../../domain/interfaces/mappers/Userable';
 import { NotFoundException } from '../../domain/types/errors';
 import { User as UserEntity } from '../../domain/entities/User';
-import { UserRequestParams } from '../../domain/types/requestParams';
-import { Condition, QueryFilter } from '../../domain/types/response';
-import { UserDto } from '../../application/dtos/User';
+import { UserRequestParams } from '../../domain/types/requestInputs';
+import { Condition, QueryFilter } from '../../domain/types/responseOutputs';
+import { User as UserDto } from '../../application/dtos/User';
 import { Mock } from './Mock';
 
 export class UserMock extends Mock implements UserMockable {

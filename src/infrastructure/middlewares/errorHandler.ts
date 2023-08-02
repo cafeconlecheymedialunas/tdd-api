@@ -13,11 +13,7 @@ import { resError } from '../utils';
  * @throws {NotAuthorizedException} - If the user is not authorized to access the route.
  */
 const errorHandler = (err: ClientException, _req: Request, res: Response, next: NextFunction): void => {
-  const status = err.status ?? 500;
-
-  const message = err.message ?? 'Server Error';
-
-  resError(res, status, message, err.errors);
+  resError(res, err.status, err.message, err.errors);
   next();
 };
 

@@ -1,6 +1,8 @@
-import { Permissionable } from '../../domain/interfaces/dtos/Permissionable';
-
-export class Permission implements Permissionable {
+/**
+ * This DTO is the return of all methods from the Role Repository.
+ * @class Role
+ */
+export class Permission {
   id: number;
   route: string;
   method: string;

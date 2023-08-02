@@ -13,28 +13,28 @@ export class Hash implements Hashable {
   }
 
   /**
-   * Hashes a password using a salt and returns the hashed password.
-   * @param {string} password - The password to hash.
-   * @returns {Promise<string | false>} - A promise that resolves to the hashed password or false if an error occurs.
+   * Hashes a value using a salt and returns the hashed value.
+   * @param {string} value - The value to hash.
+   * @returns {Promise<string | false>} - A promise that resolves to the hashed value or false if an error occurs.
    * @throws {ClientException} - If an error occurs during the hashing process.
    */
-  hash = async (password: string): Promise<string | false> => {
+  hash = async (value: string): Promise<string> => {
     const salt = await this.hashLibrary.genSalt(this.saltRounds);
 
-    const hash = await this.hashLibrary.hash(password, salt);
+    const hash = await this.hashLibrary.hash(value, salt);
 
-    if (!hash) throw new ClientException();
+    if (!hash) throw new ClientException(500, "It's impossible to hash this value.");
 
     return hash;
   };
 
   /**
-   * Verifies if a given password matches a hashed password.
-   * @param {string} password - The password to verify.
-   * @param {string} hashedPassword - The hashed password to compare against.
-   * @returns {Promise<boolean>} - A promise that resolves to true if the password matches the hashed password, false otherwise.
+   * Verifies if a given value matches a hashed value stored.
+   * @param {string} value - The value to verify.
+   * @param {string} hashedvalue - The hashed value to compare against.
+   * @returns {Promise<boolean>} - A promise that resolves to true if the value matches the hashed value, false otherwise.
    */
-  verify = async (password: string, hashedPassword: string): Promise<boolean> => {
-    return await this.hashLibrary.compare(password, hashedPassword);
+  verify = async (value: string, hashedvalue: string): Promise<boolean> => {
+    return await this.hashLibrary.compare(value, hashedvalue);
   };
 }

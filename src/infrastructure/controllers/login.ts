@@ -1,5 +1,5 @@
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
-import { UserDataMapper } from '../../application/mappers/User';
+import { User as UserDataMapper } from '../../application/mappers/User';
 import { Role as RoleDataMapper } from '../../application/mappers/Role';
 import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
 import { JsonWebToken } from '../../application/services/JsonWebToken';
@@ -31,9 +31,9 @@ const loginUseCase = new Login(
 /**
  * Handles the login functionality by validating the email and password,
  * generating a token, and sending the token in the response.
- * @param {Request} req - The request Express .
- * @param {Response} res - The response Express .
- * @param {NextFunction} next - The next express.
+ * @param {Request} req - The Request Expres .
+ * @param {Response} res - The Response Expres .
+ * @param {NextFunction} next - The NextFunction Expres.
  * @returns {Promise<void>} - A promise that resolves when the login process is complete.
  * @throws {WrongAuthenticationTokenException} - If the authentication token is invalid.
  */

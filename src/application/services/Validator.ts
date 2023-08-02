@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { ClientException } from '../../domain/types/errors';
-import { ValidationError } from '../../domain/types/response';
+import { ValidationError } from '../../domain/types/responseOutputs';
 import { RuleTypes, RULES, ValidationRule, MESSAGES } from '../../domain/types/validationRules';
 
 export class Validator implements Validatorable {
@@ -15,7 +15,7 @@ export class Validator implements Validatorable {
    * @param {RuleTypes} rule - The rule for which the error message is retrieved.
    * @returns The formatted error message with the field name inserted.
    */
-  private getMessage = (field: string, rule: RuleTypes): string => {
+  private getErrorMessage = (field: string, rule: RuleTypes): string => {
     return this.messages[rule].split('%s').join(field);
   };
 
@@ -28,12 +28,12 @@ export class Validator implements Validatorable {
     this.validations = validations;
     this.errors = [];
 
-    this.validations.map((item) => {
-      item.rules.map((rule) => {
-        if (!this.executeMethood(rule, item.value)) {
-          const message = this.getMessage(item.key, rule);
+    this.validations.map((validation) => {
+      validation.rules.map((rule) => {
+        if (!this.executeMethood(rule, validation.value)) {
+          const message = this.getErrorMessage(validation.key, rule);
 
-          this.setError(item.key, message);
+          this.setError(validation.key, message);
         }
       });
     });
@@ -42,7 +42,7 @@ export class Validator implements Validatorable {
   };
 
   /**
-   * Executes a validation method based on the given rule type and value.
+   * Executes a validation method based on the given rule type.
    * @param {RuleTypes} rule - The rule type to execute.
    * @param {any} value - The value to validate.
    * @returns {boolean} - The result of the validation.
@@ -81,21 +81,13 @@ export class Validator implements Validatorable {
     this.errors.push({ key: key, error: message });
   };
 
-  private isNotEmpty = (value: any): boolean => {
-    return value && value !== '';
-  };
+  private isNotEmpty = (value: any): boolean => value && value !== '';
 
-  private isString = (value: any): boolean => {
-    return typeof value === 'string';
-  };
+  private isString = (value: any): boolean => typeof value === 'string';
 
-  private isNumber = (value: any): boolean => {
-    return typeof value === 'number';
-  };
+  private isNumber = (value: any): boolean => typeof value === 'number';
 
-  private isBoolean = (value: any): boolean => {
-    return typeof value === 'boolean';
-  };
+  private isBoolean = (value: any): boolean => typeof value === 'boolean';
 
   private min = (min: number, actual: number): boolean => actual >= min;
 

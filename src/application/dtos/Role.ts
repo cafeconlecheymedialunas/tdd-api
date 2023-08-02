@@ -1,12 +1,14 @@
-import { Roleable } from '../../domain/interfaces/dtos/Roleable';
-import { Permission } from '../../domain/entities/Permission';
-
-export class Role implements Roleable {
+import { Permission as PermissionDto } from "./Permission";
+/**
+ * This DTO is the return of all methods from the Role Repository. It includes the 'permissions' property that will be transformed by Role Mapper in a Permission[] array.
+ * @class Role
+ */
+export class Role {
   id: number;
   name: string;
-  permissions: Permission[];
+  permissions: PermissionDto[];
 
-  constructor(name: string, id: number, permissions: Permission[]) {
+  constructor(name: string, id: number, permissions: PermissionDto[]) {
     this.name = name;
 
     this.id = id;

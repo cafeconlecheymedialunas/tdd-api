@@ -1,16 +1,16 @@
-import { type UserMockable } from '../../domain/interfaces/repositories/UserMockable';
+import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
 import { Hashable } from '../../domain/interfaces/services/Hashable';
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
-import { type Registerable } from '../../domain/interfaces/useCases/Registerable';
+import { Registerable } from '../../domain/interfaces/useCases/Registerable';
 import {
   ClientException,
   UserWithThatEmailAlreadyExistsException,
   ValidationException,
 } from '../../domain/types/errors';
-import { UserRequestParams } from '../../domain/types/requestParams';
-import { Condition } from '../../domain/types/response';
+import { UserRequestParams } from '../../domain/types/requestInputs';
+import { Condition } from '../../domain/types/responseOutputs';
 import { RULES } from '../../domain/types/validationRules';
-import { UserDto } from '../dtos/User';
+import { User as UserDto } from '../dtos/User';
 
 export class Register implements Registerable {
   private readonly userRepository: UserMockable;
@@ -30,7 +30,7 @@ export class Register implements Registerable {
    * @param {string} email - The email to validate.
    * @param {string} password - The password to validate.
    * @param {string} name - The name to validate.
-   * @throws {ValidationException} If any of the validation rules fail.
+   * @throws {ValidationException} - If has validation errors.
    * @returns None
    */
   validate = (email: string, password: string, name: string): void => {
@@ -92,6 +92,7 @@ export class Register implements Registerable {
     const hashedPassword = await this.generateHash(password);
 
     user.password = hashedPassword;
+
     const newUser = await this.userRepository.add(user);
 
     return newUser;

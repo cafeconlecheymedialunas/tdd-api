@@ -1,10 +1,10 @@
 import DataMapperInterface from '../../domain/interfaces/mappers/Userable';
 import { RoleMockable } from '../../domain/interfaces/repositories/RoleMockable';
-import { User } from '../../domain/entities/User';
-import { UserDto } from '../dtos/User';
+import { User as UserEntity } from '../../domain/entities/User';
+import { User as UserDto } from '../dtos/User';
 import { Role as RoleDto } from '../dtos/Role';
 
-export class UserDataMapper implements DataMapperInterface {
+export class User implements DataMapperInterface {
   private readonly roleRepository;
 
   constructor(roleRepository: RoleMockable) {
@@ -21,7 +21,7 @@ export class UserDataMapper implements DataMapperInterface {
     return selectedRoles.filter((result): result is RoleDto => result !== undefined) as RoleDto[] | false;
   };
 
-  mapItem = async (user: User): Promise<UserDto | false> => {
+  mapItem = async (user: UserEntity): Promise<UserDto | false> => {
     const selectedRoles = await this.getRoles(user.roles);
 
     if (!selectedRoles) return false;
@@ -35,9 +35,9 @@ export class UserDataMapper implements DataMapperInterface {
     };
   };
 
-  mapList = async (users: User[]): Promise<UserDto[] | false> => {
+  mapList = async (users: UserEntity[]): Promise<UserDto[] | false> => {
     const results = await Promise.all(
-      users.map(async (item: User) => {
+      users.map(async (item: UserEntity) => {
         const userDto = await this.mapItem(item);
 
         return userDto !== false ? userDto : undefined;

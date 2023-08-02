@@ -1,5 +1,5 @@
 import { WrongCredentialsException } from '../../domain/types/errors';
-import { UserDataMapper } from '../../application/mappers/User';
+import { User as UserDataMapper } from '../../application/mappers/User';
 import { Role as RoleDataMapper } from '../../application/mappers/Role';
 import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
 import { Hash } from '../../application/services/Hash';
@@ -12,12 +12,6 @@ import { RoleMock } from '../repositories/RoleMock';
 import { PermissionMock } from '../repositories/PermissionMock';
 import { Validator } from '../../application/services/Validator';
 
-/**
- * Registers a new use case with the given dependencies.
- * @param {UserMock} userMock - The UserMock repository.
- * @param {Hash} Hash - The Hash service.
- * @param {Validator} Validator - The Validator service.
- */
 const registerUseCase = new Register(
   new UserMock(new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper()))))),
   new Hash(bcrypt),
@@ -26,8 +20,8 @@ const registerUseCase = new Register(
 
 /**
  * Registers a new user with the provided name, email, password, and roles.
- * @param {Request} req - The request object containing the user's information.
- * @param {Response} res - The response object to send the result to.
+ * @param {Request} req - The Request Express containing the user's information.
+ * @param {Response} res - The Response Express to send the result to.
  * @param {NextFunction} next - The next function to call in the middleware chain.
  * @returns {Promise<void>} - A promise that resolves when the registration is complete.
  * @throws {WrongCredentialsException} - If the registration fails.

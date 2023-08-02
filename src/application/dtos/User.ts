@@ -1,7 +1,9 @@
-import { Userable } from '../../domain/interfaces/dtos/Userable';
 import { Role as RoleDto } from './Role';
-
-export class UserDto implements Userable {
+/**
+ * This DTO is the return of all methods from the User Repository. It includes the 'roles' property that will be transformed by User Mapper in a Role[] array.
+ * @class Role
+ */
+export class User {
   id: number;
   name: string;
   email: string;
