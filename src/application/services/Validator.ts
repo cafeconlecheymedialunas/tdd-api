@@ -15,7 +15,7 @@ export class Validator implements Validatorable {
    * @param {RuleTypes} rule - The rule for which the error message is retrieved.
    * @returns The formatted error message with the field name inserted.
    */
-  private getErrorMessage = (field: string, rule: RuleTypes): string => {
+  getErrorMessage = (field: string, rule: RuleTypes): string => {
     return this.messages[rule].split('%s').join(field);
   };
 
@@ -48,7 +48,7 @@ export class Validator implements Validatorable {
    * @returns {boolean} - The result of the validation.
    * @throws {ClientException} - If the rule type is undefined.
    */
-  private executeMethood = (rule: RuleTypes, value: any): boolean => {
+  executeMethood = (rule: RuleTypes, value: any): boolean => {
     switch (rule) {
       case RULES.isNotEmpty:
         return this.isNotEmpty(value);
@@ -77,29 +77,29 @@ export class Validator implements Validatorable {
    * @param {string} message - The error message.
    * @returns None
    */
-  private setError = (key: string, message: string): void => {
+  setError = (key: string, message: string): void => {
     this.errors.push({ key: key, error: message });
   };
 
-  private isNotEmpty = (value: any): boolean => value && value !== '';
+  isNotEmpty = (value: any): boolean => value && value !== '';
 
-  private isString = (value: any): boolean => typeof value === 'string';
+  isString = (value: any): boolean => typeof value === 'string';
 
-  private isNumber = (value: any): boolean => typeof value === 'number';
+  isNumber = (value: any): boolean => typeof value === 'number';
 
-  private isBoolean = (value: any): boolean => typeof value === 'boolean';
+  isBoolean = (value: any): boolean => typeof value === 'boolean';
 
-  private min = (min: number, actual: number): boolean => actual >= min;
+  min = (min: number, actual: number): boolean => actual >= min;
 
-  private max = (max: number, actual: number): boolean => actual <= max;
+  max = (max: number, actual: number): boolean => actual <= max;
 
-  private isEmail = (value: string): boolean => {
+  isEmail = (value: string): boolean => {
     const regex = /\S+@\S+\.\S+/;
 
     return regex.test(value);
   };
 
-  private isStrongPassword(value: string): boolean {
+  isStrongPassword(value: string): boolean {
     const regex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
 
     return regex.test(value);

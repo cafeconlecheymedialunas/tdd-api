@@ -11,7 +11,7 @@ export class User implements DataMapperInterface {
     this.roleRepository = roleRepository;
   }
 
-  private getRoles = (roles: number[]): RoleDto[] => {
+  getRoles = (roles: number[]): RoleDto[] => {
     const selectedRoles = this.roleRepository.getByIdList(roles);
 
     return selectedRoles;

@@ -52,7 +52,7 @@ export class Register implements Registerable {
    * @returns {Promise<void>} - A promise that resolves if no user with the same email is found.
    * @throws {UserWithThatEmailAlreadyExistsException} - If a user with the same email is found.
    */
-  private userExist = async (email: string): Promise<void> => {
+  userExist = async (email: string): Promise<void> => {
     const QUERY_FILTER = [{ key: 'email', condition: Condition.Equal, value: email }];
 
     const userExist = await this.userRepository.filter(QUERY_FILTER);
@@ -66,7 +66,7 @@ export class Register implements Registerable {
    * @returns {Promise<string>} A promise that resolves to the generated hash.
    * @throws {ClientException} If the password hash is not generated successfully.
    */
-  private generateHash = async (password: string): Promise<string> => {
+  generateHash = async (password: string): Promise<string> => {
     const hashedPassword = await this.hashService.hash(password);
 
     if (!hashedPassword) throw new ClientException();

@@ -20,7 +20,7 @@ export class Authorization implements Authorizationable {
    * @returns {Promise<Payload>} - A promise that resolves to the decoded token.
    * @throws {WrongAuthenticationTokenException} - If the token cannot be decoded.
    */
-  private getDecodedUserDatainToken = async (token: string): Promise<Payload> => {
+  getDecodedUserDatainToken = async (token: string): Promise<Payload> => {
     const decodedUserData = await this.jsonWebTokenService.decodeToken(token);
 
     if (!decodedUserData) {

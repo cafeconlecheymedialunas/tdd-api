@@ -58,7 +58,7 @@ export class Login {
    * @returns {Promise<UserDto>} - A promise that resolves to the user object if the sign in is successful.
    * @throws {WrongCredentialsException} - If the email or password is incorrect.
    */
-  private signIn = async (email: string, password: string): Promise<UserDto> => {
+  signIn = async (email: string, password: string): Promise<UserDto> => {
     this.validate(email, password);
 
     const user = await this.checkUserEmail(email);
@@ -92,7 +92,7 @@ export class Login {
    * @returns {Promise<string>} A promise that resolves to the generated token.
    * @throws {WrongAuthenticationTokenException} If the token generation fails.
    */
-  private generateToken = async (payload: Payload): Promise<string> => {
+  generateToken = async (payload: Payload): Promise<string> => {
     const token = await this.JsonWebTokenService.generateToken(payload, '1h');
 
     if (!token) throw new WrongAuthenticationTokenException();
@@ -104,7 +104,7 @@ export class Login {
    * @param {UserDto} user - The user object to generate the payload from.
    * @returns {Payload} - The generated payload object.
    */
-  private generatePayload = (user: UserDto): Payload => {
+  generatePayload = (user: UserDto): Payload => {
     const permissions = [...new Set(user.roles.flatMap((item) => item.permissions))];
 
     const payload = { id: user.id, permissions };

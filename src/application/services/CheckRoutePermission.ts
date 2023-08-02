@@ -35,7 +35,7 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
    * @returns {PermissionDto} - The permission route that matches the given route and method.
    * @throws {ClientException} - If no permission route is found or if multiple permission routes are found.
    */
-  private getPermissionRoute = (route: string, method: string): PermissionDto => {
+  getPermissionRoute = (route: string, method: string): PermissionDto => {
     const QUERY_FILTERS = [
       { key: 'route', condition: Condition.Equal, value: route },
       { key: 'method', condition: Condition.Equal, value: method },
