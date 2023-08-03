@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import { DecodedToken, Payload } from '../../domain/types/responseOutputs';
