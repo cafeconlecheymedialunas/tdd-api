@@ -41,7 +41,7 @@ export class UserMock implements UserMockable {
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;
 
-        const propValue = item[key];
+        const propValue = item[key as keyof typeof item];
 
         switch (conditionType) {
           case Condition.Equal:

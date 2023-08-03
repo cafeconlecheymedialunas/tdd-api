@@ -5,7 +5,6 @@ export class User {
   password: string;
   id: number;
   roles: number[];
-  [key: string]: any;
 
   constructor(name: string, email: string, password: string, id: number, roles: number[] = []) {
     this.name = name;

@@ -20,7 +20,7 @@ export class PermissionMock implements PermissionMockable {
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;
 
-        const propValue = item[key];
+        const propValue = item[key as keyof typeof item];
 
         switch (conditionType) {
           case Condition.Equal:
