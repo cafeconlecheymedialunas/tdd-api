@@ -150,7 +150,7 @@ export class UserMock implements UserMockable {
 
     const indexUser = this.list.findIndex((item) => item.id === id);
 
-    if (!this.list[indexUser].id) throw new NotFoundException(id, 'User');
+    if (indexUser === -1) throw new NotFoundException(id, 'User');
 
     return indexUser;
   };

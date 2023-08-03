@@ -20,25 +20,23 @@ export class RoleMock implements RoleMockable {
    * @returns {RoleDto} - The RoleDto object if found, or false if not found.
    */
   getById = (id: number): RoleDto => {
-    const role = this.getRole(id);
+    const role = this.getRoleIndex(id);
 
-    const roleDto = this.roleDataMapper.mapItem(role);
+    const roleDto = this.roleDataMapper.mapItem(this.list[role]);
 
     return roleDto;
   };
 
-  getRole = (id: number): RoleEntity => {
-    const role = this.list.find((item) => item.id === id);
-
-    if (!role) throw new NotFoundException(id, 'Role');
-
-    return role;
-  };
-
+  /**
+   * Returns the index of a role in the list based on its ID.
+   * @param {number} id - The ID of the role to search for.
+   * @returns {number} - The index of the role in the list.
+   * @throws {NotFoundException} - If the role with the given ID is not found in the list.
+   */
   getRoleIndex = (id: number): number => {
     const indexRole = this.list.findIndex((item) => item.id === id);
 
-    if (!this.list[indexRole].id) throw new NotFoundException(id, 'Role');
+    if (indexUser === -1) throw new NotFoundException(id, 'Role');
 
     return indexRole;
   };

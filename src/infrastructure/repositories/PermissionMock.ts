@@ -55,25 +55,23 @@ export class PermissionMock implements PermissionMockable {
   };
 
   getById = (id: number): PermissionDto => {
-    const permission = this.getPermission(id);
+    const permission = this.getPermissionIndex(id);
 
-    const permissionDto = this.permissionDataMapper.mapItem(permission);
+    const permissionDto = this.permissionDataMapper.mapItem(this.list[permission]);
 
     return permissionDto;
   };
 
-  getPermission = (id: number): PermissionEntity => {
-    const permission = this.list.find((item) => item.id === id);
-
-    if (!permission) throw new NotFoundException(id, 'Permission');
-
-    return permission;
-  };
-
+  /**
+   * Get the index of a permission in the list based on its ID.
+   * @param {number} id - The ID of the permission.
+   * @returns {number} The index of the permission in the list.
+   * @throws {NotFoundException} If the permission with the given ID is not found.
+   */
   getPermissionIndex = (id: number): number => {
     const indexPermission = this.list.findIndex((item) => item.id === id);
 
-    if (!this.list[indexPermission].id) throw new NotFoundException(id, 'Permission');
+    if (indexUser === -1) throw new NotFoundException(id, 'Permission');
 
     return indexPermission;
   };
