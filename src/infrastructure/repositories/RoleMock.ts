@@ -1,4 +1,4 @@
-import Roleable from '../../domain/interfaces/mappers/Roleable';
+import { Roleable as RoleMapperable } from '../../domain/interfaces/mappers/Roleable';
 import { RoleMockable } from '../../domain/interfaces/repositories/RoleMockable';
 import { Role as RoleEntity } from '../../domain/entities/Role';
 import { Role as RoleDto } from '../../application/dtos/Role';
@@ -8,9 +8,9 @@ import { NotFoundException } from '../../domain/types/errors';
 export class RoleMock implements RoleMockable {
   list: RoleEntity[] = ROLES_DEFAULT;
   collection = 'roles';
-  private readonly roleDataMapper: Roleable;
+  private readonly roleDataMapper: RoleMapperable;
 
-  constructor(roleDataMapper: Roleable) {
+  constructor(roleDataMapper: RoleMapperable) {
     this.roleDataMapper = roleDataMapper;
   }
 

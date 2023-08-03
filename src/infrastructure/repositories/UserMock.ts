@@ -1,5 +1,5 @@
 import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
-import Userable from '../../domain/interfaces/mappers/Userable';
+import { Userable as UserMapperable }from '../../domain/interfaces/mappers/Userable';
 import { NotFoundException } from '../../domain/types/errors';
 import { User as UserEntity } from '../../domain/entities/User';
 import { UserRequestParams } from '../../domain/types/requestInputs';
@@ -10,10 +10,10 @@ import { Mockable } from '../../domain/interfaces/repositories/Mockable';
 export class UserMock implements UserMockable {
   list: UserEntity[] = [];
   collection = 'users';
-  private readonly userDataMapper: Userable;
+  private readonly userDataMapper: UserMapperable;
   private readonly mockRepository: Mockable<UserEntity>;
 
-  constructor(userDataMapper: Userable, mockRepository: Mockable<UserEntity>) {
+  constructor(userDataMapper: UserMapperable, mockRepository: Mockable<UserEntity>) {
     this.userDataMapper = userDataMapper;
     this.mockRepository = mockRepository;
   }

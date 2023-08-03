@@ -1,8 +1,8 @@
-import Permissionable from '../../domain/interfaces/mappers/Permissionable';
+import { Permissionable as PermissionMaperable }  from '../../domain/interfaces/mappers/Permissionable';
 import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 import { Permission as PermissionDto } from '../dtos/Permission';
 
-export class Permission implements Permissionable {
+export class Permission implements PermissionMaperable {
   mapItem = (permission: PermissionEntity): PermissionDto => {
     return {
       id: permission.id,

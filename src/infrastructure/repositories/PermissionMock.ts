@@ -1,4 +1,4 @@
-import Permissionable from '../../domain/interfaces/mappers/Permissionable';
+import { Permissionable as PermissionMapperable } from '../../domain/interfaces/mappers/Permissionable';
 import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
 import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 import { Condition, QueryFilter } from '../../domain/types/requestInputs';
@@ -9,9 +9,9 @@ import { PERMISSIONS_DEFAULT } from './rolesDefault';
 export class PermissionMock implements PermissionMockable {
   list = Object.values(PERMISSIONS_DEFAULT);
   collection = 'permissions';
-  private readonly permissionDataMapper: Permissionable;
+  private readonly permissionDataMapper: PermissionMapperable;
 
-  constructor(permissionDataMapper: Permissionable) {
+  constructor(permissionDataMapper: PermissionMapperable) {
     this.permissionDataMapper = permissionDataMapper;
   }
 
