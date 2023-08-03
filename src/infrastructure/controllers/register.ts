@@ -31,7 +31,7 @@ const registerUseCase = new Register(
  * @returns {Promise<void>} - A promise that resolves when the registration is complete.
  * @throws {WrongCredentialsException} - If the registration fails.
  */
-const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const register = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
     const { name, email, password, roles } = req.body;
 
