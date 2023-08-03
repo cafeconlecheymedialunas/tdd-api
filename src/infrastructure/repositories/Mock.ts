@@ -1,7 +1,6 @@
 import fs from 'fs';
 import { ClientException } from '../../domain/types/errors';
 import { Mockable } from '../../domain/interfaces/repositories/Mockable';
-import { Entities } from '../../domain/types/responseOutputs';
 
 export class Mock<T> implements Mockable<T> {
   generateId = (list: T[]): number => {
