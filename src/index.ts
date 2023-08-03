@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import config from './config';
 import router from './infrastructure/routes/index';
 import errorHandler from './infrastructure/middlewares/errorHandler';
+import { checkAuthorization } from './infrastructure/middlewares/CheckAuthorization';
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(checkAuthorization);
 
 app.use(router);
 

@@ -18,6 +18,8 @@ import { PermissionMock } from '../repositories/PermissionMock';
  */
 export const checkAuthorization = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
   try {
+    if (req.path.includes('/auth')) return next();
+
     const token = req.headers.authorization?.split(' ')[1];
 
     const route = req.baseUrl;
