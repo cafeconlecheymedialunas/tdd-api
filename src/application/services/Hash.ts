@@ -1,6 +1,6 @@
 import { Hashable } from '../../domain/interfaces/services/Hashable';
 import { ClientException } from '../../domain/types/errors';
-import has
+
 export class Hash implements Hashable {
   private readonly hashLibrary;
   saltRounds;
@@ -15,7 +15,7 @@ export class Hash implements Hashable {
   /**
    * Hashes a value using a salt and returns the hashed value.
    * @param {string} value - The value to hash.
-   * @returns {Promise<string | false>} - A promise that resolves to the hashed value or false if an error occurs.
+   * @returns {Promise<string>} - A promise that resolves to the hashed value or false if an error occurs.
    * @throws {ClientException} - If an error occurs during the hashing process.
    */
   hash = async (value: string): Promise<string> => {
