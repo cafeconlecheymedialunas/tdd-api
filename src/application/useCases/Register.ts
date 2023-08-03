@@ -69,8 +69,6 @@ export class Register implements Registerable {
   generateHash = async (password: string): Promise<string> => {
     const hashedPassword = await this.hashService.hash(password);
 
-    if (!hashedPassword) throw new ClientException();
-
     return hashedPassword;
   };
 
