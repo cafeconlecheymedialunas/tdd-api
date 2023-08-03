@@ -1,6 +1,6 @@
 import { Hashable } from '../../domain/interfaces/services/Hashable';
 import { ClientException } from '../../domain/types/errors';
-
+import has
 export class Hash implements Hashable {
   private readonly hashLibrary;
   saltRounds;
