@@ -1,5 +1,5 @@
 import { UserMockable } from '../../domain/interfaces/repositories/UserMockable';
-import { Userable as UserMapperable }from '../../domain/interfaces/mappers/Userable';
+import { Userable as UserMapperable } from '../../domain/interfaces/mappers/Userable';
 import { NotFoundException } from '../../domain/types/errors';
 import { User as UserEntity } from '../../domain/entities/User';
 import { UserRequestParams } from '../../domain/types/requestInputs';

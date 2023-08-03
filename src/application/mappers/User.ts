@@ -1,4 +1,4 @@
-import { Userable as UserMapperable} from '../../domain/interfaces/mappers/Userable';
+import { Userable as UserMapperable } from '../../domain/interfaces/mappers/Userable';
 import { RoleMockable } from '../../domain/interfaces/repositories/RoleMockable';
 import { User as UserEntity } from '../../domain/entities/User';
 import { User as UserDto } from '../dtos/User';
