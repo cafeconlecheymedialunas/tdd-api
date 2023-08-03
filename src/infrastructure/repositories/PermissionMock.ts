@@ -4,17 +4,14 @@ import { Permission as PermissionEntity } from '../../domain/entities/Permission
 import { Condition, QueryFilter } from '../../domain/types/responseOutputs';
 import { NotFoundException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../../application/dtos/Permission';
-import { Mock } from './Mock';
 import { PERMISSIONS_DEFAULT } from './rolesDefault';
 
-export class PermissionMock extends Mock implements PermissionMockable {
+export class PermissionMock implements PermissionMockable {
   list = Object.values(PERMISSIONS_DEFAULT);
   collection = 'permissions';
   private readonly permissionDataMapper: Permissionable;
 
   constructor(permissionDataMapper: Permissionable) {
-    super();
-
     this.permissionDataMapper = permissionDataMapper;
   }
 
