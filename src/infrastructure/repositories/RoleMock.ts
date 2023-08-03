@@ -36,7 +36,7 @@ export class RoleMock implements RoleMockable {
   getRoleIndex = (id: number): number => {
     const indexRole = this.list.findIndex((item) => item.id === id);
 
-    if (indexUser === -1) throw new NotFoundException(id, 'Role');
+    if (indexRole === -1) throw new NotFoundException(id, 'Role');
 
     return indexRole;
   };

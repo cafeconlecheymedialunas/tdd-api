@@ -71,7 +71,7 @@ export class PermissionMock implements PermissionMockable {
   getPermissionIndex = (id: number): number => {
     const indexPermission = this.list.findIndex((item) => item.id === id);
 
-    if (indexUser === -1) throw new NotFoundException(id, 'Permission');
+    if (indexPermission === -1) throw new NotFoundException(id, 'Permission');
 
     return indexPermission;
   };
