@@ -42,7 +42,7 @@ const loginUseCase = new Login(
  * @returns {Promise<void>} - A promise that resolves when the login process is complete.
  * @throws {WrongAuthenticationTokenException} - If the authentication token is invalid.
  */
-const login = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email, password } = req.body;
 

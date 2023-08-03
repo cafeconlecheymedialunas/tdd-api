@@ -1,5 +1,5 @@
 import { ClientException } from '../../domain/types/errors';
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { resError } from '../utils';
 
 /**
@@ -7,12 +7,10 @@ import { resError } from '../utils';
  * @param {ClientException} err - Error .
  * @param {Request} _req - The request Express .
  * @param {Response} res - The response Express .
- * @param {NextFunction} next - The next express.
  * @returns {Promise<void>} - A promise that resolves when the authorization check is complete.
  */
-const errorHandler = (err: ClientException, _req: Request, res: Response, next: NextFunction): void => {
+const errorHandler = (err: ClientException, _req: Request, res: Response): void => {
   resError(res, err.status, err.message, err.errors);
-  next();
 };
 
 export default errorHandler;
