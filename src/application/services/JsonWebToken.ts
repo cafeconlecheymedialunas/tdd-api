@@ -37,7 +37,7 @@ export class JsonWebToken implements JsonWebTokenable {
     const decodedData = (await this.jwtLibrary.verify(token, config.SECRET_KEY)) as DecodedToken;
 
     const currentTime = Math.floor(Date.now() / 1000);
-    
+
     if (Math.floor(decodedData.expiresIn.getDate() / 1000) < currentTime) {
       throw new TokenExpiredError('Token is expired', decodedData.expiresIn);
     }
