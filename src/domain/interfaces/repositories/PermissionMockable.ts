@@ -1,4 +1,4 @@
-import { QueryFilter } from '../../types/responseOutputs';
+import { QueryFilter } from '../../types/requestInputs';
 import { Permission as PermissionDto } from '../../../application/dtos/Permission';
 
 export interface PermissionMockable {

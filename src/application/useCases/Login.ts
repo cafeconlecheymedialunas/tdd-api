@@ -8,7 +8,7 @@ import {
 } from '../../domain/types/errors';
 import { Payload } from '../../domain/types/responseOutputs';
 import { User as UserDto } from '../dtos/User';
-import { Condition } from '../../domain/types/responseOutputs';
+import { Condition } from '../../domain/types/requestInputs';
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { RULES } from '../../domain/types/validationRules';
 

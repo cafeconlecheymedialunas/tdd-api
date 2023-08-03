@@ -8,7 +8,7 @@ import {
   ValidationException,
 } from '../../domain/types/errors';
 import { UserRequestParams } from '../../domain/types/requestInputs';
-import { Condition } from '../../domain/types/responseOutputs';
+import { Condition } from '../../domain/types/requestInputs';
 import { RULES } from '../../domain/types/validationRules';
 import { User as UserDto } from '../dtos/User';
 

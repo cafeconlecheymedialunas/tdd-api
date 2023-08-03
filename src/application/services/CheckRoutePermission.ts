@@ -1,7 +1,7 @@
 import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
 // eslint-disable-next-line max-len
 import { CheckRoutePermissionable } from '../../domain/interfaces/services/CheckRoutePermissionable';
-import { Condition } from '../../domain/types/responseOutputs';
+import { Condition } from '../../domain/types/requestInputs';
 import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 import { ClientException } from '../../domain/types/errors';
 import { Permission as PermissionDto } from '../dtos/Permission';

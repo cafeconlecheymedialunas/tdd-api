@@ -31,7 +31,7 @@ export class Validator implements Validatorable {
       validation.rules.forEach((rule) => {
         if (!this.executeMethod(rule, validation.value)) {
           const message = this.getErrorMessage(validation.key, rule);
-          
+
           this.setError(validation.key, message);
         }
       });

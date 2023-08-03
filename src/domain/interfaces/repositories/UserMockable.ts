@@ -1,5 +1,5 @@
 import { UserRequestParams } from '../../types/requestInputs';
-import { QueryFilter } from '../../types/responseOutputs';
+import { QueryFilter } from '../../types/requestInputs';
 import { User as UserDto } from '../../../application/dtos/User';
 
 export interface UserMockable {
