@@ -9,8 +9,6 @@ import { resError } from '../utils';
  * @param {Response} res - The response Express .
  * @param {NextFunction} next - The next express.
  * @returns {Promise<void>} - A promise that resolves when the authorization check is complete.
- * @throws {ClientException} - If the token, route, or method is missing.
- * @throws {NotAuthorizedException} - If the user is not authorized to access the route.
  */
 const errorHandler = (err: ClientException, _req: Request, res: Response, next: NextFunction): void => {
   resError(res, err.status, err.message, err.errors);
