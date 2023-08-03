@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { ClientException } from '../../domain/types/errors';
 import { ValidationError } from '../../domain/types/responseOutputs';
@@ -28,11 +27,11 @@ export class Validator implements Validatorable {
     this.validations = validations;
     this.errors = [];
 
-    this.validations.map((validation) => {
-      validation.rules.map((rule) => {
-        if (!this.executeMethood(rule, validation.value)) {
+    this.validations.forEach((validation) => {
+      validation.rules.forEach((rule) => {
+        if (!this.executeMethod(rule, validation.value)) {
           const message = this.getErrorMessage(validation.key, rule);
-
+          
           this.setError(validation.key, message);
         }
       });
@@ -44,11 +43,10 @@ export class Validator implements Validatorable {
   /**
    * Executes a validation method based on the given rule type.
    * @param {RuleTypes} rule - The rule type to execute.
-   * @param {any} value - The value to validate.
+   * @param {unknown} value - The value to validate.
    * @returns {boolean} - The result of the validation.
-   * @throws {ClientException} - If the rule type is undefined.
    */
-  executeMethood = (rule: RuleTypes, value: any): boolean => {
+  executeMethod = (rule: RuleTypes, value: unknown): boolean => {
     switch (rule) {
       case RULES.isNotEmpty:
         return this.isNotEmpty(value);
@@ -63,9 +61,9 @@ export class Validator implements Validatorable {
       case RULES.isStrongPassword:
         return this.isStrongPassword(value);
       case RULES.min:
-        return this.min(value, 10);
+        return this.min(value as number, 10);
       case RULES.max:
-        return this.max(value, 10000);
+        return this.max(value as number, 10000);
       default:
         throw new ClientException(500, 'Undefined Types');
     }
@@ -81,27 +79,41 @@ export class Validator implements Validatorable {
     this.errors.push({ key: key, error: message });
   };
 
-  isNotEmpty = (value: any): boolean => value && value !== '';
-
-  isString = (value: any): boolean => typeof value === 'string';
-
-  isNumber = (value: any): boolean => typeof value === 'number';
-
-  isBoolean = (value: any): boolean => typeof value === 'boolean';
-
-  min = (min: number, actual: number): boolean => actual >= min;
-
-  max = (max: number, actual: number): boolean => actual <= max;
-
-  isEmail = (value: string): boolean => {
-    const regex = /\S+@\S+\.\S+/;
-
-    return regex.test(value);
+  isNotEmpty = (value: unknown): boolean => {
+    if (typeof value === 'string') {
+      return value.trim().length > 0;
+    }
+    if (typeof value === 'boolean') {
+      return true;
+    }
+    return false;
   };
 
-  isStrongPassword(value: string): boolean {
-    const regex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+  isString = (value: unknown): boolean => typeof value === 'string';
 
-    return regex.test(value);
+  isNumber = (value: unknown): boolean => typeof value === 'number';
+
+  isBoolean = (value: unknown): boolean => typeof value === 'boolean';
+
+  min = (actual: number, min: number): boolean => actual >= min;
+
+  max = (actual: number, max: number): boolean => actual <= max;
+
+  isEmail = (value: unknown): boolean => {
+    if (typeof value === 'string') {
+      const regex = /\S+@\S+\.\S+/;
+
+      return regex.test(value);
+    }
+    return false;
+  };
+
+  private isStrongPassword(value: unknown): boolean {
+    if (typeof value === 'string') {
+      const regex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+
+      return regex.test(value);
+    }
+    return false;
   }
 }
