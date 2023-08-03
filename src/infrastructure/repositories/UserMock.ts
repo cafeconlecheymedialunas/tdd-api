@@ -11,9 +11,9 @@ export class UserMock implements UserMockable {
   list: UserEntity[] = [];
   collection = 'users';
   private readonly userDataMapper: Userable;
-  private readonly mockRepository: Mockable;
+  private readonly mockRepository: Mockable<UserEntity>;
 
-  constructor(userDataMapper: Userable, mockRepository: Mockable) {
+  constructor(userDataMapper: Userable, mockRepository: Mockable<UserEntity>) {
     this.userDataMapper = userDataMapper;
     this.mockRepository = mockRepository;
   }

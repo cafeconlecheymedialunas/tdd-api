@@ -12,11 +12,12 @@ import { RoleMock } from '../repositories/RoleMock';
 import { PermissionMock } from '../repositories/PermissionMock';
 import { Validator } from '../../application/services/Validator';
 import { Mock } from '../repositories/Mock';
+import { User as UserEntity } from '../../domain/entities/User';
 
 const registerUseCase = new Register(
   new UserMock(
     new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper())))),
-    new Mock(),
+    new Mock<UserEntity>(),
   ),
   new Hash(bcrypt),
   new Validator(),

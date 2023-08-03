@@ -3,15 +3,15 @@ import { ClientException } from '../../domain/types/errors';
 import { Mockable } from '../../domain/interfaces/repositories/Mockable';
 import { Entities } from '../../domain/types/responseOutputs';
 
-export class Mock implements Mockable {
-  generateId = (list: Entities): number => {
+export class Mock<T> implements Mockable<T> {
+  generateId = (list: T[]): number => {
     const timeStamp = Date.now();
 
     const random = Math.floor(Math.random() * 1000000);
 
     const uuii = timeStamp + random;
 
-    return !uuii ? list?.length : uuii;
+    return list.length || uuii;
   };
 
   /**
@@ -21,7 +21,7 @@ export class Mock implements Mockable {
    * @returns {Promise<Entities>} - A promise that resolves to an array containing the parsed data from the file.
    * @throws {ClientException} - If there is an error reading the file.
    */
-  readFile = async (fileName: string): Promise<Entities> => {
+  readFile = async (fileName: string): Promise<T[]> => {
     try {
       const filePath = `${__dirname}/${fileName}.json`;
 
@@ -57,7 +57,7 @@ export class Mock implements Mockable {
    * @returns {Promise<void>} - A promise that resolves when the file is successfully written.
    * @throws {ClientException} - If there is an error while writing the file.
    */
-  writeFile = async (fileName: string, data: Entities): Promise<void> => {
+  writeFile = async (fileName: string, data: T[]): Promise<void> => {
     try {
       const filePath = `${__dirname}/${fileName}.json`;
 

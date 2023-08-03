@@ -14,6 +14,7 @@ import { PermissionMock } from '../repositories/PermissionMock';
 import { RoleMock } from '../repositories/RoleMock';
 import { Validator } from '../../application/services/Validator';
 import { Mock } from '../repositories/Mock';
+import { User as UserEntity } from '../../domain/entities/User';
 
 /**
  * Creates a new instance of the Login use case.
@@ -25,7 +26,7 @@ import { Mock } from '../repositories/Mock';
 const loginUseCase = new Login(
   new UserMock(
     new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper())))),
-    new Mock(),
+    new Mock<UserEntity>(),
   ),
   new Hash(bcrypt),
   new JsonWebToken(jwt),
