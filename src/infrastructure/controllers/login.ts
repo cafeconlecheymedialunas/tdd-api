@@ -13,6 +13,7 @@ import { UserMock } from '../repositories/UserMock';
 import { PermissionMock } from '../repositories/PermissionMock';
 import { RoleMock } from '../repositories/RoleMock';
 import { Validator } from '../../application/services/Validator';
+import { Mock } from '../repositories/Mock';
 
 /**
  * Creates a new instance of the Login use case.
@@ -22,7 +23,10 @@ import { Validator } from '../../application/services/Validator';
  * @param {Validator} validator - The Validator Service.
  */
 const loginUseCase = new Login(
-  new UserMock(new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper()))))),
+  new UserMock(
+    new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper())))),
+    new Mock(),
+  ),
   new Hash(bcrypt),
   new JsonWebToken(jwt),
   new Validator(),

@@ -56,7 +56,6 @@ export class Login {
    * @param {string} email - The email of the user.
    * @param {string} password - The password of the user.
    * @returns {Promise<UserDto>} - A promise that resolves to the user object if the sign in is successful.
-   * @throws {WrongCredentialsException} - If the email or password is incorrect.
    */
   signIn = async (email: string, password: string): Promise<UserDto> => {
     this.validate(email, password);
@@ -64,6 +63,7 @@ export class Login {
     const user = await this.checkUserEmail(email);
 
     await this.checkUserPassword(password, user.password);
+
     return user;
   };
 
