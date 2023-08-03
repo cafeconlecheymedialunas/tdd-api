@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
-import { Payload } from '../../domain/types/responseOutputs';
+import { DecodedToken, Payload } from '../../domain/types/responseOutputs';
 import { AuthenticationTokenMissingException, ClientException } from '../../domain/types/errors';
 import config from '../../config';
+import { TokenExpiredError } from 'jsonwebtoken';
 
 export class JsonWebToken implements JsonWebTokenable {
   private readonly jwtLibrary;
@@ -28,20 +29,20 @@ export class JsonWebToken implements JsonWebTokenable {
   /**
    * Verifies the authenticity and validity of a given token.
    * @param {string} token - The token to be verified.
-   * @throws {ClientException} If the token is empty.
-   * @throws {AuthenticationTokenMissingException} If the token has expired.
+   * @throws {AuthenticationTokenMissingException} If the token is invalid.
+   * @throws {TokenExpiredError} If token is expired
    * @returns {Promise<object>} The decoded token payload.
    */
-  verifyToken = async (token: string): Promise<any> => {
-    const decodedData = await this.jwtLibrary.verify(token, config.SECRET_KEY);
-
-    if (!decodedData.id) throw new ClientException(500, "It's impossible to verify the token.");
+  verifyToken = async (token: string): Promise<DecodedToken> => {
+    const decodedData = (await this.jwtLibrary.verify(token, config.SECRET_KEY)) as DecodedToken;
 
     const currentTime = Math.floor(Date.now() / 1000);
-
-    if (decodedData.exp && decodedData.exp < currentTime) {
-      throw new AuthenticationTokenMissingException();
+    
+    if (Math.floor(decodedData.expiresIn.getDate() / 1000) < currentTime) {
+      throw new TokenExpiredError('Token is expired', decodedData.expiresIn);
     }
+    if (!decodedData.id) throw new AuthenticationTokenMissingException();
+
     return decodedData;
   };
 

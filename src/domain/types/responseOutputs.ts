@@ -23,6 +23,11 @@ export interface Payload {
   permissions: PermissionEntity[];
 }
 
+export interface DecodedToken extends Payload {
+  exp: string;
+  expiresIn: Date;
+}
+
 export interface ValidationError {
   key: string;
   error: string;
