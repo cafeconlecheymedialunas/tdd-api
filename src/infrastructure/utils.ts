@@ -1,7 +1,7 @@
 import { ValidationError } from '../domain/types/responseOutputs';
 import { Response } from 'express';
 
-const resError = (res: Response, status = 400, message = 'Server Error', errors: ValidationError[] = []): void => {
+const resError = (res: Response, status = 500, message = 'Server Error', errors: ValidationError[] = []): void => {
   res.status(status).json({
     error: true,
     message,

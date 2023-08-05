@@ -1,7 +1,8 @@
+import { NextFunction, Request } from 'express';
 import { CheckRoutePermissionable } from '../../domain/interfaces/services/CheckRoutePermissionable';
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import { Authorizationable } from '../../domain/interfaces/useCases/Authorizationable';
-import { WrongAuthenticationTokenException } from '../../domain/types/errors';
+import { ClientException, WrongAuthenticationTokenException } from '../../domain/types/errors';
 import { Payload } from '../../domain/types/responseOutputs';
 
 export class Authorization implements Authorizationable {
@@ -15,7 +16,7 @@ export class Authorization implements Authorizationable {
   }
 
   /**
-   * Decodes the user Data contained in Token. This method really check login credentials of user
+   * Decodes the user data contained in the token. This method checks the user's login credentials.
    * @param {string} token - The token to decode.
    * @returns {Promise<Payload>} - A promise that resolves to the decoded token.
    * @throws {WrongAuthenticationTokenException} - If the token cannot be decoded.
@@ -36,7 +37,19 @@ export class Authorization implements Authorizationable {
    * @param {string} token - The user's token for authentication.
    * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating whether the user is authorized or not.
    */
-  authorize = async (route: string, method: string, token: string): Promise<boolean> => {
+  authorize = async (req: Request): Promise<boolean> => {
+
+    if (req.path.includes('/auth')) return true;
+
+    const token = req.headers.authorization?.split(' ')[1];
+
+    const route = req.baseUrl;
+
+    const method = req.method;
+
+    if (!token || !route || !method) {
+      throw new ClientException();
+    }
     const decodedUserData = await this.getDecodedUserDatainToken(token);
 
     const routePermission = this.checkRoutePermissionService.checkRouteAgainstUserPermissions(

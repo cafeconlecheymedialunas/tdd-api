@@ -1,3 +1,6 @@
+/**
+ * Represents a Permission Entity.
+ */
 export class Permission {
   id: number;
   route: string;

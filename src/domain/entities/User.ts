@@ -1,3 +1,6 @@
+/**
+ * Represents a User. The 'roles' property should store an array of Roles IDs.
+ */
 export class User {
   name: string;
   email: string;

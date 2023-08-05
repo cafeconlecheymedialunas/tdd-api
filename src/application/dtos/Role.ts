@@ -1,6 +1,6 @@
 import { Permission as PermissionDto } from './Permission';
 /**
- * This DTO is the return of all methods from the Role Repository. It includes the 'permissions' property that will be transformed by Role Mapper in a Permission[] array.
+ * This DTO is returned by all methods from the Role Repository. It includes the 'permissions' property that will be transformed into a PermissionDto[] array by the Role Mapper.
  * @class Role
  */
 export class Role {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import { DecodedToken, Payload } from '../../domain/types/responseOutputs';
 import { AuthenticationTokenMissingException, ClientException } from '../../domain/types/errors';

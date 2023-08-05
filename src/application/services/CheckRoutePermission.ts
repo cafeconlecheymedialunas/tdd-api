@@ -13,7 +13,7 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
   }
 
   /**
-   * Checks users permissions against Route Permission.
+   * Checks user permissions against a specific route permission.
    * @param {string} route - The route to check permissions for.
    * @param {string} method - The HTTP method to check permissions for.
    * @param {PermissionEntity[]} userPermissions - An array of user permissions.
@@ -28,7 +28,7 @@ export class CheckRoutePermission implements CheckRoutePermissionable {
   };
 
   /**
-   * Retrieves the permission route based on the given route and method. Each route has a unique permission .
+   * Retrieves the permission route based on the given route and method. Each route has a unique permission.
    * @param {string} route - The route to search for.
    * @param {string} method - The HTTP method to search for.
    * @returns {PermissionDto} - The permission route that matches the given route and method.

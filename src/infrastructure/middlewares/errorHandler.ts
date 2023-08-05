@@ -3,11 +3,11 @@ import { Request, Response } from 'express';
 import { resError } from '../utils';
 
 /**
- * This function send a response in json format to handle ClientExceptions errors throw in appilcation.
- * @param {ClientException} err - Error .
- * @param {Request} _req - The request Express .
- * @param {Response} res - The response Express .
- * @returns {Promise<void>} - A promise that resolves when the authorization check is complete.
+ * This function sends a JSON formatted response to handle errors thrown by ClientExceptions in the application.
+ * @param {ClientException} err - The error thrown.
+ * @param {Request} _req - The Express Request object.
+ * @param {Response} res - The Express Response object.
+ * @returns {Promise<void>} - A promise that resolves when the error response is sent.
  */
 const errorHandler = (err: ClientException, _req: Request, res: Response): void => {
   resError(res, err.status, err.message, err.errors);

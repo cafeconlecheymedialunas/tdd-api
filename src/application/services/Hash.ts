@@ -15,7 +15,7 @@ export class Hash implements Hashable {
   /**
    * Hashes a value using a salt and returns the hashed value.
    * @param {string} value - The value to hash.
-   * @returns {Promise<string>} - A promise that resolves to the hashed value or false if an error occurs.
+   * @returns {Promise<string>} - A promise that resolves to the hashed value or rejects with an error if it occurs.
    * @throws {ClientException} - If an error occurs during the hashing process.
    */
   hash = async (value: string): Promise<string> => {
@@ -31,10 +31,10 @@ export class Hash implements Hashable {
   /**
    * Verifies if a given value matches a hashed value stored.
    * @param {string} value - The value to verify.
-   * @param {string} hashedvalue - The hashed value to compare against.
+   * @param {string} hashedValue - The hashed value to compare against.
    * @returns {Promise<boolean>} - A promise that resolves to true if the value matches the hashed value, false otherwise.
    */
-  verify = async (value: string, hashedvalue: string): Promise<boolean> => {
-    return await this.hashLibrary.compare(value, hashedvalue);
+  verify = async (value: string, hashedValue: string): Promise<boolean> => {
+    return await this.hashLibrary.compare(value, hashedValue);
   };
 }

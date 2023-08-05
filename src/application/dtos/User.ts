@@ -1,7 +1,8 @@
 import { Role as RoleDto } from './Role';
+
 /**
- * This DTO is the return of all methods from the User Repository. It includes the 'roles' property that will be transformed by User Mapper in a Role[] array.
- * @class Role
+ * This DTO represents the return of all methods from the User Repository. It includes the 'roles' property that will be transformed into a RoleDto[] array by the User Mapper.
+ * @class User
  */
 export class User {
   id: number;

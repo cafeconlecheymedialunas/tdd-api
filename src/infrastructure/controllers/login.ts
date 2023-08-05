@@ -16,13 +16,6 @@ import { Validator } from '../../application/services/Validator';
 import { Mock } from '../repositories/Mock';
 import { User as UserEntity } from '../../domain/entities/User';
 
-/**
- * Creates a new instance of the Login use case.
- * @param {UserMock} userMock - The user mock object.
- * @param {Hash} Hash - The Hash Service.
- * @param {JsonWebToken} jsonWebToken - The JsonWebToken Service.
- * @param {Validator} validator - The Validator Service.
- */
 const loginUseCase = new Login(
   new UserMock(
     new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper())))),

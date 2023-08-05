@@ -73,8 +73,8 @@ export class Register implements Registerable {
   };
 
   /**
-   * Registers a new user with the provided user information, hashing password and check if user already exist.
-   * @param {UserRequestParams} user - The user information including email, password, and name.
+   * Registers a new user with the provided user information, hashing the password, and checking if the user already exists.
+   * @param {UserRequestParams} user - The user information, including email, password, and name.
    * @returns {Promise<UserDto | false>} - A promise that resolves to the newly registered user object or false if registration fails.
    */
   register = async (user: UserRequestParams): Promise<UserDto | false> => {

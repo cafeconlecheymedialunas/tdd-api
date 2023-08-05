@@ -1,6 +1,6 @@
 /**
- * This DTO is the return of all methods from the Role Repository.
- * @class Role
+ * This class represents a Permission DTO (Data Transfer Object)
+ * which is returned by all methods from the Role Repository.
  */
 export class Permission {
   id: number;

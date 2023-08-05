@@ -1,3 +1,6 @@
+/**
+ * Represents a Role. The 'permissions' property should store an array of Permission IDs.
+ */
 export class Role {
   name: string;
   id: number;

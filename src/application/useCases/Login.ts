@@ -112,6 +112,12 @@ export class Login {
     return payload;
   };
 
+  /**
+   * Handles the login process for a user with the provided email and password.
+   * @param {string} email - The email of the user.
+   * @param {string} password - The password of the user.
+   * @returns {Promise<string>} - A promise that resolves to the authentication token on successful login.
+   */
   login = async (email: string, password: string): Promise<string> => {
     this.validate(email, password);
 
@@ -119,7 +125,7 @@ export class Login {
 
     const payload = this.generatePayload(userDto);
 
-    const token = this.generateToken(payload);
+    const token = await this.generateToken(payload);
 
     return token;
   };

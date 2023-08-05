@@ -3,6 +3,12 @@ import { ClientException } from '../../domain/types/errors';
 import { Mockable } from '../../domain/interfaces/repositories/Mockable';
 
 export class Mock<T> implements Mockable<T> {
+
+  /**
+   * Generates a unique ID based on a timestamp and a random number. If the provided list is empty, the generated ID will be based solely on the timestamp and random number, ensuring uniqueness.
+   * @param {T[]} list - The list of elements for which the ID is being generated.
+   * @returns {number} - A unique ID based on the timestamp and random number, or the length of the list if it's not empty.
+   */
   generateId = (list: T[]): number => {
     const timeStamp = Date.now();
 
@@ -17,7 +23,7 @@ export class Mock<T> implements Mockable<T> {
    * Reads the contents of a JSON file asynchronously and returns the parsed data as an array.
    * If the file does not exist, it creates an empty file with the given file name.
    * @param {string} fileName - The name of the JSON file to read.
-   * @returns {Promise<Entities>} - A promise that resolves to an array containing the parsed data from the file.
+   * @returns {Promise<T[]>} - A promise that resolves to an array containing the parsed data from the file.
    * @throws {ClientException} - If there is an error reading the file.
    */
   readFile = async (fileName: string): Promise<T[]> => {
@@ -52,7 +58,7 @@ export class Mock<T> implements Mockable<T> {
   /**
    * Writes the given data to a JSON file with the specified file name.
    * @param {string} fileName - The name of the file to write to.
-   * @param {Entities} data - The data to write to the file.
+   * @param {T[]} data - The data to write to the file.
    * @returns {Promise<void>} - A promise that resolves when the file is successfully written.
    * @throws {ClientException} - If there is an error while writing the file.
    */
