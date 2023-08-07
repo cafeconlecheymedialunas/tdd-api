@@ -18,7 +18,6 @@ import { PermissionMock } from '../repositories/PermissionMock';
  */
 export const checkAuthorization = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
   try {
-
     const authorizationUseCase = new Authorization(
       new JsonWebToken(jsonwebtoken),
       new CheckRoutePermission(new PermissionMock(new PermissionDataMapper())),

@@ -38,7 +38,6 @@ export class Authorization implements Authorizationable {
    * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating whether the user is authorized or not.
    */
   authorize = async (req: Request): Promise<boolean> => {
-
     if (req.path.includes('/auth')) return true;
 
     const token = req.headers.authorization?.split(' ')[1];
