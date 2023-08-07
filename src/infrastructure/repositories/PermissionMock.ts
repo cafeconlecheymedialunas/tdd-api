@@ -55,10 +55,10 @@ export class PermissionMock implements PermissionMockable {
   };
 
   /**
-     * Retrieves a permission object by its ID if it exists and converts an entity to a PermissionDto.
-     * @param {number} id - The ID of the permission to retrieve.
-     * @returns {PermissionDto} - The PermissionDto object representing the permission.
-     */
+   * Retrieves a permission object by its ID if it exists and converts an entity to a PermissionDto.
+   * @param {number} id - The ID of the permission to retrieve.
+   * @returns {PermissionDto} - The PermissionDto object representing the permission.
+   */
   getById = (id: number): PermissionDto => {
     const permission = this.getPermissionIndex(id);
 

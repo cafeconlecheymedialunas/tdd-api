@@ -3,7 +3,6 @@ import { ClientException } from '../../domain/types/errors';
 import { Mockable } from '../../domain/interfaces/repositories/Mockable';
 
 export class Mock<T> implements Mockable<T> {
-
   /**
    * Generates a unique ID based on a timestamp and a random number. If the provided list is empty, the generated ID will be based solely on the timestamp and random number, ensuring uniqueness.
    * @param {T[]} list - The list of elements for which the ID is being generated.
