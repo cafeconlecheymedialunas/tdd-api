@@ -1,5 +1,5 @@
 import { ClientException } from '../../domain/types/errors';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { resError } from '../utils';
 
 /**
@@ -9,8 +9,9 @@ import { resError } from '../utils';
  * @param {Response} res - The Express Response object.
  * @returns {Promise<void>} - A promise that resolves when the error response is sent.
  */
-const errorHandler = (err: ClientException, _req: Request, res: Response): void => {
+const errorHandler = (err: ClientException, _req: Request, res: Response, next: NextFunction): void => {
   resError(res, err.status, err.message, err.errors);
+  next()
 };
 
 export default errorHandler;

@@ -1,5 +1,5 @@
 import { Request } from 'express';
 
 export interface Authorizationable {
-  authorize(req: Request): Promise<boolean>;
+  authorize(route: string, method: string, token: string): Promise<boolean>;
 }
