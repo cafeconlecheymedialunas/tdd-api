@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../src';
+import { application as app } from '../src';
 describe('Authentification API', () => {
   it('should register a user', async () => {
     try {
