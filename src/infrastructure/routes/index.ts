@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { readdirSync } from 'fs';
+import { response } from '../utils';
 
 const PATH_ROUTER = `${__dirname}`;
 
@@ -20,6 +21,12 @@ readdirSync(PATH_ROUTER).filter((fileName) => {
       router.use(`/${file}`, module.router);
     });
   }
+  router.use(function (req, res) {
+    response(res, 404, {
+      error: false,
+      req
+    })
+  });
 });
 
 export default router;

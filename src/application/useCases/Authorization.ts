@@ -1,4 +1,4 @@
-import { NextFunction, Request } from 'express';
+import { Request } from 'express';
 import { CheckRoutePermissionable } from '../../domain/interfaces/services/CheckRoutePermissionable';
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import { Authorizationable } from '../../domain/interfaces/useCases/Authorizationable';
@@ -32,9 +32,7 @@ export class Authorization implements Authorizationable {
 
   /**
    * Authorizes a user's access to a specific route checking against Users to Route Permision.
-   * @param {string} route - The route to authorize access to.
-   * @param {string} method - The HTTP method to authorize access to.
-   * @param {string} token - The user's token for authentication.
+   * @param {Request} req - The Request Express Object.
    * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating whether the user is authorized or not.
    */
   authorize = async (req: Request): Promise<boolean> => {

@@ -1,4 +1,4 @@
-import { ClientException, NotAuthorizedException } from '../../domain/types/errors';
+import { NotAuthorizedException } from '../../domain/types/errors';
 import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
 import { JsonWebToken } from '../../application/services/JsonWebToken';
 import { CheckRoutePermission } from '../../application/services/CheckRoutePermission';
