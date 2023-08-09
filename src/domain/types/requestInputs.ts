@@ -1,14 +1,14 @@
-export interface PermissionRequestParams {
+export type PermissionRequestParams = {
   route: string;
   method: string;
 }
 
-export interface RoleRequestParams {
+export type RoleRequestParams = {
   name: string;
   permissions: number[];
 }
 
-export interface UserRequestParams {
+export type UserRequestParams = {
   name: string;
   email: string;
   password: string;

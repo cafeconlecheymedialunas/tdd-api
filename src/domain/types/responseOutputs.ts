@@ -5,14 +5,16 @@ import { User as UserEntity } from '../entities/User';
 import { Role as RoleEntity } from '../entities/Role';
 import { Permission as PermissionEntity } from '../entities/Permission';
 
-export interface Payload {
+export type Payload = {
   id: number;
   permissions: PermissionEntity[];
 }
 
-export interface DecodedToken extends Payload {
+export type DecodedToken = {
   exp: string;
   expiresIn: Date;
+  id: number;
+  permissions: PermissionEntity[];
 }
 
 export interface ValidationError {
