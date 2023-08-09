@@ -11,7 +11,7 @@ import { PermissionMockable } from '../../domain/interfaces/repositories/Permiss
 
 export class Authorization implements Authorizationable {
   private readonly jsonWebTokenService: JsonWebTokenable;
-  private readonly permissionRepository: PermissionMockable
+  private readonly permissionRepository: PermissionMockable;
 
   constructor(jsonWebTokenService: JsonWebTokenable, permissionRepository: PermissionMockable) {
     this.jsonWebTokenService = jsonWebTokenService;
@@ -25,8 +25,10 @@ export class Authorization implements Authorizationable {
    * @param {PermissionEntity[]} userPermissions - The array of user permissions.
    * @returns {boolean} - True if there is a match, false otherwise.
    */
-  checkRouteAgainstUserPermissions = (routePermission: PermissionEntity, userPermissions: PermissionEntity[]): boolean => {
-
+  checkRouteAgainstUserPermissions = (
+    routePermission: PermissionEntity,
+    userPermissions: PermissionEntity[],
+  ): boolean => {
     const permissionsMatch = userPermissions.filter((elem) => elem.id === routePermission.id);
 
     return permissionsMatch.length > 0;
@@ -47,8 +49,7 @@ export class Authorization implements Authorizationable {
 
     const permissionRoute = this.permissionRepository.filter(QUERY_FILTERS);
 
-    if (permissionRoute.length !== 1)
-      throw new ClientException(500, 'Its impossible check User Permissions against this Route');
+    if (permissionRoute.length !== 1) throw new WrongAuthenticationTokenException();
 
     return permissionRoute[0];
   };
@@ -68,7 +69,6 @@ export class Authorization implements Authorizationable {
     return decodedUserData.permissions;
   };
 
-
   /**
    * Authorize a user to access a specific route and method using a token.
    * @param {string} route - The route to authorize access to.
@@ -77,15 +77,11 @@ export class Authorization implements Authorizationable {
    * @returns {Promise<boolean>} - A promise that resolves to true if the user is authorized, false otherwise.
    */
   authorize = async (route: string, method: string, token: string): Promise<boolean> => {
-
     const routePermission = this.getRoutePermission(route, method);
 
     const userPermissions = await this.getUserPermissions(token);
 
-    const permissionsMatch = this.checkRouteAgainstUserPermissions(
-      routePermission,
-      userPermissions,
-    );
+    const permissionsMatch = this.checkRouteAgainstUserPermissions(routePermission, userPermissions);
 
     return permissionsMatch;
   };

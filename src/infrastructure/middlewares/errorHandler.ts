@@ -11,7 +11,7 @@ import { resError } from '../utils';
  */
 const errorHandler = (err: ClientException, _req: Request, res: Response, next: NextFunction): void => {
   resError(res, err.status, err.message, err.errors);
-  next()
+  next();
 };
 
 export default errorHandler;
