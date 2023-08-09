@@ -1,9 +1,6 @@
-import { Request } from 'express';
-
 import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import { Authorizationable } from '../../domain/interfaces/useCases/Authorizationable';
-import { ClientException, WrongAuthenticationTokenException } from '../../domain/types/errors';
-import { Payload } from '../../domain/types/responseOutputs';
+import { WrongAuthenticationTokenException } from '../../domain/types/errors';
 import { Condition } from '../../domain/types/requestInputs';
 import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 import { Permission as PermissionDto } from '../dtos/Permission';

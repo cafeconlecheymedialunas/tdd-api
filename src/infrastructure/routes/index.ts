@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import { readdirSync } from 'fs';
-import { response } from '../utils';
 
 const PATH_ROUTER = `${__dirname}`;
 
