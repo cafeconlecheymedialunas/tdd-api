@@ -20,18 +20,16 @@ export class Authorization implements Authorizationable {
   }
 
   /**
-  * Checks user permissions against a specific route permission.
-  * @param {string} route - The route to check permissions for.
-  * @param {string} method - The HTTP method to check permissions for.
-  * @param {PermissionEntity[]} userPermissions - An array of user permissions.
-  * @returns {boolean} - True if the user has the necessary permissions, false otherwise.
-  */
-  checkRouteAgainstUserPermissions = (route: string, method: string, userPermissions: PermissionEntity[]): boolean => {
-    const routePermission = this.getPermissionRoute(route, method);
+   * Checks if a given route permission matches any of the user permissions.
+   * @param {PermissionEntity} routePermission - The permission entity of the route.
+   * @param {PermissionEntity[]} userPermissions - The array of user permissions.
+   * @returns {boolean} - True if there is a match, false otherwise.
+   */
+  checkRouteAgainstUserPermissions = (routePermission: PermissionEntity, userPermissions: PermissionEntity[]): boolean => {
 
     const permissionsMatch = userPermissions.filter((elem) => elem.id === routePermission.id);
 
-    return permissionsMatch.length > 0 ? true : false;
+    return permissionsMatch.length > 0;
   };
 
   /**
@@ -41,7 +39,7 @@ export class Authorization implements Authorizationable {
    * @returns {PermissionDto} - The permission route that matches the given route and method.
    * @throws {ClientException} - If no permission route is found or if multiple permission routes are found.
    */
-  getPermissionRoute = (route: string, method: string): PermissionDto => {
+  getRoutePermission = (route: string, method: string): PermissionDto => {
     const QUERY_FILTERS = [
       { key: 'route', condition: Condition.Equal, value: route },
       { key: 'method', condition: Condition.Equal, value: method },
@@ -54,37 +52,41 @@ export class Authorization implements Authorizationable {
 
     return permissionRoute[0];
   };
+
   /**
-   * Decodes the user data contained in the token. This method checks the user's login credentials.
-   * @param {string} token - The token to decode.
-   * @returns {Promise<Payload>} - A promise that resolves to the decoded token.
-   * @throws {WrongAuthenticationTokenException} - If the token cannot be decoded.
+   *  Decodes the user data contained in the token. This method checks the user's login credentials.
+   * @param {string} token - The authentication token of the user.
+   * @returns {Promise<PermissionEntity[]>} - A promise that resolves to an array of PermissionEntity objects representing the user's permissions.
+   * @throws {WrongAuthenticationTokenException} - If the provided token is invalid or expired.
    */
-  getDecodedUserDatainToken = async (token: string): Promise<Payload> => {
+  getUserPermissions = async (token: string): Promise<PermissionEntity[]> => {
     const decodedUserData = await this.jsonWebTokenService.decodeToken(token);
 
     if (!decodedUserData) {
       throw new WrongAuthenticationTokenException();
     }
-    return decodedUserData;
+    return decodedUserData.permissions;
   };
 
+
   /**
-   * Authorizes a user's access to a specific route checking against Users to Route Permision.
-   * @param {Request} req - The Request Express Object.
-   * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating whether the user is authorized or not.
+   * Authorize a user to access a specific route and method using a token.
+   * @param {string} route - The route to authorize access to.
+   * @param {string} method - The HTTP method to authorize access to.
+   * @param {string} token - The user's authentication token.
+   * @returns {Promise<boolean>} - A promise that resolves to true if the user is authorized, false otherwise.
    */
   authorize = async (route: string, method: string, token: string): Promise<boolean> => {
 
+    const routePermission = this.getRoutePermission(route, method);
 
-    const decodedUserData = await this.getDecodedUserDatainToken(token);
+    const userPermissions = await this.getUserPermissions(token);
 
-    const routePermission = this.checkRouteAgainstUserPermissions(
-      route,
-      method,
-      decodedUserData.permissions,
+    const permissionsMatch = this.checkRouteAgainstUserPermissions(
+      routePermission,
+      userPermissions,
     );
 
-    return routePermission;
+    return permissionsMatch;
   };
 }
