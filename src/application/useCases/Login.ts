@@ -18,6 +18,13 @@ export class Login {
   private readonly JsonWebTokenService: JsonWebTokenable;
   private readonly validatorService: Validatorable;
 
+  /**
+   * Creates an instance of the Login class.
+   * @param {UserMockable} UserRepository - User repository.
+   * @param {Hashable} hashService - Hash service for password handling.
+   * @param {JsonWebTokenable} JsonWebTokenService - JSON Web Token service for token generation.
+   * @param {Validatorable} validatorService - Validator service for input validation.
+   */
   constructor(
     UserRepository: UserMockable,
     hashService: Hashable,
@@ -25,20 +32,17 @@ export class Login {
     validatorService: Validatorable,
   ) {
     this.UserRepository = UserRepository;
-
     this.hashService = hashService;
-
     this.JsonWebTokenService = JsonWebTokenService;
-
     this.validatorService = validatorService;
   }
 
   /**
-   * Validates an email and password using a set of ValidationRules Type Array.
+   * Validates an email and password using a set of validation rules.
    * @param {string} email - The email to validate.
    * @param {string} password - The password to validate.
    * @throws {ValidationException} If there are any validation errors.
-   * @returns None
+   * @returns {void}
    */
   validate = (email: string, password: string): void => {
     const VALIDATION_RULES = [
@@ -55,7 +59,7 @@ export class Login {
    * Sign in a user with the given email and password.
    * @param {string} email - The email of the user.
    * @param {string} password - The password of the user.
-   * @returns {Promise<UserDto>} - A promise that resolves to the user object if the sign in is successful.
+   * @returns {Promise<UserDto>} A promise that resolves to the user object if the sign in is successful.
    */
   signIn = async (email: string, password: string): Promise<UserDto> => {
     this.validate(email, password);
@@ -67,6 +71,12 @@ export class Login {
     return user;
   };
 
+  /**
+   * Checks if a user with the provided email exists.
+   * @param {string} email - The email to check.
+   * @returns {Promise<UserDto>} A promise that resolves to the found user object.
+   * @throws {WrongCredentialsException} If the user does not exist.
+   */
   checkUserEmail = async (email: string): Promise<UserDto> => {
     const QUERY_FILTER = [{ key: 'email', condition: Condition.Equal, value: email }];
 
@@ -77,6 +87,13 @@ export class Login {
     return users[0];
   };
 
+  /**
+   * Checks if the provided password matches the user's password.
+   * @param {string} password - The password to check.
+   * @param {string} userPassword - The user's hashed password.
+   * @returns {Promise<boolean>} A promise that resolves to a boolean indicating password match.
+   * @throws {WrongCredentialsException} If the passwords do not match.
+   */
   checkUserPassword = async (password: string, userPassword: string): Promise<boolean> => {
     const passwordMatch = await this.hashService.verify(password, userPassword);
 
@@ -87,7 +104,7 @@ export class Login {
   };
 
   /**
-   * Generates a token using the provided payload.
+   * Generates an authentication token using the provided payload.
    * @param {Payload} payload - The payload object containing the data to be encoded in the token.
    * @returns {Promise<string>} A promise that resolves to the generated token.
    * @throws {WrongAuthenticationTokenException} If the token generation fails.
@@ -102,7 +119,7 @@ export class Login {
   /**
    * Generates a payload object based on the provided UserDto.
    * @param {UserDto} user - The user object to generate the payload from.
-   * @returns {Payload} - The generated payload object.
+   * @returns {Payload} The generated payload object.
    */
   generatePayload = (user: UserDto): Payload => {
     const permissions = [...new Set(user.roles.flatMap((item) => item.permissions))];
@@ -116,7 +133,7 @@ export class Login {
    * Handles the login process for a user with the provided email and password.
    * @param {string} email - The email of the user.
    * @param {string} password - The password of the user.
-   * @returns {Promise<string>} - A promise that resolves to the authentication token on successful login.
+   * @returns {Promise<string>} A promise that resolves to the authentication token on successful login.
    */
   login = async (email: string, password: string): Promise<string> => {
     this.validate(email, password);
