@@ -23,7 +23,7 @@ export class Hash implements Hashable {
 
     const hash = await this.hashLibrary.hash(value, salt);
 
-    if (!hash) throw new ClientException(500, "It's impossible to hash this value.");
+    if (hash === false) throw new ClientException(500, "It's impossible to hash this value.");
 
     return hash;
   };
