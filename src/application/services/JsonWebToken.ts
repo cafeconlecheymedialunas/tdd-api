@@ -30,7 +30,7 @@ export class JsonWebToken implements JsonWebTokenable {
    * @param {string} token - The token to be verified.
    * @throws {AuthenticationTokenMissingException} If the token is invalid.
    * @throws {TokenExpiredError} If token is expired
-   * @returns {Promise<object>} The decoded token payload.
+   * @returns {Promise<DecodedToken>} The decoded token payload.
    */
   verifyToken = async (token: string): Promise<DecodedToken> => {
     const decodedData = (await this.jwtLibrary.verify(token, config.SECRET_KEY)) as DecodedToken;
