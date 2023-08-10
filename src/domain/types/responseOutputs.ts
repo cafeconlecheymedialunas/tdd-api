@@ -8,14 +8,14 @@ import { Permission as PermissionEntity } from '../entities/Permission';
 export type Payload = {
   id: number;
   permissions: PermissionEntity[];
-}
+};
 
 export type DecodedToken = {
   exp: string;
   expiresIn: Date;
   id: number;
   permissions: PermissionEntity[];
-}
+};
 
 export interface ValidationError {
   key: string;

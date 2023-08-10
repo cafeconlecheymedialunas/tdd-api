@@ -1,19 +1,19 @@
 export type PermissionRequestParams = {
   route: string;
   method: string;
-}
+};
 
 export type RoleRequestParams = {
   name: string;
   permissions: number[];
-}
+};
 
 export type UserRequestParams = {
   name: string;
   email: string;
   password: string;
   roles: number[];
-}
+};
 
 export enum Condition {
   Equal = 'equal',
