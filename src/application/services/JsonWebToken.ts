@@ -7,6 +7,7 @@ import { TokenExpiredError } from 'jsonwebtoken';
 export class JsonWebToken implements JsonWebTokenable {
   private readonly jwtLibrary;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(jwtLibrary: any) {
     this.jwtLibrary = jwtLibrary;
   }
