@@ -4,16 +4,9 @@ import { User as UserEntity } from '../../domain/entities/User';
 import { User as UserDto } from '../dtos/User';
 import { Role as RoleDto } from '../dtos/Role';
 
-/**
- * Class representing a User mapper.
- */
 export class User implements UserMapperable {
   private readonly roleRepository;
 
-  /**
-   * Creates an instance of the User class.
-   * @param {RoleMockable} roleRepository - Role repository.
-   */
   constructor(roleRepository: RoleMockable) {
     this.roleRepository = roleRepository;
   }

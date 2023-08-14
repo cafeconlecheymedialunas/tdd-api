@@ -18,13 +18,6 @@ export class Login {
   private readonly JsonWebTokenService: JsonWebTokenable;
   private readonly validatorService: Validatorable;
 
-  /**
-   * Creates an instance of the Login class.
-   * @param {UserMockable} UserRepository - User repository.
-   * @param {Hashable} hashService - Hash service for password handling.
-   * @param {JsonWebTokenable} JsonWebTokenService - JSON Web Token service for token generation.
-   * @param {Validatorable} validatorService - Validator service for input validation.
-   */
   constructor(
     UserRepository: UserMockable,
     hashService: Hashable,
