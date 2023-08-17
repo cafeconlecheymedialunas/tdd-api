@@ -1,7 +1,6 @@
 import request from 'supertest';
 import app from '../src/app';
 describe('Authentification API', () => {
-
   it('should register a user', async () => {
     try {
       const emailDefault = Math.floor(Math.random() * 1000000) + '@gmail.com';
@@ -13,20 +12,18 @@ describe('Authentification API', () => {
       expect(response.status).toBe(200);
       expect(response.body.user.id).toBeDefined();
       expect(typeof response.body.user.id).toBe('number');
-      expect(response.body.user.name).toBe('Test User')
-      expect(response.body.user.email).toBe(emailDefault)
-
+      expect(response.body.user.name).toBe('Test User');
+      expect(response.body.user.email).toBe(emailDefault);
     } catch (error) {
       console.log(error);
     }
   });
 
-
   it('User already exist', async () => {
     try {
       const emailDefault = Math.floor(Math.random() * 1000000) + '@gmail.com';
 
-      const response = await request(app)
+      await request(app)
         .post('/auth/register')
         .send({ name: 'Test User', email: emailDefault, password: 'TestPassworde31@', roles: [1] });
 
@@ -37,8 +34,8 @@ describe('Authentification API', () => {
       expect(responseAlreadyExist.status).toBe(400);
       expect(responseAlreadyExist.body.user.id).toBeDefined();
       expect(typeof responseAlreadyExist.body.user.id).toBe('number');
-      expect(responseAlreadyExist.body.user.name).toBe('Test User')
-      expect(responseAlreadyExist.body.user.email).toBe(emailDefault)
+      expect(responseAlreadyExist.body.user.name).toBe('Test User');
+      expect(responseAlreadyExist.body.user.email).toBe(emailDefault);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +67,7 @@ describe('Authentification API', () => {
 
       const response = await request(app)
         .post('/auth/login')
-        .send({ email: "fakeemail@gmail.com", password: 'TestPassworde31@' });
+        .send({ email: emailDefault, password: 'TestPassworde31@' });
 
       expect(response.status).toBe(401);
     } catch (error) {
@@ -107,6 +104,4 @@ describe('Authentification API', () => {
       console.log(error);
     }
   });
-
-
 });
