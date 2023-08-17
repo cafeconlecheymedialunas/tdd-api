@@ -4,9 +4,7 @@ import { Role as RoleEntity } from '../../domain/entities/Role';
 import { Permission as PermissionDto } from '../dtos/Permission';
 import { Role as RoleDto } from '../dtos/Role';
 
-/**
- * Class implementing the RoleMapperable interface for role mapping.
- */
+
 export class Role implements RoleMapperable {
   private readonly permissionRepository;
 
