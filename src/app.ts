@@ -6,7 +6,7 @@ import hpp from 'hpp';
 import config from './config';
 import router from './infrastructure/routes/index';
 import errorHandler from './infrastructure/middlewares/errorHandler';
-import { checkAuthorization } from './infrastructure/middlewares/checkAuthorization';
+import { checkAuthorization } from './infrastructure/middlewares/CheckAuthorization';
 
 const app = express();
 
