@@ -1,5 +1,8 @@
 import request from 'supertest';
-import app from '../src/app';
+import Application from "../src/Application";
+
+const app = Application.getInstance().application();
+
 describe('Authorization Flow API', () => {
   it('User should has permissions by route', async () => {
     try {
