@@ -1,5 +1,5 @@
-import { Hashable } from 'domain/interfaces/services/Hashable';
-import { ClientException } from 'domain/types/errors';
+import { Hashable } from '#root/domain/interfaces/services/Hashable';
+import { ClientException } from '#root/domain/types/errors';
 
 export class Hash implements Hashable {
   private readonly hashLibrary;

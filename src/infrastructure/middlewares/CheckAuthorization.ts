@@ -1,10 +1,10 @@
-import { NotAuthorizedException } from 'domain/types/errors';
-import { Permission as PermissionDataMapper } from 'application/mappers/Permission';
-import { JsonWebToken } from 'application/services/JsonWebToken';
-import { Authorization } from 'application/useCases/Authorization';
+import { NotAuthorizedException } from '#root/domain/types/errors';
+import { Permission as PermissionDataMapper } from '#root/application/mappers/Permission';
+import { JsonWebToken } from '#root/application/services/JsonWebToken';
+import { Authorization } from '#root/application/useCases/Authorization';
 import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
-import { PermissionMock } from 'infrastructure/repositories/PermissionMock';
+import { PermissionMock } from '#root/infrastructure/repositories/PermissionMock';
 
 /**
  * Checks the authorization of a request validating the token, route, and method.

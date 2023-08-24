@@ -1,10 +1,10 @@
-import { JsonWebTokenable } from 'domain/interfaces/services/JsonWebTokenable';
-import { Authorizationable } from 'domain/interfaces/useCases/Authorizationable';
-import { WrongAuthenticationTokenException } from 'domain/types/errors';
-import { Condition } from 'domain/types/requestInputs';
-import { Permission as PermissionEntity } from 'domain/entities/Permission';
-import { Permission as PermissionDto } from 'application/dtos/Permission';
-import { PermissionMockable } from 'domain/interfaces/repositories/PermissionMockable';
+import { JsonWebTokenable } from '#root/domain/interfaces/services/JsonWebTokenable';
+import { Authorizationable } from '#root/domain/interfaces/useCases/Authorizationable';
+import { WrongAuthenticationTokenException } from '#root/domain/types/errors';
+import { Condition } from '#root/domain/types/requestInputs';
+import { Permission as PermissionEntity } from '#root/domain/entities/Permission';
+import { Permission as PermissionDto } from '#root/application/dtos/Permission';
+import { PermissionMockable } from '#root/domain/interfaces/repositories/PermissionMockable';
 
 export class Authorization implements Authorizationable {
   private readonly jsonWebTokenService: JsonWebTokenable;

@@ -1,8 +1,8 @@
-import { Userable as UserMapperable } from 'domain/interfaces/mappers/Userable';
-import { RoleMockable } from 'domain/interfaces/repositories/RoleMockable';
-import { User as UserEntity } from 'domain/entities/User';
-import { User as UserDto } from 'application/dtos/User';
-import { Role as RoleDto } from 'application/dtos/Role';
+import { Userable as UserMapperable } from '#root/domain/interfaces/mappers/Userable';
+import { RoleMockable } from '#root/domain/interfaces/repositories/RoleMockable';
+import { User as UserEntity } from '#root/domain/entities/User';
+import { User as UserDto } from '#root/application/dtos/User';
+import { Role as RoleDto } from '#root/application/dtos/Role';
 
 export class User implements UserMapperable {
   private readonly roleRepository;

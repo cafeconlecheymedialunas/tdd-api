@@ -1,4 +1,4 @@
-import { ValidationError } from 'domain/types/errors';
+import { ValidationError } from '#root/domain/types/errors';
 import { Response } from 'express';
 
 const resError = (res: Response, status = 500, message = 'Server Error', errors: ValidationError[] = []): void => {

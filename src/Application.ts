@@ -4,10 +4,10 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import config from '#root/config';
-import router from 'infrastructure/routes/index';
-import errorHandler from 'infrastructure/middlewares/errorHandler';
-import { checkAuthorization } from 'infrastructure/middlewares/CheckAuthorization';
-import { limiter } from 'infrastructure/middlewares/rateLimiter';
+import router from '#root/infrastructure/routes/index';
+import errorHandler from '#root/infrastructure/middlewares/errorHandler';
+import { checkAuthorization } from '#root/infrastructure/middlewares/CheckAuthorization';
+import { limiter } from '#root/infrastructure/middlewares/rateLimiter';
 import { Express } from 'express-serve-static-core';
 
 class Application {

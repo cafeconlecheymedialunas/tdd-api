@@ -1,6 +1,6 @@
-import { Permissionable as PermissionMapperable } from 'domain/interfaces/mappers/Permissionable';
-import { Permission as PermissionEntity } from 'domain/entities/Permission';
-import { Permission as PermissionDto } from 'application/dtos/Permission';
+import { Permissionable as PermissionMapperable } from '#root/domain/interfaces/mappers/Permissionable';
+import { Permission as PermissionEntity } from '#root/domain/entities/Permission';
+import { Permission as PermissionDto } from '#root/application/dtos/Permission';
 
 export class Permission implements PermissionMapperable {
   /**

@@ -1,6 +1,6 @@
-import { Role as RoleEntity } from 'domain/entities/Role';
+import { Role as RoleEntity } from '#root/domain/entities/Role';
 
-import { Permission as PermissionEntity } from 'domain/entities/Permission';
+import { Permission as PermissionEntity } from '#root/domain/entities/Permission';
 
 const UPDATE_USER = new PermissionEntity(1, '/users/:id', 'PUT');
 

@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-import login from 'infrastructure/controllers/login';
+import login from '#root/infrastructure/controllers/login';
 
-import register from 'infrastructure/controllers/register';
+import register from '#root/infrastructure/controllers/register';
 
 const router = Router();
 

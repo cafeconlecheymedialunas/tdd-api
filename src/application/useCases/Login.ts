@@ -1,16 +1,16 @@
-import { UserMockable } from 'domain/interfaces/repositories/UserMockable';
-import { Hashable } from 'domain/interfaces/services/Hashable';
-import { JsonWebTokenable } from 'domain/interfaces/services/JsonWebTokenable';
+import { UserMockable } from '#root/domain/interfaces/repositories/UserMockable';
+import { Hashable } from '#root/domain/interfaces/services/Hashable';
+import { JsonWebTokenable } from '#root/domain/interfaces/services/JsonWebTokenable';
 import {
   ValidationException,
   WrongAuthenticationTokenException,
   WrongCredentialsException,
-} from 'domain/types/errors';
-import { Payload } from 'domain/types/responseOutputs';
-import { User as UserDto } from 'application/dtos/User';
-import { Condition } from 'domain/types/requestInputs';
-import { Validatorable } from 'domain/interfaces/services/Validatorable';
-import { RULES } from 'domain/types/validationRules';
+} from '#root/domain/types/errors';
+import { Payload } from '#root/domain/types/responseOutputs';
+import { User as UserDto } from '#root/application/dtos/User';
+import { Condition } from '#root/domain/types/requestInputs';
+import { Validatorable } from '#root/domain/interfaces/services/Validatorable';
+import { RULES } from '#root/domain/types/validationRules';
 
 export class Login {
   private readonly UserRepository: UserMockable;

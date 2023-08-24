@@ -1,20 +1,20 @@
-import { WrongAuthenticationTokenException } from 'domain/types/errors';
-import { User as UserDataMapper } from 'application/mappers/User';
-import { Role as RoleDataMapper } from 'application/mappers/Role';
-import { Permission as PermissionDataMapper } from 'application/mappers/Permission';
-import { JsonWebToken } from 'application/services/JsonWebToken';
-import { Hash } from 'application/services/Hash';
-import { Login } from 'application/useCases/Login';
+import { WrongAuthenticationTokenException } from '#root/domain/types/errors';
+import { User as UserDataMapper } from '#root/application/mappers/User';
+import { Role as RoleDataMapper } from '#root/application/mappers/Role';
+import { Permission as PermissionDataMapper } from '#root/application/mappers/Permission';
+import { JsonWebToken } from '#root/application/services/JsonWebToken';
+import { Hash } from '#root/application/services/Hash';
+import { Login } from '#root/application/useCases/Login';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { response } from 'infrastructure/utils';
-import { UserMock } from 'infrastructure/repositories/UserMock';
-import { PermissionMock } from 'infrastructure/repositories/PermissionMock';
-import { RoleMock } from 'infrastructure/repositories/RoleMock';
-import { Validator } from 'application/services/Validator';
-import { Mock } from 'infrastructure/repositories/Mock';
-import { User as UserEntity } from 'domain/entities/User';
+import { response } from '#root/infrastructure/utils';
+import { UserMock } from '#root/infrastructure/repositories/UserMock';
+import { PermissionMock } from '#root/infrastructure/repositories/PermissionMock';
+import { RoleMock } from '#root/infrastructure/repositories/RoleMock';
+import { Validator } from '#root/application/services/Validator';
+import { Mock } from '#root/infrastructure/repositories/Mock';
+import { User as UserEntity } from '#root/domain/entities/User';
 
 const loginUseCase = new Login(
   new UserMock(

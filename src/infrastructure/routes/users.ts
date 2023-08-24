@@ -1,4 +1,4 @@
-import users from 'infrastructure/controllers/users';
+import users from '#root/infrastructure/controllers/users';
 import { Router } from 'express';
 
 const router = Router();
