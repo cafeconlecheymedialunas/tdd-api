@@ -1,8 +1,8 @@
-import { Roleable as RoleMapperable } from '../../domain/interfaces/mappers/Roleable';
-import { PermissionMockable } from '../../domain/interfaces/repositories/PermissionMockable';
-import { Role as RoleEntity } from '../../domain/entities/Role';
-import { Permission as PermissionDto } from '../dtos/Permission';
-import { Role as RoleDto } from '../dtos/Role';
+import { Roleable as RoleMapperable } from 'domain/interfaces/mappers/Roleable';
+import { PermissionMockable } from 'domain/interfaces/repositories/PermissionMockable';
+import { Role as RoleEntity } from 'domain/entities/Role';
+import { Permission as PermissionDto } from 'application/dtos/Permission';
+import { Role as RoleDto } from 'application/dtos/Role';
 
 
 export class Role implements RoleMapperable {

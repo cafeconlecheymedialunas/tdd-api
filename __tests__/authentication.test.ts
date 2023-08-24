@@ -1,7 +1,5 @@
 import request from 'supertest';
-import Application from "../src/Application";
-
-const app = Application.getInstance().application();
+import { app } from "../src/index";
 
 describe('Authentification API', () => {
   it('should register a user', async () => {

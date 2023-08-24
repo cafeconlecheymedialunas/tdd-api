@@ -1,6 +1,6 @@
-import { ClientException } from '../../domain/types/errors';
+import { ClientException } from 'domain/types/errors';
 import { NextFunction, Request, Response } from 'express';
-import { resError } from '../utils';
+import { resError } from 'infrastructure/utils';
 
 /**
  * This function sends a JSON formatted response to handle errors thrown by ClientExceptions in the application.

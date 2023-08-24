@@ -1,4 +1,4 @@
-import { Payload } from '../../types/responseOutputs';
+import { Payload } from 'domain/types/responseOutputs';
 
 export interface JsonWebTokenable {
   generateToken(payload: Payload, expiresIn: string): Promise<string>;

@@ -1,9 +1,9 @@
-import { Role as RoleDto } from '../../application/dtos/Role';
-import { User as UserDto } from '../../application/dtos/User';
-import { Permission as PermissionDto } from '../../application/dtos/Permission';
-import { User as UserEntity } from '../entities/User';
-import { Role as RoleEntity } from '../entities/Role';
-import { Permission as PermissionEntity } from '../entities/Permission';
+import { Role as RoleDto } from 'application/dtos/Role';
+import { User as UserDto } from 'application/dtos/User';
+import { Permission as PermissionDto } from 'application/dtos/Permission';
+import { User as UserEntity } from 'domain/entities/User';
+import { Role as RoleEntity } from 'domain/entities/Role';
+import { Permission as PermissionEntity } from 'domain/entities/Permission';
 
 export type Payload = {
   id: number;
@@ -16,11 +16,6 @@ export type DecodedToken = {
   id: number;
   permissions: PermissionEntity[];
 };
-
-export interface ValidationError {
-  key: string;
-  error: string;
-}
 
 export type Dtos = UserDto | RoleDto | PermissionDto;
 

@@ -1,5 +1,5 @@
-import { Role as RoleEntity } from '../../entities/Role';
-import { Role as RoleDto } from '../../../application/dtos/Role';
+import { Role as RoleEntity } from 'domain/entities/Role';
+import { Role as RoleDto } from 'application/dtos/Role';
 
 export interface Roleable {
   mapItem(role: RoleEntity): RoleDto;

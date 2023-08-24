@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../src/app';
+import { app } from "../src/index";
 describe('Crud Users', () => {
   it('User should has all users', async () => {
     try {

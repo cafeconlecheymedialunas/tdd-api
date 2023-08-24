@@ -1,18 +1,18 @@
-import { WrongCredentialsException } from '../../domain/types/errors';
-import { User as UserDataMapper } from '../../application/mappers/User';
-import { Role as RoleDataMapper } from '../../application/mappers/Role';
-import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
-import { Hash } from '../../application/services/Hash';
-import { Register } from '../../application/useCases/Register';
+import { WrongCredentialsException } from 'domain/types/errors';
+import { User as UserDataMapper } from 'application/mappers/User';
+import { Role as RoleDataMapper } from 'application/mappers/Role';
+import { Permission as PermissionDataMapper } from 'application/mappers/Permission';
+import { Hash } from 'application/services/Hash';
+import { Register } from 'application/useCases/Register';
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
-import { response } from '../utils';
-import { UserMock } from '../repositories/UserMock';
-import { RoleMock } from '../repositories/RoleMock';
-import { PermissionMock } from '../repositories/PermissionMock';
-import { Validator } from '../../application/services/Validator';
-import { Mock } from '../repositories/Mock';
-import { User as UserEntity } from '../../domain/entities/User';
+import { response } from 'infrastructure/utils';
+import { UserMock } from 'infrastructure/repositories/UserMock';
+import { RoleMock } from 'infrastructure/repositories/RoleMock';
+import { PermissionMock } from 'infrastructure/repositories/PermissionMock';
+import { Validator } from 'application/services/Validator';
+import { Mock } from 'infrastructure/repositories/Mock';
+import { User as UserEntity } from 'domain/entities/User';
 
 const registerUseCase = new Register(
   new UserMock(
