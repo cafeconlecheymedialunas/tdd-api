@@ -1,9 +1,9 @@
-import { Permissionable as PermissionMapperable } from '#root/domain/interfaces/mappers/Permissionable';
-import { PermissionMockable } from '#root/domain/interfaces/repositories/PermissionMockable';
-import { Permission as PermissionEntity } from '#root/domain/entities/Permission';
-import { Condition, QueryFilter } from '#root/domain/types/requestInputs';
-import { NotFoundException } from '#root/domain/types/errors';
-import { Permission as PermissionDto } from '#root/application/dtos/Permission';
+import { Permissionable as PermissionMapperable } from '#src/domain/interfaces/mappers/Permissionable';
+import { PermissionMockable } from '#src/domain/interfaces/repositories/PermissionMockable';
+import { Permission as PermissionEntity } from '#src/domain/entities/Permission';
+import { Condition, QueryFilter } from '#src/domain/types/requestInputs';
+import { NotFoundException } from '#src/domain/types/errors';
+import { Permission as PermissionDto } from '#src/application/dtos/Permission';
 import { PERMISSIONS_DEFAULT } from './rolesDefault';
 
 export class PermissionMock implements PermissionMockable {

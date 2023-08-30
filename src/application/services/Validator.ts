@@ -1,7 +1,7 @@
-import { Validatorable } from '#root/domain/interfaces/services/Validatorable';
-import { ClientException } from '#root/domain/types/errors';
-import { ValidationError } from '#root/domain/types/errors';
-import { RuleTypes, RULES, ValidationRule, MESSAGES } from '#root/domain/types/validationRules';
+import { Validatorable } from '#src/domain/interfaces/services/Validatorable';
+import { ClientException } from '#src/domain/types/errors';
+import { ValidationError } from '#src/domain/types/errors';
+import { RuleTypes, RULES, ValidationRule, MESSAGES } from '#src/domain/types/validationRules';
 
 export class Validator implements Validatorable {
   validations: ValidationRule[] = [];

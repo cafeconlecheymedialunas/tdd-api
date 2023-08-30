@@ -3,11 +3,11 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import hpp from 'hpp';
-import config from '#root/config';
-import router from '#root/infrastructure/routes/index';
-import errorHandler from '#root/infrastructure/middlewares/errorHandler';
-import { checkAuthorization } from '#root/infrastructure/middlewares/CheckAuthorization';
-import { limiter } from '#root/infrastructure/middlewares/rateLimiter';
+import config from '#src/config';
+import router from '#src/infrastructure/routes/index';
+import errorHandler from '#src/infrastructure/middlewares/errorHandler';
+import { checkAuthorization } from '#src/infrastructure/middlewares/CheckAuthorization';
+import { limiter } from '#src/infrastructure/middlewares/rateLimiter';
 import { Express } from 'express-serve-static-core';
 
 class Application {

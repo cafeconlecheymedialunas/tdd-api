@@ -1,5 +1,5 @@
-import { Permission as PermissionEntity } from '#root/domain/entities/Permission';
-import { Permission as PermissionDto } from '#root/application/dtos/Permission';
+import { Permission as PermissionEntity } from '#src/domain/entities/Permission';
+import { Permission as PermissionDto } from '#src/application/dtos/Permission';
 
 export interface Permissionable {
   mapItem(permission: PermissionEntity): PermissionDto;

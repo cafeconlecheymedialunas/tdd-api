@@ -1,12 +1,12 @@
-import { UserMockable } from '#root/domain/interfaces/repositories/UserMockable';
-import { Hashable } from '#root/domain/interfaces/services/Hashable';
-import { Validatorable } from '#root/domain/interfaces/services/Validatorable';
-import { Registerable } from '#root/domain/interfaces/useCases/Registerable';
-import { UserWithThatEmailAlreadyExistsException, ValidationException } from '#root/domain/types/errors';
-import { UserRequestParams } from '#root/domain/types/requestInputs';
-import { Condition } from '#root/domain/types/requestInputs';
-import { RULES } from '#root/domain/types/validationRules';
-import { User as UserDto } from '#root/application/dtos/User';
+import { UserMockable } from '#src/domain/interfaces/repositories/UserMockable';
+import { Hashable } from '#src/domain/interfaces/services/Hashable';
+import { Validatorable } from '#src/domain/interfaces/services/Validatorable';
+import { Registerable } from '#src/domain/interfaces/useCases/Registerable';
+import { UserWithThatEmailAlreadyExistsException, ValidationException } from '#src/domain/types/errors';
+import { UserRequestParams } from '#src/domain/types/requestInputs';
+import { Condition } from '#src/domain/types/requestInputs';
+import { RULES } from '#src/domain/types/validationRules';
+import { User as UserDto } from '#src/application/dtos/User';
 
 export class Register implements Registerable {
   private readonly userRepository: UserMockable;

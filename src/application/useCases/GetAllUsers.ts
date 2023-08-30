@@ -1,5 +1,5 @@
-import { UserMockable } from '#root/domain/interfaces/repositories/UserMockable';
-import { User as UserDto } from '#root/application/dtos/User';
+import { UserMockable } from '#src/domain/interfaces/repositories/UserMockable';
+import { User as UserDto } from '#src/application/dtos/User';
 
 export class GetAllUsers {
   private readonly userRepo: UserMockable;

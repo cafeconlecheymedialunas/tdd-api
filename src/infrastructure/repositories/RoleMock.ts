@@ -1,9 +1,9 @@
-import { Roleable as RoleMapperable } from '#root/domain/interfaces/mappers/Roleable';
-import { RoleMockable } from '#root/domain/interfaces/repositories/RoleMockable';
-import { Role as RoleEntity } from '#root/domain/entities/Role';
-import { Role as RoleDto } from '#root/application/dtos/Role';
+import { Roleable as RoleMapperable } from '#src/domain/interfaces/mappers/Roleable';
+import { RoleMockable } from '#src/domain/interfaces/repositories/RoleMockable';
+import { Role as RoleEntity } from '#src/domain/entities/Role';
+import { Role as RoleDto } from '#src/application/dtos/Role';
 import { ROLES_DEFAULT } from './rolesDefault';
-import { NotFoundException } from '#root/domain/types/errors';
+import { NotFoundException } from '#src/domain/types/errors';
 
 export class RoleMock implements RoleMockable {
   list: RoleEntity[] = ROLES_DEFAULT;

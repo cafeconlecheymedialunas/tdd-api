@@ -1,7 +1,7 @@
-import { JsonWebTokenable } from '#root/domain/interfaces/services/JsonWebTokenable';
-import { DecodedToken, Payload } from '#root/domain/types/responseOutputs';
-import { AuthenticationTokenMissingException, ClientException } from '#root/domain/types/errors';
-import config from '#root/config';
+import { JsonWebTokenable } from '#src/domain/interfaces/services/JsonWebTokenable';
+import { DecodedToken, Payload } from '#src/domain/types/responseOutputs';
+import { AuthenticationTokenMissingException, ClientException } from '#src/domain/types/errors';
+import config from '#src/config';
 import { TokenExpiredError } from 'jsonwebtoken';
 
 export class JsonWebToken implements JsonWebTokenable {
