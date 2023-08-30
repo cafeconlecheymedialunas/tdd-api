@@ -1,12 +1,12 @@
 import { Permissionable as PermissionMapperable } from '#src/domain/interfaces/mappers/Permissionable';
-import { PermissionMockable } from '#src/domain/interfaces/repositories/PermissionMockable';
+import { Permissionable } from '#src/domain/interfaces/repositories/Permissionable';
 import { Permission as PermissionEntity } from '#src/domain/entities/Permission';
 import { Condition, QueryFilter } from '#src/domain/types/requestInputs';
 import { NotFoundException } from '#src/domain/types/errors';
 import { Permission as PermissionDto } from '#src/application/dtos/Permission';
 import { PERMISSIONS_DEFAULT } from './rolesDefault';
 
-export class PermissionMock implements PermissionMockable {
+export class PermissionMock implements Permissionable {
   list = Object.values(PERMISSIONS_DEFAULT);
   collection = 'permissions';
   private readonly permissionDataMapper: PermissionMapperable;

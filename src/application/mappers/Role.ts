@@ -1,5 +1,5 @@
 import { Roleable as RoleMapperable } from '#src/domain/interfaces/mappers/Roleable';
-import { PermissionMockable } from '#src/domain/interfaces/repositories/PermissionMockable';
+import { Permissionable } from '#src/domain/interfaces/repositories/Permissionable';
 import { Role as RoleEntity } from '#src/domain/entities/Role';
 import { Permission as PermissionDto } from '#src/application/dtos/Permission';
 import { Role as RoleDto } from '#src/application/dtos/Role';
@@ -10,9 +10,9 @@ export class Role implements RoleMapperable {
 
   /**
    * Creates an instance of the Role class.
-   * @param {PermissionMockable} permissionRepository - Permission repository.
+   * @param {Permissionable} permissionRepository - Permission repository.
    */
-  constructor(permissionRepository: PermissionMockable) {
+  constructor(permissionRepository: Permissionable) {
     this.permissionRepository = permissionRepository;
   }
 

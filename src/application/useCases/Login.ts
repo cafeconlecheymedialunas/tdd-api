@@ -1,4 +1,4 @@
-import { UserMockable } from '#src/domain/interfaces/repositories/UserMockable';
+import { Userable } from '#src/domain/interfaces/repositories/Userable';
 import { Hashable } from '#src/domain/interfaces/services/Hashable';
 import { JsonWebTokenable } from '#src/domain/interfaces/services/JsonWebTokenable';
 import {
@@ -13,13 +13,13 @@ import { Validatorable } from '#src/domain/interfaces/services/Validatorable';
 import { RULES } from '#src/domain/types/validationRules';
 
 export class Login {
-  private readonly UserRepository: UserMockable;
+  private readonly UserRepository: Userable;
   private readonly hashService: Hashable;
   private readonly JsonWebTokenService: JsonWebTokenable;
   private readonly validatorService: Validatorable;
 
   constructor(
-    UserRepository: UserMockable,
+    UserRepository: Userable,
     hashService: Hashable,
     JsonWebTokenService: JsonWebTokenable,
     validatorService: Validatorable,

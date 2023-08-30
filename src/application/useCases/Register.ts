@@ -1,4 +1,4 @@
-import { UserMockable } from '#src/domain/interfaces/repositories/UserMockable';
+import { Userable } from '#src/domain/interfaces/repositories/Userable';
 import { Hashable } from '#src/domain/interfaces/services/Hashable';
 import { Validatorable } from '#src/domain/interfaces/services/Validatorable';
 import { Registerable } from '#src/domain/interfaces/useCases/Registerable';
@@ -9,11 +9,11 @@ import { RULES } from '#src/domain/types/validationRules';
 import { User as UserDto } from '#src/application/dtos/User';
 
 export class Register implements Registerable {
-  private readonly userRepository: UserMockable;
+  private readonly userRepository: Userable;
   private readonly hashService: Hashable;
   private readonly validatorService: Validatorable;
 
-  constructor(userRepository: UserMockable, hashService: Hashable, validatorService: Validatorable) {
+  constructor(userRepository: Userable, hashService: Hashable, validatorService: Validatorable) {
     this.userRepository = userRepository;
 
     this.hashService = hashService;

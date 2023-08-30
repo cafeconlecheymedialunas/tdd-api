@@ -2,7 +2,7 @@ import { UserRequestParams } from '#src/domain/types/requestInputs';
 import { QueryFilter } from '#src/domain/types/requestInputs';
 import { User as UserDto } from '#src/application/dtos/User';
 
-export interface UserMockable {
+export interface Userable {
   getAll(): Promise<UserDto[]>;
   filter(conditions: QueryFilter[]): Promise<UserDto[]>;
   add(user: UserRequestParams): Promise<UserDto>;

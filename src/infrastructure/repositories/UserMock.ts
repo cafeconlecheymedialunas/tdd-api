@@ -1,4 +1,4 @@
-import { UserMockable } from '#src/domain/interfaces/repositories/UserMockable';
+import { Userable } from '#src/domain/interfaces/repositories/Userable';
 import { Userable as UserMapperable } from '#src/domain/interfaces/mappers/Userable';
 import { NotFoundException } from '#src/domain/types/errors';
 import { User as UserEntity } from '#src/domain/entities/User';
@@ -7,7 +7,7 @@ import { Condition, QueryFilter } from '#src/domain/types/requestInputs';
 import { User as UserDto } from '#src/application/dtos/User';
 import { Mockable } from '#src/domain/interfaces/repositories/Mockable';
 
-export class UserMock implements UserMockable {
+export class UserMock implements Userable {
   list: UserEntity[] = [];
   collection = 'users';
   private readonly userDataMapper: UserMapperable;

@@ -4,13 +4,13 @@ import { WrongAuthenticationTokenException } from '#src/domain/types/errors';
 import { Condition } from '#src/domain/types/requestInputs';
 import { Permission as PermissionEntity } from '#src/domain/entities/Permission';
 import { Permission as PermissionDto } from '#src/application/dtos/Permission';
-import { PermissionMockable } from '#src/domain/interfaces/repositories/PermissionMockable';
+import { Permissionable } from '#src/domain/interfaces/repositories/Permissionable';
 
 export class Authorization implements Authorizationable {
   private readonly jsonWebTokenService: JsonWebTokenable;
-  private readonly permissionRepository: PermissionMockable;
+  private readonly permissionRepository: Permissionable;
 
-  constructor(jsonWebTokenService: JsonWebTokenable, permissionRepository: PermissionMockable) {
+  constructor(jsonWebTokenService: JsonWebTokenable, permissionRepository: Permissionable) {
     this.jsonWebTokenService = jsonWebTokenService;
 
     this.permissionRepository = permissionRepository;

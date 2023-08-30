@@ -1,5 +1,5 @@
 import { Userable as UserMapperable } from '#src/domain/interfaces/mappers/Userable';
-import { RoleMockable } from '#src/domain/interfaces/repositories/RoleMockable';
+import { Roleable } from '#src/domain/interfaces/repositories/Roleable';
 import { User as UserEntity } from '#src/domain/entities/User';
 import { User as UserDto } from '#src/application/dtos/User';
 import { Role as RoleDto } from '#src/application/dtos/Role';
@@ -7,7 +7,7 @@ import { Role as RoleDto } from '#src/application/dtos/Role';
 export class User implements UserMapperable {
   private readonly roleRepository;
 
-  constructor(roleRepository: RoleMockable) {
+  constructor(roleRepository: Roleable) {
     this.roleRepository = roleRepository;
   }
 

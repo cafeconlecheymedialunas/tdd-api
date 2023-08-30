@@ -1,10 +1,10 @@
-import { UserMockable } from '#src/domain/interfaces/repositories/UserMockable';
+import { Userable } from '#src/domain/interfaces/repositories/Userable';
 import { User as UserDto } from '#src/application/dtos/User';
 
 export class GetAllUsers {
-  private readonly userRepo: UserMockable;
+  private readonly userRepo: Userable;
 
-  constructor(UserRepository: UserMockable) {
+  constructor(UserRepository: Userable) {
     this.userRepo = UserRepository;
   }
 
