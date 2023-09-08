@@ -1,8 +1,8 @@
-import { Roleable as RoleMapperable } from '#src/domain/interfaces/mappers/Roleable';
-import { Permissionable } from '#src/domain/interfaces/repositories/Permissionable';
-import { Role as RoleEntity } from '#src/domain/entities/Role';
-import { Permission as PermissionDto } from '#src/application/dtos/Permission';
-import { Role as RoleDto } from '#src/application/dtos/Role';
+import { Roleable as RoleMapperable } from '../../domain/interfaces/mappers/Roleable';
+import { Permissionable } from '../../domain/interfaces/repositories/Permissionable';
+import { Role as RoleEntity } from '../../domain/entities/Role';
+import { Permission as PermissionDto } from '../../application/dtos/Permission';
+import { Role as RoleDto } from '../../application/dtos/Role';
 
 
 export class Role implements RoleMapperable {

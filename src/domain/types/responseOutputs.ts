@@ -1,9 +1,10 @@
-import { Role as RoleDto } from '#src/application/dtos/Role';
-import { User as UserDto } from '#src/application/dtos/User';
-import { Permission as PermissionDto } from '#src/application/dtos/Permission';
-import { User as UserEntity } from '#src/domain/entities/User';
-import { Role as RoleEntity } from '#src/domain/entities/Role';
-import { Permission as PermissionEntity } from '#src/domain/entities/Permission';
+import { Role as RoleDto } from '../../application/dtos/Role';
+import { User as UserDto } from '../../application/dtos/User';
+import { Permission as PermissionDto } from '../../application/dtos/Permission';
+import { User as UserEntity } from '../../domain/entities/User';
+import { Role as RoleEntity } from '../../domain/entities/Role';
+import { Permission as PermissionEntity } from '../../domain/entities/Permission';
+
 
 export type Payload = {
   id: number;

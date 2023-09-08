@@ -1,4 +1,4 @@
-import { Role as RoleDto } from '#src/application/dtos/Role';
+import { Role as RoleDto } from '../../../application/dtos/Role';
 
 export interface Roleable {
   getById(id: number): RoleDto;

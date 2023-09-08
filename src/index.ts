@@ -1,5 +1,5 @@
 
-import Application from "#src/Application";
+import Application from "./Application";
 
 const app = Application.getInstance().application();
 

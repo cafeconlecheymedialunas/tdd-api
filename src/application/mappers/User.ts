@@ -1,8 +1,8 @@
-import { Userable as UserMapperable } from '#src/domain/interfaces/mappers/Userable';
-import { Roleable } from '#src/domain/interfaces/repositories/Roleable';
-import { User as UserEntity } from '#src/domain/entities/User';
-import { User as UserDto } from '#src/application/dtos/User';
-import { Role as RoleDto } from '#src/application/dtos/Role';
+import { Userable as UserMapperable } from '../../domain/interfaces/mappers/Userable';
+import { Roleable } from '../../domain/interfaces/repositories/Roleable';
+import { User as UserEntity } from '../../domain/entities/User';
+import { User as UserDto } from '../../application/dtos/User';
+import { Role as RoleDto } from '../../application/dtos/Role';
 
 export class User implements UserMapperable {
   private readonly roleRepository;

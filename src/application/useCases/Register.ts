@@ -1,12 +1,12 @@
-import { Userable } from '#src/domain/interfaces/repositories/Userable';
-import { Hashable } from '#src/domain/interfaces/services/Hashable';
-import { Validatorable } from '#src/domain/interfaces/services/Validatorable';
-import { Registerable } from '#src/domain/interfaces/useCases/Registerable';
-import { UserWithThatEmailAlreadyExistsException, ValidationException } from '#src/domain/types/errors';
-import { UserRequestParams } from '#src/domain/types/requestInputs';
-import { Condition } from '#src/domain/types/requestInputs';
-import { RULES } from '#src/domain/types/validationRules';
-import { User as UserDto } from '#src/application/dtos/User';
+import { Userable } from '../../domain/interfaces/repositories/Userable';
+import { Hashable } from '../../domain/interfaces/services/Hashable';
+import { Validatorable } from '../../domain/interfaces/services/Validatorable';
+import { Registerable } from '../../domain/interfaces/useCases/Registerable';
+import { UserWithThatEmailAlreadyExistsException, ValidationException } from '../../domain/types/errors';
+import { UserRequestParams } from '../../domain/types/requestInputs';
+import { Condition } from '../../domain/types/requestInputs';
+import { RULES } from '../../domain/types/validationRules';
+import { User as UserDto } from '../../application/dtos/User';
 
 export class Register implements Registerable {
   private readonly userRepository: Userable;

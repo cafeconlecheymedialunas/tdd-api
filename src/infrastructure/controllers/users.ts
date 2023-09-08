@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
-import { response } from '#src/infrastructure/utils';
-import { GetAllUsers } from '#src/application/useCases/GetAllUsers';
-import { User as UserDataMapper } from '#src/application/mappers/User';
-import { Role as RoleDataMapper } from '#src/application/mappers/Role';
-import { Permission as PermissionDataMapper } from '#src/application/mappers/Permission';
-import { UserMock } from '#src/infrastructure/repositories/UserMock';
-import { RoleMock } from '#src/infrastructure/repositories/RoleMock';
-import { PermissionMock } from '#src/infrastructure/repositories/PermissionMock';
-import { Mock } from '#src/infrastructure/repositories/Mock';
-import { User as UserEntity } from '#src/domain/entities/User';
+import { response } from '../../infrastructure/utils';
+import { GetAllUsers } from '../../application/useCases/GetAllUsers';
+import { User as UserDataMapper } from '../../application/mappers/User';
+import { Role as RoleDataMapper } from '../../application/mappers/Role';
+import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
+import { UserMock } from '../../infrastructure/repositories/UserMock';
+import { RoleMock } from '../../infrastructure/repositories/RoleMock';
+import { PermissionMock } from '../../infrastructure/repositories/PermissionMock';
+import { Mock } from '../../infrastructure/repositories/Mock';
+import { User as UserEntity } from '../../domain/entities/User';
 
 const getAllUsersUseCase = new GetAllUsers(
   new UserMock(

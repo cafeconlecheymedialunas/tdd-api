@@ -1,5 +1,5 @@
-import { QueryFilter } from '#src/domain/types/requestInputs';
-import { Permission as PermissionDto } from '#src/application/dtos/Permission';
+import { QueryFilter } from '../../types/requestInputs';
+import { Permission as PermissionDto } from '../../../application/dtos/Permission';
 
 export interface Permissionable {
   getById(id: number): PermissionDto;

@@ -1,20 +1,20 @@
-import { WrongAuthenticationTokenException } from '#src/domain/types/errors';
-import { User as UserDataMapper } from '#src/application/mappers/User';
-import { Role as RoleDataMapper } from '#src/application/mappers/Role';
-import { Permission as PermissionDataMapper } from '#src/application/mappers/Permission';
-import { JsonWebToken } from '#src/application/services/JsonWebToken';
-import { Hash } from '#src/application/services/Hash';
-import { Login } from '#src/application/useCases/Login';
+import { WrongAuthenticationTokenException } from '../../domain/types/errors';
+import { User as UserDataMapper } from '../../application/mappers/User';
+import { Role as RoleDataMapper } from '../../application/mappers/Role';
+import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
+import { JsonWebToken } from '../../application/services/JsonWebToken';
+import { Hash } from '../../application/services/Hash';
+import { Login } from '../../application/useCases/Login';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { response } from '#src/infrastructure/utils';
-import { UserMock } from '#src/infrastructure/repositories/UserMock';
-import { PermissionMock } from '#src/infrastructure/repositories/PermissionMock';
-import { RoleMock } from '#src/infrastructure/repositories/RoleMock';
-import { Validator } from '#src/application/services/Validator';
-import { Mock } from '#src/infrastructure/repositories/Mock';
-import { User as UserEntity } from '#src/domain/entities/User';
+import { response } from '../../infrastructure/utils';
+import { UserMock } from '../../infrastructure/repositories/UserMock';
+import { PermissionMock } from '../../infrastructure/repositories/PermissionMock';
+import { RoleMock } from '../../infrastructure/repositories/RoleMock';
+import { Validator } from '../../application/services/Validator';
+import { Mock } from '../../infrastructure/repositories/Mock';
+import { User as UserEntity } from '../../domain/entities/User';
 
 const loginUseCase = new Login(
   new UserMock(

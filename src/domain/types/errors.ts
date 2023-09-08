@@ -1,7 +1,5 @@
-export interface ValidationError {
-  key: string;
-  error: string;
-}
+
+import { ValidationError } from "./validationRules";
 
 export class ClientException extends Error {
   public status: number;

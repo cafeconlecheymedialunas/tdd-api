@@ -11,6 +11,11 @@ export const RULES = {
 
 export type RuleTypes = (typeof RULES)[keyof typeof RULES];
 
+export interface ValidationError {
+  key: string;
+  error: string;
+}
+
 export type ValidationRule = {
   key: string;
   rules: RuleTypes[];

@@ -1,6 +1,6 @@
-import { UserRequestParams } from '#src/domain/types/requestInputs';
-import { QueryFilter } from '#src/domain/types/requestInputs';
-import { User as UserDto } from '#src/application/dtos/User';
+import { UserRequestParams } from '../../types/requestInputs';
+import { QueryFilter } from '../../types/requestInputs';
+import { User as UserDto } from '../../../application/dtos/User';
 
 export interface Userable {
   getAll(): Promise<UserDto[]>;

@@ -1,5 +1,5 @@
-import { Userable } from '#src/domain/interfaces/repositories/Userable';
-import { User as UserDto } from '#src/application/dtos/User';
+import { Userable } from '../../domain/interfaces/repositories/Userable';
+import { User as UserDto } from '../../application/dtos/User';
 
 export class GetAllUsers {
   private readonly userRepo: Userable;

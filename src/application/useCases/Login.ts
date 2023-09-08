@@ -1,16 +1,16 @@
-import { Userable } from '#src/domain/interfaces/repositories/Userable';
-import { Hashable } from '#src/domain/interfaces/services/Hashable';
-import { JsonWebTokenable } from '#src/domain/interfaces/services/JsonWebTokenable';
+import { Userable } from '../../domain/interfaces/repositories/Userable';
+import { Hashable } from '../../domain/interfaces/services/Hashable';
+import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokenable';
 import {
   ValidationException,
   WrongAuthenticationTokenException,
   WrongCredentialsException,
-} from '#src/domain/types/errors';
-import { Payload } from '#src/domain/types/responseOutputs';
-import { User as UserDto } from '#src/application/dtos/User';
-import { Condition } from '#src/domain/types/requestInputs';
-import { Validatorable } from '#src/domain/interfaces/services/Validatorable';
-import { RULES } from '#src/domain/types/validationRules';
+} from '../../domain/types/errors';
+import { Payload } from '../../domain/types/responseOutputs';
+import { User as UserDto } from '../../application/dtos/User';
+import { Condition } from '../../domain/types/requestInputs';
+import { Validatorable } from '../../domain/interfaces/services/Validatorable';
+import { RULES } from '../../domain/types/validationRules';
 
 export class Login {
   private readonly UserRepository: Userable;
