@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "type": "npx typesync",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
