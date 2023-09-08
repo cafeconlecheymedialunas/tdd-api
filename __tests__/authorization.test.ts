@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from "../src/index";
+import { app } from '../src';
 
 describe('Authorization Flow API', () => {
   it('User should has permissions by route', async () => {

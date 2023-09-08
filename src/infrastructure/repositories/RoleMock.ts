@@ -47,6 +47,7 @@ export class RoleMock implements Roleable {
    * @returns {RoleDto[]} - An array of RoleDto objects if successful, or empty array if no roles were found.
    */
   getByIdList = (ids: number[]): RoleDto[] => {
+    if (!ids || !ids.indexOf) return [];
     const roles = this.list.filter((item) => {
       return ids.indexOf(item.id) != -1;
     });

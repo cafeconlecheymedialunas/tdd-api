@@ -1,5 +1,4 @@
-
-import { ValidationError } from "./validationRules";
+import { ValidationError } from './validationRules';
 
 export class ClientException extends Error {
   public status: number;

@@ -1,10 +1,15 @@
+import Application from './Application';
+import Server from './Server';
+import config from './config';
 
-import Application from "./Application";
+const app = Application.getInstance().run();
 
-const app = Application.getInstance().application();
+const initialPort = config.PORT;
 
-app.listen(app.get('port'), () => {
-  console.log(`Server Started on port:${app.get('port')}`);
-});
+const maxAttempts = 10;
+
+const server = new Server();
+
+server.start(app, initialPort, maxAttempts);
 
 export { app };

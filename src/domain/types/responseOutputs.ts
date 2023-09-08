@@ -5,7 +5,6 @@ import { User as UserEntity } from '../../domain/entities/User';
 import { Role as RoleEntity } from '../../domain/entities/Role';
 import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 
-
 export type Payload = {
   id: number;
   permissions: PermissionEntity[];
