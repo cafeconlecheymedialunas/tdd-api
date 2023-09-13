@@ -62,7 +62,7 @@ class Application {
   private middlewares() {
     this.app.use(checkAuthorization);
 
-    this.app.use(errorHandler);
+    //this.app.use(errorHandler);
   }
 }
 

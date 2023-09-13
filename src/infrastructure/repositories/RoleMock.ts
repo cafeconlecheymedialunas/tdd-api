@@ -1,18 +1,56 @@
-import { Roleable as RoleMapperable } from '../../domain/interfaces/mappers/Roleable';
 import { Roleable } from '../../domain/interfaces/repositories/Roleable';
 import { Role as RoleEntity } from '../../domain/entities/Role';
 import { Role as RoleDto } from '../../application/dtos/Role';
 import { ROLES_DEFAULT } from './rolesDefault';
 import { NotFoundException } from '../../domain/types/errors';
+import { Permissionable } from 'src/domain/interfaces/repositories/Permissionable';
+import { Permission as PermissionDto } from 'src/application/dtos/Permission';
 
 export class RoleMock implements Roleable {
   list: RoleEntity[] = ROLES_DEFAULT;
   collection = 'roles';
-  private readonly roleDataMapper: RoleMapperable;
+  private readonly permissionMockRepository: Permissionable;
 
-  constructor(roleDataMapper: RoleMapperable) {
-    this.roleDataMapper = roleDataMapper;
+  constructor(permissionMockRepository: Permissionable) {
+    this.permissionMockRepository = permissionMockRepository;
   }
+
+  /**
+   * Get permissions from an array of role IDs.
+   * @param {number[]} roles - Array of role IDs.
+   * @returns {PermissionDto[]} - Array of PermissionDto objects.
+   */
+  getPermissions = (roles: number[]): PermissionDto[] => {
+    const selectedPermissions = this.permissionMockRepository.getByIdList(roles);
+
+    return selectedPermissions;
+  };
+
+  /**
+   * Converts a RoleEntity object into a RoleDto object with corresponding permissions.
+   * @param {RoleEntity} role - RoleEntity object.
+   * @return {RoleDto} - Resulting RoleDto object.
+   */
+  toDto = (role: RoleEntity): RoleDto => {
+    const selectedPermissions = this.getPermissions(role.permissions);
+    const roleDto = new RoleDto({
+      id: role.id,
+      name: role.name,
+      permissions: selectedPermissions,
+    });
+    return roleDto;
+  };
+
+  /**
+   * Converts a list of RoleEntity objects into a list of RoleDto objects.
+   * @param {RoleEntity[]} roles - List of RoleEntity objects.
+   * @return {RoleDto[]} - Resulting list of RoleDto objects.
+   */
+  dtoList = (roles: RoleEntity[]): RoleDto[] => {
+    const results = roles.map((item: RoleEntity) => this.toDto(item));
+
+    return results;
+  };
 
   /**
    * Retrieves a RoleDto by its ID from the list of roles.
@@ -22,7 +60,7 @@ export class RoleMock implements Roleable {
   getById = (id: number): RoleDto => {
     const role = this.getRoleIndex(id);
 
-    const roleDto = this.roleDataMapper.mapItem(this.list[role]);
+    const roleDto = this.toDto(this.list[role]);
 
     return roleDto;
   };
@@ -52,7 +90,7 @@ export class RoleMock implements Roleable {
       return ids.indexOf(item.id) != -1;
     });
 
-    const rolesDto = this.roleDataMapper.mapList(roles);
+    const rolesDto = this.dtoList(roles);
 
     return rolesDto;
   };

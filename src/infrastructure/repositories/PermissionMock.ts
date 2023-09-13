@@ -1,4 +1,3 @@
-import { Permissionable as PermissionMapperable } from '../../domain/interfaces/mappers/Permissionable';
 import { Permissionable } from '../../domain/interfaces/repositories/Permissionable';
 import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 import { Condition, QueryFilter } from '../../domain/types/requestInputs';
@@ -9,11 +8,31 @@ import { PERMISSIONS_DEFAULT } from './rolesDefault';
 export class PermissionMock implements Permissionable {
   list = Object.values(PERMISSIONS_DEFAULT);
   collection = 'permissions';
-  private readonly permissionDataMapper: PermissionMapperable;
 
-  constructor(permissionDataMapper: PermissionMapperable) {
-    this.permissionDataMapper = permissionDataMapper;
-  }
+  /**
+   * Converts a PermissionEntity object into a PermissionDto object.
+   * @param {PermissionEntity} permission - The PermissionEntity object to be mapped.
+   * @returns {PermissionDto} - The resulting PermissionDto object.
+   */
+  toDto = (permission: PermissionEntity): PermissionDto => {
+    const permissionDto = new PermissionDto({
+      id: permission.id,
+      route: permission.route,
+      method: permission.method,
+    });
+    return permissionDto;
+  };
+
+  /**
+   * Converts a list of PermissionEntity objects into a list of PermissionDto objects.
+   * @param {PermissionEntity[]} permissions - The list of PermissionEntity objects to be mapped.
+   * @returns {PermissionDto[]} - The resulting list of PermissionDto objects.
+   */
+  dtoList = (permissions: PermissionEntity[]): PermissionDto[] => {
+    const results = permissions.map((item: PermissionEntity) => this.toDto(item));
+
+    return results;
+  };
 
   filter = (conditions: QueryFilter[]): PermissionDto[] => {
     const users = this.list.filter((item: PermissionEntity) =>
@@ -37,7 +56,7 @@ export class PermissionMock implements Permissionable {
       }),
     );
 
-    const dtos = this.permissionDataMapper.mapList(users);
+    const dtos = this.dtoList(users);
 
     return dtos;
   };
@@ -49,7 +68,7 @@ export class PermissionMock implements Permissionable {
 
     if (permission === undefined) throw new NotFoundException(ids[0], 'Permission');
 
-    const permissionDto = this.permissionDataMapper.mapList(permission);
+    const permissionDto = this.dtoList(permission);
 
     return permissionDto;
   };
@@ -62,7 +81,7 @@ export class PermissionMock implements Permissionable {
   getById = (id: number): PermissionDto => {
     const permission = this.getPermissionIndex(id);
 
-    const permissionDto = this.permissionDataMapper.mapItem(this.list[permission]);
+    const permissionDto = this.toDto(this.list[permission]);
 
     return permissionDto;
   };

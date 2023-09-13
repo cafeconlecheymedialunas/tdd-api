@@ -4,15 +4,39 @@ import { Permission as PermissionDto } from './Permission';
  * @class Role
  */
 export class Role {
-  id: number;
-  name: string;
-  permissions: PermissionDto[];
+  private _id: number;
+  private _name: string;
+  private _permissions: PermissionDto[];
 
-  constructor(name: string, id: number, permissions: PermissionDto[]) {
-    this.name = name;
+  constructor(role: { name: string; id: number; permissions: PermissionDto[] }) {
+    this._name = role.name;
 
-    this.id = id;
+    this._id = role.id;
 
-    this.permissions = permissions;
+    this._permissions = role.permissions;
+  }
+
+  public get id() {
+    return this._id;
+  }
+
+  public get name() {
+    return this._name;
+  }
+
+  public get permissions() {
+    return this._permissions;
+  }
+
+  public set id(id: number) {
+    this._id = id;
+  }
+
+  public set name(name: string) {
+    this._name = name;
+  }
+
+  public set permissions(permissions: PermissionDto[]) {
+    this._permissions = permissions;
   }
 }

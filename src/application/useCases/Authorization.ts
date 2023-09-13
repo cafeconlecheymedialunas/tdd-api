@@ -2,7 +2,6 @@ import { JsonWebTokenable } from '../../domain/interfaces/services/JsonWebTokena
 import { Authorizationable } from '../../domain/interfaces/useCases/Authorizationable';
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
 import { Condition } from '../../domain/types/requestInputs';
-import { Permission as PermissionEntity } from '../../domain/entities/Permission';
 import { Permission as PermissionDto } from '../../application/dtos/Permission';
 import { Permissionable } from '../../domain/interfaces/repositories/Permissionable';
 
@@ -18,14 +17,11 @@ export class Authorization implements Authorizationable {
 
   /**
    * Checks if a given route permission matches any of the user permissions.
-   * @param {PermissionEntity} routePermission - The permission entity of the route.
-   * @param {PermissionEntity[]} userPermissions - The array of user permissions.
+   * @param {PermissionDto} routePermission - The permission dto of the route.
+   * @param {PermissionDto[]} userPermissions - The array of user permissions.
    * @returns {boolean} - True if there is a match, false otherwise.
    */
-  checkRouteAgainstUserPermissions = (
-    routePermission: PermissionEntity,
-    userPermissions: PermissionEntity[],
-  ): boolean => {
+  checkRouteAgainstUserPermissions = (routePermission: PermissionDto, userPermissions: PermissionDto[]): boolean => {
     const permissionsMatch = userPermissions.filter((elem) => elem.id === routePermission.id);
 
     return permissionsMatch.length > 0;
@@ -54,10 +50,10 @@ export class Authorization implements Authorizationable {
   /**
    *  Decodes the user data contained in the token. This method checks the user's login credentials.
    * @param {string} token - The authentication token of the user.
-   * @returns {Promise<PermissionEntity[]>} - A promise that resolves to an array of PermissionEntity objects representing the user's permissions.
+   * @returns {Promise<PermissionDto[]>} - A promise that resolves to an array of PermissionDto objects representing the user's permissions.
    * @throws {WrongAuthenticationTokenException} - If the provided token is invalid or expired.
    */
-  getUserPermissions = async (token: string): Promise<PermissionEntity[]> => {
+  getUserPermissions = async (token: string): Promise<PermissionDto[]> => {
     const decodedUserData = await this.jsonWebTokenService.decodeToken(token);
 
     if (!decodedUserData) {

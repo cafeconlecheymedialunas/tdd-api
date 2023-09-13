@@ -7,10 +7,11 @@ import {
   WrongCredentialsException,
 } from '../../domain/types/errors';
 import { Payload } from '../../domain/types/responseOutputs';
-import { User as UserDto } from '../../application/dtos/User';
+import { User, User as UserDto } from '../../application/dtos/User';
 import { Condition } from '../../domain/types/requestInputs';
 import { Validatorable } from '../../domain/interfaces/services/Validatorable';
 import { RULES } from '../../domain/types/validationRules';
+import { Permission as PermissionDto } from '../dtos/Permission';
 
 export class Login {
   private readonly UserRepository: Userable;
@@ -115,9 +116,9 @@ export class Login {
    * @returns {Payload} The generated payload object.
    */
   generatePayload = (user: UserDto): Payload => {
-    const permissions = [...new Set(user.roles.flatMap((item) => item.permissions))];
+    let permissions = [...new Set(user.roles.flatMap((item) => item.permissions))];
 
-    const payload = { id: user.id, permissions };
+    let payload = { id: user.id, permissions };
 
     return payload;
   };

@@ -1,5 +1,4 @@
 import { NotAuthorizedException } from '../../domain/types/errors';
-import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
 import { JsonWebToken } from '../../application/services/JsonWebToken';
 import { Authorization } from '../../application/useCases/Authorization';
 import { Request, Response, NextFunction } from 'express';
@@ -27,10 +26,7 @@ export const checkAuthorization = async (req: Request, _res: Response, next: Nex
 
     if (!token) throw new NotAuthorizedException();
 
-    const authorizationUseCase = new Authorization(
-      new JsonWebToken(jsonwebtoken),
-      new PermissionMock(new PermissionDataMapper()),
-    );
+    const authorizationUseCase = new Authorization(new JsonWebToken(jsonwebtoken), new PermissionMock());
 
     const isAuthorized = await authorizationUseCase.authorize(route, method, token);
 

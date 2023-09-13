@@ -1,22 +1,61 @@
 import { Userable } from '../../domain/interfaces/repositories/Userable';
-import { Userable as UserMapperable } from '../../domain/interfaces/mappers/Userable';
 import { NotFoundException } from '../../domain/types/errors';
-import { User as UserEntity } from '../../domain/entities/User';
+import { User, User as UserEntity } from '../../domain/entities/User';
 import { UserRequestParams } from '../../domain/types/requestInputs';
 import { Condition, QueryFilter } from '../../domain/types/requestInputs';
 import { User as UserDto } from '../../application/dtos/User';
 import { Mockable } from '../../domain/interfaces/repositories/Mockable';
+import { Role as RoleDto } from 'src/application/dtos/Role';
+import { Roleable } from 'src/domain/interfaces/repositories/Roleable';
 
 export class UserMock implements Userable {
   list: UserEntity[] = [];
   collection = 'users';
-  private readonly userDataMapper: UserMapperable;
   private readonly mockRepository: Mockable<UserEntity>;
+  private readonly roleMockRepository: Roleable;
 
-  constructor(userDataMapper: UserMapperable, mockRepository: Mockable<UserEntity>) {
-    this.userDataMapper = userDataMapper;
+  constructor(mockRepository: Mockable<UserEntity>, roleMockRepository: Roleable) {
     this.mockRepository = mockRepository;
+    this.roleMockRepository = roleMockRepository;
   }
+  /**
+   * Get roles from an array of role IDs.
+   * @param {number[]} roles - Array of role IDs.
+   * @returns {RoleDto[]} - Array of RoleDto objects.
+   */
+  getRoles = (roles: number[]): RoleDto[] => {
+    const selectedRoles = this.roleMockRepository.getByIdList(roles);
+
+    return selectedRoles;
+  };
+
+  /**
+   * Converts a UserEntity object into a UserDto object.
+   * @param {UserEntity} user - The UserEntity object to be mapped.
+   * @returns {UserDto} - The resulting UserDto object.
+   */
+  toDto = (user: UserEntity): UserDto => {
+    const selectedRoles = this.getRoles(user.roles);
+    const userDto = new UserDto({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      roles: selectedRoles,
+    });
+    return userDto;
+  };
+
+  /**
+   * Converts a list of UserEntity objects into a list of UserDto objects.
+   * @param {UserEntity[]} users - The list of UserEntity objects to be mapped.
+   * @returns {UserDto[]} - The resulting list of UserDto objects.
+   */
+  dtoList = (users: UserEntity[]): UserDto[] => {
+    const results = users.map((item: UserEntity) => this.toDto(item));
+
+    return results;
+  };
 
   /**
    * Retrieves all UserDto data from the collection.
@@ -25,7 +64,7 @@ export class UserMock implements Userable {
   getAll = async (): Promise<UserDto[]> => {
     this.list = await this.mockRepository.readFile(this.collection);
 
-    const results = this.userDataMapper.mapList(this.list);
+    const results = this.dtoList(this.list);
 
     return results;
   };
@@ -58,7 +97,7 @@ export class UserMock implements Userable {
       }),
     );
 
-    const dtos = this.userDataMapper.mapList(users);
+    const dtos = this.dtoList(users);
 
     return dtos;
   };
@@ -73,16 +112,16 @@ export class UserMock implements Userable {
 
     this.list = await this.mockRepository.readFile(this.collection);
 
-    const newUser = {
+    const newUser = new User({
       ...user,
       id,
-    };
+    });
 
     this.list.push(newUser);
 
     await this.mockRepository.writeFile(this.collection, this.list);
 
-    const userDto = this.userDataMapper.mapItem(newUser);
+    const userDto = this.toDto(newUser);
 
     return userDto;
   };
@@ -111,16 +150,14 @@ export class UserMock implements Userable {
   update = async (id: number, user: UserRequestParams): Promise<UserDto> => {
     const indexUser = await this.getUserIndex(id);
 
-    const updatedUser = {
-      ...user,
-      id,
-    };
+    const updatedUser = this.list[indexUser];
 
-    this.list[indexUser] = updatedUser;
+    this.list[indexUser].name = user.name;
+    this.list[indexUser].email = user.email;
 
     await this.mockRepository.writeFile(this.collection, this.list);
 
-    const userDto = this.userDataMapper.mapItem(updatedUser);
+    const userDto = this.toDto(updatedUser);
 
     return userDto;
   };
@@ -134,7 +171,7 @@ export class UserMock implements Userable {
   getById = async (id: number): Promise<UserDto> => {
     const indexUser = await this.getUserIndex(id);
 
-    const userDto = this.userDataMapper.mapItem(this.list[indexUser]);
+    const userDto = this.toDto(this.list[indexUser]);
 
     return userDto;
   };

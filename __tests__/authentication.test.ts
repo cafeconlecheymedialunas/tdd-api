@@ -56,6 +56,12 @@ describe('Authentification API', () => {
         .post('/auth/login')
         .send({ email: emailDefault, password: 'TestPassworde31@' });
 
+    
+      expect(response.body.user.id).toBeDefined();
+      expect(response.body.error).toBe(false);
+      console.log(response.body)
+      expect(typeof response.body.data.token).toBe("number");
+
       expect(response.status).toBe(200);
     } catch (error) {
       console.log(error);

@@ -1,7 +1,4 @@
 import { WrongAuthenticationTokenException } from '../../domain/types/errors';
-import { User as UserDataMapper } from '../../application/mappers/User';
-import { Role as RoleDataMapper } from '../../application/mappers/Role';
-import { Permission as PermissionDataMapper } from '../../application/mappers/Permission';
 import { JsonWebToken } from '../../application/services/JsonWebToken';
 import { Hash } from '../../application/services/Hash';
 import { Login } from '../../application/useCases/Login';
@@ -17,10 +14,7 @@ import { Mock } from '../../infrastructure/repositories/Mock';
 import { User as UserEntity } from '../../domain/entities/User';
 
 const loginUseCase = new Login(
-  new UserMock(
-    new UserDataMapper(new RoleMock(new RoleDataMapper(new PermissionMock(new PermissionDataMapper())))),
-    new Mock<UserEntity>(),
-  ),
+  new UserMock(new Mock<UserEntity>(), new RoleMock(new PermissionMock())),
   new Hash(bcrypt),
   new JsonWebToken(jwt),
   new Validator(),

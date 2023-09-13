@@ -3,6 +3,7 @@ import { DecodedToken, Payload } from '../../domain/types/responseOutputs';
 import { AuthenticationTokenMissingException, ClientException } from '../../domain/types/errors';
 import config from '../../config';
 import { TokenExpiredError } from 'jsonwebtoken';
+import { Permission } from '../dtos/Permission';
 
 export class JsonWebToken implements JsonWebTokenable {
   private readonly jwtLibrary;

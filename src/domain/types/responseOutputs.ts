@@ -7,14 +7,14 @@ import { Permission as PermissionEntity } from '../../domain/entities/Permission
 
 export type Payload = {
   id: number;
-  permissions: PermissionEntity[];
+  permissions: PermissionDto[];
 };
 
 export type DecodedToken = {
   exp: string;
   expiresIn: Date;
   id: number;
-  permissions: PermissionEntity[];
+  permissions: PermissionDto[];
 };
 
 export type Dtos = UserDto | RoleDto | PermissionDto;
