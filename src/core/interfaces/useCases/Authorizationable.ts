@@ -1,4 +1,4 @@
-import { Permission as PermissionDto } from '../../../application/dtos/Permission';
+import { Permission as PermissionDto } from '../../dtos/Permission';
 export interface Authorizationable {
   getRoutePermission(route: string, method: string): PermissionDto;
   getUserPermissions(token: string): Promise<PermissionDto[]>;
