@@ -4,10 +4,10 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import config from './config';
-import router from './infrastructure/routes/index';
-import errorHandler from './infrastructure/middlewares/errorHandler';
-import { checkAuthorization } from './infrastructure/middlewares/CheckAuthorization';
-import { limiter } from './infrastructure/middlewares/rateLimiter';
+import router from './infra/routes/index';
+import errorHandler from './infra/middlewares/errorHandler';
+import { checkAuthorization } from './infra/middlewares/CheckAuthorization';
+import { limiter } from './infra/middlewares/rateLimiter';
 import { Express } from 'express-serve-static-core';
 
 class Application {
@@ -62,7 +62,7 @@ class Application {
   private middlewares() {
     this.app.use(checkAuthorization);
 
-    //this.app.use(errorHandler);
+    this.app.use(errorHandler);
   }
 }
 
