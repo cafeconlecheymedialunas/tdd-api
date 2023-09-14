@@ -20,6 +20,7 @@ export class PermissionMock implements Permissionable {
       route: permission.route,
       method: permission.method,
     });
+
     return permissionDto;
   };
 

@@ -33,11 +33,13 @@ export class RoleMock implements Roleable {
    */
   toDto = (role: RoleEntity): RoleDto => {
     const selectedPermissions = this.getPermissions(role.permissions);
+
     const roleDto = new RoleDto({
       id: role.id,
       name: role.name,
       permissions: selectedPermissions,
     });
+
     return roleDto;
   };
 

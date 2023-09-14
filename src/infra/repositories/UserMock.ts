@@ -36,6 +36,7 @@ export class UserMock implements Userable {
    */
   toDto = (user: UserEntity): UserDto => {
     const selectedRoles = this.getRoles(user.roles);
+
     const userDto = new UserDto({
       id: user.id,
       name: user.name,
@@ -43,6 +44,7 @@ export class UserMock implements Userable {
       password: user.password,
       roles: selectedRoles,
     });
+
     return userDto;
   };
 

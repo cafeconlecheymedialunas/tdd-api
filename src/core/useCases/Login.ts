@@ -112,9 +112,9 @@ export class Login {
    * @returns {Payload} The generated payload object.
    */
   generatePayload = (user: UserDto): Payload => {
-    let permissions = [...new Set(user.roles.flatMap((item) => item.permissions))];
+    const permissions = [...new Set(user.roles.flatMap((item) => item.permissions))];
 
-    let payload = { id: user.id, permissions };
+    const payload = { id: user.id, permissions };
 
     return payload;
   };
