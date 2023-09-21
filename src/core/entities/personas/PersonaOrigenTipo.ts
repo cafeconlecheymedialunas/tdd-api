@@ -1,28 +1,25 @@
-export class PersonaOrigenTipo{
-    private id;
-    private descripcion;
-  
-    constructor(personaOrigenTipo: {
-      id: number,
-      descripcion: string,
-    }) {
-      this.id = personaOrigenTipo.id;
-      this.descripcion = personaOrigenTipo.descripcion;
-    }
+export class PersonaOrigenTipo {
+  private id;
+  private descripcion;
 
-    public getId(){
-        return this.id;
-    }
+  constructor(personaOrigenTipo: { id: number; descripcion: string }) {
+    this.id = personaOrigenTipo.id;
+    this.descripcion = personaOrigenTipo.descripcion;
+  }
 
-    public getDescription(){
-        return this.descripcion;
-    }
+  public getId() {
+    return this.id;
+  }
 
-    public setId(id:number){
-        this.id = id;
-    }
+  public getDescription() {
+    return this.descripcion;
+  }
 
-    public setDescription(descripcion:string){
-        this.descripcion = descripcion
-    }
+  public setId(id: number) {
+    this.id = id;
+  }
+
+  public setDescription(descripcion: string) {
+    this.descripcion = descripcion;
+  }
 }

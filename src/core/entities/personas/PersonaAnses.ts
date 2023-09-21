@@ -1,4 +1,4 @@
-export class PersonaAnses{
+export class PersonaAnses {
   private id;
   private persona_renaper_id;
   private cuil;
@@ -6,11 +6,11 @@ export class PersonaAnses{
   private archivo_origen;
 
   constructor(personaRenaperDocumento: {
-    id: number,
-    persona_renaper_id: number,
-    cuil: number,
-    fecha_actualizacion: number,
-    archivo_origen: string,
+    id: number;
+    persona_renaper_id: number;
+    cuil: number;
+    fecha_actualizacion: number;
+    archivo_origen: string;
   }) {
     this.id = personaRenaperDocumento.id;
     this.persona_renaper_id = personaRenaperDocumento.persona_renaper_id;
@@ -56,7 +56,6 @@ export class PersonaAnses{
   }
 
   public setArchivoOrigen(archivo_origen: string) {
-    this.archivo_origen =archivo_origen;
+    this.archivo_origen = archivo_origen;
   }
-
 }

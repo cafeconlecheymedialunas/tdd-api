@@ -1,4 +1,4 @@
-export class PersonaRenaperDocumentoVersion{
+export class PersonaRenaperDocumentoVersion {
   private id;
   private persona_documento_id;
   private documento_tipo;
@@ -22,31 +22,29 @@ export class PersonaRenaperDocumentoVersion{
   private genero;
   private tramite_nro;
 
- 
-
   constructor(personaRenaperDocumentoVersion: {
-    id: number,
-    persona_documento_id: number,
-    documento_tipo: Date,
-    documento_numero: Date,
-    ejemplar: string,
-    fecha_vencimiento: Date,
-    fecha_emision:Date,
-    apellido:string,
-    nombre:string,
-    cuil:number,
-    calle:string,
-    calle_nro:string,
-    piso:string,
-    departamento:string,
-    cpostal:number,
-    monoblock:string,
-    ciudad:string,
-    municipio:string,
-    provincia:string,
-    nacionalidad:string,
-    genero:string,
-    tramite_nro:number,
+    id: number;
+    persona_documento_id: number;
+    documento_tipo: Date;
+    documento_numero: Date;
+    ejemplar: string;
+    fecha_vencimiento: Date;
+    fecha_emision: Date;
+    apellido: string;
+    nombre: string;
+    cuil: number;
+    calle: string;
+    calle_nro: string;
+    piso: string;
+    departamento: string;
+    cpostal: number;
+    monoblock: string;
+    ciudad: string;
+    municipio: string;
+    provincia: string;
+    nacionalidad: string;
+    genero: string;
+    tramite_nro: number;
   }) {
     this.id = personaRenaperDocumentoVersion.id;
     this.persona_documento_id = personaRenaperDocumentoVersion.persona_documento_id;
@@ -56,20 +54,20 @@ export class PersonaRenaperDocumentoVersion{
     this.fecha_vencimiento = personaRenaperDocumentoVersion.fecha_vencimiento;
     this.fecha_emision = personaRenaperDocumentoVersion.fecha_emision;
     this.apellido = personaRenaperDocumentoVersion.apellido;
-    this.nombre = personaRenaperDocumentoVersion.nombre
-    this.cuil = personaRenaperDocumentoVersion.cuil
-    this.calle = personaRenaperDocumentoVersion.calle
-    this.calle_nro = personaRenaperDocumentoVersion.calle_nro
-    this.piso = personaRenaperDocumentoVersion.piso
-    this.departamento = personaRenaperDocumentoVersion.departamento
-    this.cpostal = personaRenaperDocumentoVersion.cpostal
-    this.monoblock = personaRenaperDocumentoVersion.monoblock
-    this.ciudad = personaRenaperDocumentoVersion.ciudad
-    this.municipio = personaRenaperDocumentoVersion.municipio
-    this.provincia = personaRenaperDocumentoVersion.provincia
-    this.nacionalidad = personaRenaperDocumentoVersion.nacionalidad
-    this.genero = personaRenaperDocumentoVersion.genero
-    this.tramite_nro = personaRenaperDocumentoVersion.tramite_nro
+    this.nombre = personaRenaperDocumentoVersion.nombre;
+    this.cuil = personaRenaperDocumentoVersion.cuil;
+    this.calle = personaRenaperDocumentoVersion.calle;
+    this.calle_nro = personaRenaperDocumentoVersion.calle_nro;
+    this.piso = personaRenaperDocumentoVersion.piso;
+    this.departamento = personaRenaperDocumentoVersion.departamento;
+    this.cpostal = personaRenaperDocumentoVersion.cpostal;
+    this.monoblock = personaRenaperDocumentoVersion.monoblock;
+    this.ciudad = personaRenaperDocumentoVersion.ciudad;
+    this.municipio = personaRenaperDocumentoVersion.municipio;
+    this.provincia = personaRenaperDocumentoVersion.provincia;
+    this.nacionalidad = personaRenaperDocumentoVersion.nacionalidad;
+    this.genero = personaRenaperDocumentoVersion.genero;
+    this.tramite_nro = personaRenaperDocumentoVersion.tramite_nro;
   }
 
   public getId() {
@@ -159,7 +157,7 @@ export class PersonaRenaperDocumentoVersion{
   public setId(id: number) {
     this.id = id;
   }
- 
+
   public setPersonaDocumentoId(persona_documento_id: number) {
     this.persona_documento_id = persona_documento_id;
   }
@@ -192,56 +190,55 @@ export class PersonaRenaperDocumentoVersion{
     this.nombre = nombre;
   }
 
-  public setCuil(cuil:number): void {
+  public setCuil(cuil: number): void {
     this.cuil = cuil;
   }
 
-  public setCalle(calle:string): void {
+  public setCalle(calle: string): void {
     this.calle = calle;
   }
 
-  public setCalleNro(calle_nro:string): void {
+  public setCalleNro(calle_nro: string): void {
     this.calle_nro = calle_nro;
   }
 
-  public setPiso(piso:string): void {
+  public setPiso(piso: string): void {
     this.piso = piso;
   }
 
-  public setDepartamento(departamento:string): void {
+  public setDepartamento(departamento: string): void {
     this.departamento = departamento;
   }
 
-  public setCpostal(cpostal:number): void {
+  public setCpostal(cpostal: number): void {
     this.cpostal = cpostal;
   }
 
-  public setMonoblock(monoblock:string): void {
+  public setMonoblock(monoblock: string): void {
     this.monoblock = monoblock;
   }
 
-  public setCiudad(ciudad:string): void {
+  public setCiudad(ciudad: string): void {
     this.ciudad = ciudad;
   }
 
-  public setMunicipio(municipio:string): void {
+  public setMunicipio(municipio: string): void {
     this.municipio = municipio;
   }
 
-  public setProvincia(provincia:string): void {
+  public setProvincia(provincia: string): void {
     this.provincia = provincia;
   }
 
-  public setNacionalidad(nacionalidad:string): void {
+  public setNacionalidad(nacionalidad: string): void {
     this.nacionalidad = nacionalidad;
   }
 
-  public setGenero(genero:string): void {
+  public setGenero(genero: string): void {
     this.genero = genero;
   }
 
-  public setTramiteNro(tramite_nro:number): void {
+  public setTramiteNro(tramite_nro: number): void {
     this.tramite_nro = tramite_nro;
   }
-
 }

@@ -6,19 +6,26 @@ import { RoleMock } from '../repositories/RoleMock';
 import { PermissionMock } from '../repositories/PermissionMock';
 import { Mock } from '../repositories/Mock';
 import { User as UserEntity } from '../../core/entities/User';
+import { BaseController, PaginatedResult } from './Base';
 
 const getAllUsersUseCase = new GetAllUsers(new UserMock(new Mock<UserEntity>(), new RoleMock(new PermissionMock())));
 
-const getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    const users = await getAllUsersUseCase.run();
+export class User extends BaseController{
 
-    if (!users) response(res, 200, []);
+  
+  getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<PaginatedResult | void> => {
+    try {
+      const users = await getAllUsersUseCase.run();
+  
+      if (!users) response(res, 200, []);
 
-    return response(res, 200, users);
-  } catch (error) {
-    next(error);
-  }
-};
+    return this.paginate(users,req);
+    } catch (error) {
+      next(error);
+    }
+  };
+}
 
-export default getAllUsers;
+
+
+export default User;

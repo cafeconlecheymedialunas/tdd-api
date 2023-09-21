@@ -1,13 +1,11 @@
 import { Router } from 'express';
-
-import login from '../../infra/controllers/login';
-
-import register from '../../infra/controllers/register';
+import { registerUser } from 'infra/controllers';
+import { loginUser } from 'infra/controllers';
 
 const router = Router();
 
-router.post('/login', login);
+router.post('/login', loginUser.handle);
 
-router.post('/register', register);
+router.post('/register', registerUser.handle);
 
 export { router };
