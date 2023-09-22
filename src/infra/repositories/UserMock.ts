@@ -7,7 +7,11 @@ import { User as UserDto } from '../../core/dtos/User';
 import { Mockable } from '../../core/interfaces/repositories/Mockable';
 import { Role as RoleDto } from '../../core/dtos/Role';
 import { Roleable } from '../../core/interfaces/repositories/Roleable';
-
+const condition: QueryFilter = {
+  key: 'name',
+  condition: Condition.Equal,
+  value: 'John',
+};
 export class UserMock implements Userable {
   list: UserEntity[] = [];
   collection = 'users';
@@ -35,13 +39,13 @@ export class UserMock implements Userable {
    * @returns {UserDto} - The resulting UserDto object.
    */
   toDto = (user: UserEntity): UserDto => {
-    const selectedRoles = this.getRoles(user.roles);
+    const selectedRoles = this.getRoles(user.getRoles());
 
     const userDto = new UserDto({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      password: user.password,
+      id: user.getId(),
+      name: user.getName(),
+      email: user.getEmail(),
+      password: user.getPassword(),
       roles: selectedRoles,
     });
 
@@ -71,39 +75,39 @@ export class UserMock implements Userable {
     return results;
   };
 
-  /**
-   * Filters the list of users based on the given conditions and returns a promise that resolves to an array of UserDto objects.
-   * @param {QueryFilter[]} conditions - An array of query filters to apply to the list of users.
-   * @returns {Promise<UserDto[]>} - A promise that resolves to an array of UserDto objects that match the given conditions.
-   */
-  filter = async (conditions: QueryFilter[]): Promise<UserDto[]> => {
-    await this.getAll();
-    const users = this.list.filter((item: UserEntity) =>
-      conditions.every((condition) => {
-        const { key, condition: conditionType, value } = condition;
+/**
+ * Filters the list of users based on the given conditions and returns a promise that resolves to an array of UserDto objects.
+ * @param {QueryFilter[]} conditions - An array of query filters to apply to the list of users.
+ * @returns {Promise<UserDto[]>} - A promise that resolves to an array of UserDto objects that match the given conditions.
+ */
+filter = async (conditions: QueryFilter[]): Promise<UserDto[]> => {
+  const users = this.list.filter((UserEntity: UserEntity) =>
+    conditions.every((condition) => {
+      const { key, condition: conditionType, value } = condition;
 
-        const propValue = item[key as keyof typeof item];
+      const functionName = `get${key}`;
 
-        switch (conditionType) {
-          case Condition.Equal:
-            return propValue === value;
-          case Condition.NotEqual:
-            return propValue !== value;
-          case Condition.GreaterThan:
-            return propValue > value;
-          case Condition.LessThan:
-            return propValue < value;
-          default:
-            return true;
-        }
-      }),
-    );
+      const propValue = eval(`UserEntity.${functionName}()`);
 
-    const dtos = this.dtoList(users);
+      switch (conditionType) {
+        case Condition.Equal:
+          return propValue === value;
+        case Condition.NotEqual:
+          return propValue !== value;
+        case Condition.GreaterThan:
+          return propValue > value;
+        case Condition.LessThan:
+          return propValue < value;
+        default:
+          return true;
+      }
+    }),
+  );
 
-    return dtos;
-  };
+  const dtos = this.dtoList(users);
 
+  return Promise.resolve(dtos);
+};
   /**
    * Adds a new User to the collection and return a UserDto.
    * @param {UserRequestParams} user - The user object to add.
@@ -154,8 +158,8 @@ export class UserMock implements Userable {
 
     const updatedUser = this.list[indexUser];
 
-    this.list[indexUser].name = user.name;
-    this.list[indexUser].email = user.email;
+    this.list[indexUser].setName(user.name);
+    this.list[indexUser].setEmail(user.email);
 
     await this.mockRepository.writeFile(this.collection, this.list);
 
@@ -187,7 +191,7 @@ export class UserMock implements Userable {
   getUserIndex = async (id: number): Promise<number> => {
     this.list = await this.mockRepository.readFile(this.collection);
 
-    const indexUser = this.list.findIndex((item) => item.id === id);
+    const indexUser = this.list.findIndex((item) => item.getId() === id);
 
     if (indexUser === -1) throw new NotFoundException(id, 'User');
 

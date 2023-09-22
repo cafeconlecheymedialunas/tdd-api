@@ -2,38 +2,38 @@
  * Represents a Role. The 'permissions' property should store an array of Permission IDs.
  */
 export class Role {
-  private _id: number;
-  private _name: string;
-  private _permissions: number[];
+  private id: number;
+  private name: string;
+  private permissions: number[];
 
   constructor(id: number, name: string, permissions: number[]) {
-    this._id = id;
+    this.id = id;
 
-    this._name = name;
+    this.name = name;
 
-    this._permissions = permissions;
+    this.permissions = permissions;
   }
 
-  public get id() {
-    return this._id;
+  public getId() {
+    return this.id;
   }
-  public get name() {
-    return this._name;
-  }
-
-  public get permissions() {
-    return this._permissions;
+  public getName() {
+    return this.name;
   }
 
-  public set id(id: number) {
-    this._id = id;
+  public getPermissions() {
+    return this.permissions;
   }
 
-  public set name(name: string) {
-    this._name = name;
+  public setId(id: number) {
+    this.id = id;
   }
 
-  public set permissions(permissions: number[]) {
-    this._permissions = permissions;
+  public setName(name: string) {
+    this.name = name;
+  }
+
+  public setPermissions(permissions: number[]) {
+    this.permissions = permissions;
   }
 }

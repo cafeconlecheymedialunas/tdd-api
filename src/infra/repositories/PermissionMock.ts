@@ -16,9 +16,9 @@ export class PermissionMock implements Permissionable {
    */
   toDto = (permission: PermissionEntity): PermissionDto => {
     const permissionDto = new PermissionDto({
-      id: permission.id,
-      route: permission.route,
-      method: permission.method,
+      id: permission.getId(),
+      route: permission.getRoute(),
+      method: permission.getMethod(),
     });
 
     return permissionDto;
@@ -40,7 +40,11 @@ export class PermissionMock implements Permissionable {
       conditions.every((condition) => {
         const { key, condition: conditionType, value } = condition;
 
-        const propValue = item[key as keyof typeof item];
+        const functionName = `get${key}`;
+
+        const propValue = eval(`item.${functionName}()`);
+
+
 
         switch (conditionType) {
           case Condition.Equal:
@@ -64,7 +68,7 @@ export class PermissionMock implements Permissionable {
 
   getByIdList = (ids: number[]): PermissionDto[] => {
     const permission = this.list.filter((item) => {
-      return ids.indexOf(item.id) != -1;
+      return ids.indexOf(item.getId()) != -1;
     });
 
     if (permission === undefined) throw new NotFoundException(ids[0], 'Permission');
@@ -94,7 +98,7 @@ export class PermissionMock implements Permissionable {
    * @throws {NotFoundException} If the permission with the given ID is not found.
    */
   getPermissionIndex = (id: number): number => {
-    const indexPermission = this.list.findIndex((item) => item.id === id);
+    const indexPermission = this.list.findIndex((item) => item.getId() === id);
 
     if (indexPermission === -1) throw new NotFoundException(id, 'Permission');
 

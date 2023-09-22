@@ -32,11 +32,11 @@ export class RoleMock implements Roleable {
    * @return {RoleDto} - Resulting RoleDto object.
    */
   toDto = (role: RoleEntity): RoleDto => {
-    const selectedPermissions = this.getPermissions(role.permissions);
+    const selectedPermissions = this.getPermissions(role.getPermissions());
 
     const roleDto = new RoleDto({
-      id: role.id,
-      name: role.name,
+      id: role.getId(),
+      name: role.getName(),
       permissions: selectedPermissions,
     });
 
@@ -74,7 +74,7 @@ export class RoleMock implements Roleable {
    * @throws {NotFoundException} - If the role with the given ID is not found in the list.
    */
   getRoleIndex = (id: number): number => {
-    const indexRole = this.list.findIndex((item) => item.id === id);
+    const indexRole = this.list.findIndex((item) => item.getId() === id);
 
     if (indexRole === -1) throw new NotFoundException(id, 'Role');
 
@@ -89,7 +89,7 @@ export class RoleMock implements Roleable {
   getByIdList = (ids: number[]): RoleDto[] => {
     if (!ids || !ids.indexOf) return [];
     const roles = this.list.filter((item) => {
-      return ids.indexOf(item.id) != -1;
+      return ids.indexOf(item.getId()) != -1;
     });
 
     const rolesDto = this.dtoList(roles);

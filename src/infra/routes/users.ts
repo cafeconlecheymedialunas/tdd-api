@@ -1,10 +1,8 @@
-import {User as UserController} from '../controllers/User';
+import { userController } from 'infra/controllers';
 import { Router } from 'express';
 
 const router = Router();
 
-const userController = new UserController();
-
-router.get('/users', userController.getAllUsers);
+router.get('/users', userController.getAll);
 
 export { router };

@@ -1,37 +1,38 @@
 export class Permission {
-  private _id: number;
-  private _route: string;
-  private _method: string;
+  private id: number;
+  private route: string;
+  private method: string;
 
   constructor(id: number, route: string, method: string) {
-    this._id = id;
+    this.id = id;
 
-    this._route = route;
+    this.route = route;
 
-    this._method = method;
+    this.method = method;
   }
 
-  public get id() {
-    return this._id;
+  public getId() {
+    return this.id;
   }
 
-  public get route() {
-    return this._route;
+  public getRoute() {
+    return this.route;
   }
 
-  public get method() {
-    return this._method;
+  public getMethod() {
+    return this.method;
   }
 
-  public set id(id: number) {
-    this._id = id;
+  public setId(id: number) {
+    this.id = id;
   }
 
-  public set route(route: string) {
-    this._route = route;
+  public setRoute(route: string) {
+    this.route = route;
   }
 
-  public set method(method: string) {
+  public setMethod(method: string) {
     this.method = method;
   }
 }
+

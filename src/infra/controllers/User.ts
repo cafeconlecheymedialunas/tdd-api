@@ -13,7 +13,7 @@ const getAllUsersUseCase = new GetAllUsers(new UserMock(new Mock<UserEntity>(), 
 export class User extends BaseController{
 
   
-  getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<PaginatedResult | void> => {
+  getAll = async (req: Request, res: Response, next: NextFunction): Promise<PaginatedResult | void> => {
     try {
       const users = await getAllUsersUseCase.run();
   
@@ -25,7 +25,3 @@ export class User extends BaseController{
     }
   };
 }
-
-
-
-export default User;

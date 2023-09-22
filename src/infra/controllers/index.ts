@@ -12,6 +12,7 @@ import { Mock } from 'infra/repositories/Mock';
 import LoginUser from './LoginUser';
 import RegisterUser from './RegisterUser';
 import { Register } from 'core/useCases/Register';
+import { User } from './User';
 
 const loginUser = new LoginUser(
   new Login(
@@ -30,7 +31,10 @@ const registerUser = new RegisterUser(
   )
 );
 
+const userController = new User();
+
 export {
   registerUser,
-  loginUser
+  loginUser,
+  userController
 }
