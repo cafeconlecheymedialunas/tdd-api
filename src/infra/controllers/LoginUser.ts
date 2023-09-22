@@ -1,13 +1,29 @@
-import { WrongAuthenticationTokenException } from '../../core/types/errors';
+import { WrongAuthenticationTokenException } from '../../core/errors';
 import { Request, Response, NextFunction } from 'express';
-import { response } from '../utils';
-import { Loginable } from 'core/interfaces/useCases/Loginable';
+
 import { BaseController, PaginatedResult } from './Base';
+import { Login } from 'core/useCases/Login';
+import { User } from 'infra/repositories/mock/User';
+import { Mock } from 'infra/repositories/mock/Mock';
+import { User as UserEntity } from 'core/entities/auth/User';
+import { Role } from 'infra/repositories/mock/Role';
+import { Permission } from 'infra/repositories/mock/Permission';
+import { Hash } from 'core/services/Hash';
+import { JsonWebToken } from 'core/services/JsonWebToken';
+import { Validator } from 'core/services/Validator';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
 class LoginUser extends BaseController {
-  private readonly loginUseCase: Loginable;
-  constructor(loginUseCase: Loginable) {
+  private readonly loginUseCase: Login;
+  constructor() {
     super();
-    this.loginUseCase = loginUseCase;
+    this.loginUseCase = new Login(
+      new User(new Mock<UserEntity>(), new Role(new Permission())),
+      new Hash(bcrypt),
+      new JsonWebToken(jwt),
+      new Validator(),
+    );
   }
   /**
    * Handles the login functionality by validating the email and password,
@@ -28,12 +44,10 @@ class LoginUser extends BaseController {
 
       if (!token) throw new WrongAuthenticationTokenException();
 
-      return this.paginate({ token },req);
-
+      return this.paginate({ token }, req);
     } catch (error) {
       next(error);
     }
-
   };
 }
 

@@ -1,11 +1,11 @@
-import { Permissionable } from '../../core/interfaces/repositories/Permissionable';
-import { Permission as PermissionEntity } from '../../core/entities/Permission';
-import { Condition, QueryFilter } from '../../core/types/requestInputs';
-import { NotFoundException } from '../../core/types/errors';
-import { Permission as PermissionDto } from '../../core/dtos/Permission';
+import { Permissionable } from '../../../core/interfaces/repositories/auth/Permissionable';
+import { Permission as PermissionEntity } from '../../../core/entities/auth/Permission';
+import { Condition, QueryFilter } from '../../../core/types/requestInputs';
+import { NotFoundException } from '../../../core/errors';
+import { Permission as PermissionDto } from '../../../core/dtos/auth/Permission';
 import { PERMISSIONS_DEFAULT } from './rolesDefault';
 
-export class PermissionMock implements Permissionable {
+export class Permission implements Permissionable {
   list = Object.values(PERMISSIONS_DEFAULT);
   collection = 'permissions';
 
@@ -43,8 +43,6 @@ export class PermissionMock implements Permissionable {
         const functionName = `get${key}`;
 
         const propValue = eval(`item.${functionName}()`);
-
-
 
         switch (conditionType) {
           case Condition.Equal:

@@ -1,14 +1,13 @@
-import { Userable } from '../interfaces/repositories/Userable';
+import { Userable } from '../interfaces/repositories/auth/Userable';
 import { Hashable } from '../interfaces/services/Hashable';
 import { Validatorable } from '../interfaces/services/Validatorable';
-import { Registerable } from '../interfaces/useCases/Registerable';
-import { UserWithThatEmailAlreadyExistsException, ValidationException } from '../types/errors';
+import { UserWithThatEmailAlreadyExistsException, ValidationException } from '../errors';
 import { UserRequestParams } from '../types/requestInputs';
 import { Condition } from '../types/requestInputs';
 import { RULES } from '../types/validationRules';
-import { User as UserDto } from '../dtos/User';
+import { User as UserDto } from '../dtos/auth/User';
 
-export class Register implements Registerable {
+export class Register {
   private readonly userRepository: Userable;
   private readonly hashService: Hashable;
   private readonly validatorService: Validatorable;

@@ -1,4 +1,4 @@
-import { ClientException } from '../../core/types/errors';
+import { ClientException } from '../../core/errors';
 import { NextFunction, Request, Response } from 'express';
 import { resError } from '../../infra/utils';
 

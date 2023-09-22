@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { ClientException } from '../../core/types/errors';
-import { Mockable } from '../../core/interfaces/repositories/Mockable';
+import { ClientException } from '../../../core/errors';
+import { Mockable } from '../../../core/interfaces/repositories/auth/Mockable';
 
 export class Mock<T> implements Mockable<T> {
   /**

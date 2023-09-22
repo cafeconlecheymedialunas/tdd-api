@@ -1,11 +1,10 @@
 import { JsonWebTokenable } from '../interfaces/services/JsonWebTokenable';
-import { Authorizationable } from '../interfaces/useCases/Authorizationable';
-import { WrongAuthenticationTokenException } from '../types/errors';
+import { WrongAuthenticationTokenException } from '../errors';
 import { Condition } from '../types/requestInputs';
-import { Permission as PermissionDto } from '../dtos/Permission';
-import { Permissionable } from '../interfaces/repositories/Permissionable';
+import { Permission as PermissionDto } from '../dtos/auth/Permission';
+import { Permissionable } from '../interfaces/repositories/auth/Permissionable';
 
-export class Authorization implements Authorizationable {
+export class Authorization {
   private readonly jsonWebTokenService: JsonWebTokenable;
   private readonly permissionRepository: Permissionable;
 

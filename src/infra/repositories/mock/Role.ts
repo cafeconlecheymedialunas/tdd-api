@@ -1,12 +1,12 @@
-import { Roleable } from '../../core/interfaces/repositories/Roleable';
-import { Role as RoleEntity } from '../../core/entities/Role';
-import { Role as RoleDto } from '../../core/dtos/Role';
+import { Roleable } from '../../../core/interfaces/repositories/auth/Roleable';
+import { Role as RoleEntity } from '../../../core/entities/auth/Role';
+import { Role as RoleDto } from '../../../core/dtos/auth/Role';
 import { ROLES_DEFAULT } from './rolesDefault';
-import { NotFoundException } from '../../core/types/errors';
-import { Permissionable } from '../../core/interfaces/repositories/Permissionable';
-import { Permission as PermissionDto } from '../../core/dtos/Permission';
+import { NotFoundException } from '../../../core/errors';
+import { Permissionable } from '../../../core/interfaces/repositories/auth/Permissionable';
+import { Permission as PermissionDto } from '../../../core/dtos/auth/Permission';
 
-export class RoleMock implements Roleable {
+export class Role implements Roleable {
   list: RoleEntity[] = ROLES_DEFAULT;
   collection = 'roles';
   private readonly permissionMockRepository: Permissionable;

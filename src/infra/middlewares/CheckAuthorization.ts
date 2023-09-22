@@ -1,9 +1,9 @@
-import { NotAuthorizedException } from '../../core/types/errors';
+import { NotAuthorizedException } from '../../core/errors';
 import { JsonWebToken } from '../../core/services/JsonWebToken';
 import { Authorization } from '../../core/useCases/Authorization';
 import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
-import { PermissionMock } from '../../infra/repositories/PermissionMock';
+import { Permission as PermissionMockRepository } from '../../infra/repositories/mock/Permission';
 
 /**
  * Checks the authorization of a request validating the token, route, and method.
@@ -26,7 +26,7 @@ export const checkAuthorization = async (req: Request, _res: Response, next: Nex
 
     if (!token) throw new NotAuthorizedException();
 
-    const authorizationUseCase = new Authorization(new JsonWebToken(jsonwebtoken), new PermissionMock());
+    const authorizationUseCase = new Authorization(new JsonWebToken(jsonwebtoken), new PermissionMockRepository());
 
     const isAuthorized = await authorizationUseCase.authorize(route, method, token);
 

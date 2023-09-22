@@ -1,13 +1,13 @@
-import { Userable } from '../interfaces/repositories/Userable';
+import { Userable } from '../interfaces/repositories/auth/Userable';
 import { Hashable } from '../interfaces/services/Hashable';
 import { JsonWebTokenable } from '../interfaces/services/JsonWebTokenable';
-import { ValidationException, WrongAuthenticationTokenException, WrongCredentialsException } from '../types/errors';
+import { ValidationException, WrongAuthenticationTokenException, WrongCredentialsException } from '../errors';
 import { Payload } from '../types/responseOutputs';
-import { User, User as UserDto } from '../dtos/User';
+import { User, User as UserDto } from '../dtos/auth/User';
 import { Condition } from '../types/requestInputs';
 import { Validatorable } from '../interfaces/services/Validatorable';
 import { RULES } from '../types/validationRules';
-import { Permission as PermissionDto } from '../dtos/Permission';
+import { Permission as PermissionDto } from '../dtos/auth/Permission';
 
 export class Login {
   private readonly UserRepository: Userable;

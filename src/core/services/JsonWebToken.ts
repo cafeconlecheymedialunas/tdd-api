@@ -1,9 +1,9 @@
 import { JsonWebTokenable } from '../interfaces/services/JsonWebTokenable';
 import { DecodedToken, Payload } from '../types/responseOutputs';
-import { AuthenticationTokenMissingException, ClientException } from '../types/errors';
+import { AuthenticationTokenMissingException, ClientException } from '../errors';
 import config from '../../config';
 import { TokenExpiredError } from 'jsonwebtoken';
-import { Permission } from '../dtos/Permission';
+import { Permission } from '../dtos/auth/Permission';
 
 export class JsonWebToken implements JsonWebTokenable {
   private readonly jwtLibrary;

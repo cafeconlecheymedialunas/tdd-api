@@ -11,7 +11,7 @@ export abstract class BaseController {
     return res.status(code).json({ message });
   }
 
-  public paginate(model: any, req: express.Request):PaginatedResult {
+  public paginate(model: any, req: express.Request): PaginatedResult {
     const result: PaginatedResult = {
       data: [],
       meta: {

@@ -1,5 +1,5 @@
 import { Validatorable } from '../interfaces/services/Validatorable';
-import { ClientException } from '../types/errors';
+import { ClientException } from '../errors';
 import { ValidationError } from '../types/validationRules';
 import { RuleTypes, RULES, ValidationRule, MESSAGES } from '../types/validationRules';
 

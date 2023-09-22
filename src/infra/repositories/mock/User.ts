@@ -1,18 +1,14 @@
-import { Userable } from '../../core/interfaces/repositories/Userable';
-import { NotFoundException } from '../../core/types/errors';
-import { User, User as UserEntity } from '../../core/entities/User';
-import { UserRequestParams } from '../../core/types/requestInputs';
-import { Condition, QueryFilter } from '../../core/types/requestInputs';
-import { User as UserDto } from '../../core/dtos/User';
-import { Mockable } from '../../core/interfaces/repositories/Mockable';
-import { Role as RoleDto } from '../../core/dtos/Role';
-import { Roleable } from '../../core/interfaces/repositories/Roleable';
-const condition: QueryFilter = {
-  key: 'name',
-  condition: Condition.Equal,
-  value: 'John',
-};
-export class UserMock implements Userable {
+import { Userable } from '../../../core/interfaces/repositories/auth/Userable';
+import { NotFoundException } from '../../../core/errors';
+import { User as UserEntity } from '../../../core/entities/auth/User';
+import { UserRequestParams } from '../../../core/types/requestInputs';
+import { Condition, QueryFilter } from '../../../core/types/requestInputs';
+import { User as UserDto } from '../../../core/dtos/auth/User';
+import { Mockable } from '../../../core/interfaces/repositories/auth/Mockable';
+import { Role as RoleDto } from '../../../core/dtos/auth/Role';
+import { Roleable } from '../../../core/interfaces/repositories/auth/Roleable';
+
+export class User implements Userable {
   list: UserEntity[] = [];
   collection = 'users';
   private readonly mockRepository: Mockable<UserEntity>;
@@ -75,39 +71,39 @@ export class UserMock implements Userable {
     return results;
   };
 
-/**
- * Filters the list of users based on the given conditions and returns a promise that resolves to an array of UserDto objects.
- * @param {QueryFilter[]} conditions - An array of query filters to apply to the list of users.
- * @returns {Promise<UserDto[]>} - A promise that resolves to an array of UserDto objects that match the given conditions.
- */
-filter = async (conditions: QueryFilter[]): Promise<UserDto[]> => {
-  const users = this.list.filter((UserEntity: UserEntity) =>
-    conditions.every((condition) => {
-      const { key, condition: conditionType, value } = condition;
+  /**
+   * Filters the list of users based on the given conditions and returns a promise that resolves to an array of UserDto objects.
+   * @param {QueryFilter[]} conditions - An array of query filters to apply to the list of users.
+   * @returns {Promise<UserDto[]>} - A promise that resolves to an array of UserDto objects that match the given conditions.
+   */
+  filter = async (conditions: QueryFilter[]): Promise<UserDto[]> => {
+    const users = this.list.filter((UserEntity: UserEntity) =>
+      conditions.every((condition) => {
+        const { key, condition: conditionType, value } = condition;
 
-      const functionName = `get${key}`;
+        const functionName = `get${key}`;
 
-      const propValue = eval(`UserEntity.${functionName}()`);
+        const propValue = eval(`UserEntity.${functionName}()`);
 
-      switch (conditionType) {
-        case Condition.Equal:
-          return propValue === value;
-        case Condition.NotEqual:
-          return propValue !== value;
-        case Condition.GreaterThan:
-          return propValue > value;
-        case Condition.LessThan:
-          return propValue < value;
-        default:
-          return true;
-      }
-    }),
-  );
+        switch (conditionType) {
+          case Condition.Equal:
+            return propValue === value;
+          case Condition.NotEqual:
+            return propValue !== value;
+          case Condition.GreaterThan:
+            return propValue > value;
+          case Condition.LessThan:
+            return propValue < value;
+          default:
+            return true;
+        }
+      }),
+    );
 
-  const dtos = this.dtoList(users);
+    const dtos = this.dtoList(users);
 
-  return Promise.resolve(dtos);
-};
+    return Promise.resolve(dtos);
+  };
   /**
    * Adds a new User to the collection and return a UserDto.
    * @param {UserRequestParams} user - The user object to add.
@@ -118,7 +114,7 @@ filter = async (conditions: QueryFilter[]): Promise<UserDto[]> => {
 
     this.list = await this.mockRepository.readFile(this.collection);
 
-    const newUser = new User({
+    const newUser = new UserEntity({
       ...user,
       id,
     });
