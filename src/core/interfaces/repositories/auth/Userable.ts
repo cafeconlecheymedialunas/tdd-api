@@ -1,16 +1,18 @@
-import { UserRequestParams } from '../../types/requestInputs';
-import { QueryFilter } from '../../types/requestInputs';
-import { User as UserDto } from '../../dtos/User';
-import { Role as RoleDto } from '../../dtos/Role';
-import { User as UserEntity } from '../../entities/User';
+import { UserRequestParams } from 'core/types/requestInputs';
+import { QueryFilter } from 'core/types/database';
+import { User as UserDto } from 'core/dtos/auth/User';
+import { Role as RoleDto } from 'core/dtos/auth/Role';
+import { User as UserEntity } from 'core/entities/auth/User';
+import {  User as UserModel } from 'infra/database/models/User';
+
 export interface Userable {
   getAll(): Promise<UserDto[]>;
-  filter(conditions: QueryFilter[]): Promise<UserDto[]>;
-  add(user: UserRequestParams): Promise<UserDto>;
+  filter(conditions: QueryFilter): Promise<UserDto[]>;
+  create(user: UserRequestParams): Promise<UserDto>;
   delete(id: number): Promise<number>;
   update(id: number, user: UserRequestParams): Promise<UserDto>;
   getById(id: number): Promise<UserDto>;
-  getRoles(roles: number[]): RoleDto[];
-  toDto(user: UserEntity): UserDto;
-  dtoList(users: UserEntity[]): UserDto[];
+  //getRoles(roles: number[]): RoleDto[];
+  toDto(user: UserEntity | UserModel): UserDto;
+  //dtoList(users: UserEntity[] | UserModel[]): UserDto[];
 }

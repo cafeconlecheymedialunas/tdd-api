@@ -1,28 +1,25 @@
+import { hasCorrectMinLength, isNotEmpty } from "./validaciones";
+
 /**
  * Represents a Role. The 'permissions' property should store an array of Permission IDs.
  */
 export class Role {
-  private id: number;
-  private name: string;
-  private permissions: number[];
+  private id?: number;
+  private name!: string;
 
-  constructor(id: number, name: string, permissions: number[]) {
-    this.id = id;
-
-    this.name = name;
-
-    this.permissions = permissions;
+  constructor(user:{id?: number, name: string}) {
+    if(user.id){
+      this.setId(user.id)
+    }
+    this.setName(user.name)
   }
 
   public getId() {
     return this.id;
   }
+
   public getName() {
     return this.name;
-  }
-
-  public getPermissions() {
-    return this.permissions;
   }
 
   public setId(id: number) {
@@ -30,10 +27,12 @@ export class Role {
   }
 
   public setName(name: string) {
-    this.name = name;
-  }
+    if(isNotEmpty(name)){
 
-  public setPermissions(permissions: number[]) {
-    this.permissions = permissions;
+    }
+    if( hasCorrectMinLength(name,1)){
+
+    }
+    this.name = name;
   }
 }

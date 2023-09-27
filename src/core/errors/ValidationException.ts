@@ -1,5 +1,5 @@
-import ClientException from "./ClientException";
-import { ValidationError } from "core/types/validationRules";
+import ClientException from './ClientException';
+import { ValidationError } from 'core/types/validationRules';
 
 export default class ValidationException extends ClientException {
   constructor(errors: ValidationError[]) {

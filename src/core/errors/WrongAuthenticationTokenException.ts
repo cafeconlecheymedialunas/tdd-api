@@ -1,5 +1,4 @@
-import ClientException from "./ClientException";
-
+import ClientException from './ClientException';
 
 export default class WrongAuthenticationTokenException extends ClientException {
   constructor() {

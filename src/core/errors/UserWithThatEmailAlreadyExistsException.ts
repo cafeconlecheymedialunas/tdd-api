@@ -1,4 +1,4 @@
-import ClientException from "./ClientException";
+import ClientException from './ClientException';
 
 export default class UserWithThatEmailAlreadyExistsException extends ClientException {
   constructor(email: string) {

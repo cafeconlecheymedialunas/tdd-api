@@ -9,7 +9,10 @@ import errorHandler from './infra/middlewares/errorHandler';
 import { checkAuthorization } from './infra/middlewares/CheckAuthorization';
 import { limiter } from './infra/middlewares/rateLimiter';
 import { Express } from 'express-serve-static-core';
-
+import ClientDatabase from 'infra/database/ClientDatabase';
+import { Role } from 'infra/database/models/Role';
+import { Permission } from 'infra/database/models/Permission';
+import { User } from 'infra/database/models/User';
 class Application {
   private static _instance: Application;
   private app!: Express;
@@ -30,11 +33,15 @@ class Application {
 
     this.app = express();
 
+    this.database();
+
     this.config();
 
     this.secure();
 
     this.middlewares();
+
+  
 
     return this.app;
   }
@@ -63,6 +70,20 @@ class Application {
     this.app.use(checkAuthorization);
 
     this.app.use(errorHandler);
+  }
+
+  async database() {
+    
+
+    const connectionDatabase = new ClientDatabase().getClient();
+
+    
+      Role.initialize(connectionDatabase);
+      Permission.initialize(connectionDatabase);
+      User.initialize(connectionDatabase);
+  
+
+
   }
 }
 

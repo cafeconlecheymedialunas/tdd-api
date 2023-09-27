@@ -1,49 +1,26 @@
 import { Userable } from '../interfaces/repositories/auth/Userable';
 import { Hashable } from '../interfaces/services/Hashable';
 import { JsonWebTokenable } from '../interfaces/services/JsonWebTokenable';
-import { ValidationException, WrongAuthenticationTokenException, WrongCredentialsException } from '../errors';
 import { Payload } from '../types/responseOutputs';
-import { User, User as UserDto } from '../dtos/auth/User';
-import { Condition } from '../types/requestInputs';
-import { Validatorable } from '../interfaces/services/Validatorable';
-import { RULES } from '../types/validationRules';
-import { Permission as PermissionDto } from '../dtos/auth/Permission';
+import { User as UserDto } from '../dtos/auth/User';
+import { Role } from 'core/dtos/auth/Role';
+import { Operations, QueryFilter } from 'core/types/database';
+import { WrongAuthenticationTokenException, WrongCredentialsException } from 'core/errors';
 
 export class Login {
   private readonly UserRepository: Userable;
   private readonly hashService: Hashable;
   private readonly JsonWebTokenService: JsonWebTokenable;
-  private readonly validatorService: Validatorable;
 
   constructor(
     UserRepository: Userable,
     hashService: Hashable,
-    JsonWebTokenService: JsonWebTokenable,
-    validatorService: Validatorable,
+    JsonWebTokenService: JsonWebTokenable
   ) {
     this.UserRepository = UserRepository;
     this.hashService = hashService;
     this.JsonWebTokenService = JsonWebTokenService;
-    this.validatorService = validatorService;
   }
-
-  /**
-   * Validates an email and password using a set of validation rules.
-   * @param {string} email - The email to validate.
-   * @param {string} password - The password to validate.
-   * @throws {ValidationException} If there are any validation errors.
-   * @returns {void}
-   */
-  validate = (email: string, password: string): void => {
-    const VALIDATION_RULES = [
-      { key: 'email', rules: [RULES.isNotEmpty, RULES.isEmail], value: email },
-      { key: 'password', rules: [RULES.isNotEmpty], value: password },
-    ];
-
-    const validationErrors = this.validatorService.validate(VALIDATION_RULES);
-
-    if (validationErrors.length > 0) throw new ValidationException(validationErrors);
-  };
 
   /**
    * Sign in a user with the given email and password.
@@ -52,11 +29,10 @@ export class Login {
    * @returns {Promise<UserDto>} A promise that resolves to the user object if the sign in is successful.
    */
   signIn = async (email: string, password: string): Promise<UserDto> => {
-    this.validate(email, password);
 
     const user = await this.checkUserEmail(email);
 
-    await this.checkUserPassword(password, user.password);
+    await this.checkUserPassword(password, user.getPassword());
 
     return user;
   };
@@ -68,9 +44,15 @@ export class Login {
    * @throws {WrongCredentialsException} If the user does not exist.
    */
   checkUserEmail = async (email: string): Promise<UserDto> => {
-    const QUERY_FILTER = [{ key: 'email', condition: Condition.Equal, value: email }];
 
-    const users = await this.UserRepository.filter(QUERY_FILTER);
+      
+    const whereClause: QueryFilter = {
+      email: {
+        [Operations.eq]: email, 
+      }
+    };
+
+    const users = await this.UserRepository.filter(whereClause);
 
     if (users.length === 0) throw new WrongCredentialsException();
 
@@ -112,9 +94,9 @@ export class Login {
    * @returns {Payload} The generated payload object.
    */
   generatePayload = (user: UserDto): Payload => {
-    const permissions = [...new Set(user.roles.flatMap((item) => item.permissions))];
+    const permissions = [...new Set(user.getRoles().flatMap((item: Role) => item.getPermissions()))];
 
-    const payload = { id: user.id, permissions };
+    const payload = { id: user.getId(), permissions };
 
     return payload;
   };
@@ -126,7 +108,6 @@ export class Login {
    * @returns {Promise<string>} A promise that resolves to the authentication token on successful login.
    */
   login = async (email: string, password: string): Promise<string> => {
-    this.validate(email, password);
 
     const userDto = await this.signIn(email, password);
 

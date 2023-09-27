@@ -1,5 +1,4 @@
-import ClientException from "./ClientException";
-
+import ClientException from './ClientException';
 
 export default class NotFoundException extends ClientException {
   constructor(id: string | number, entity: string) {

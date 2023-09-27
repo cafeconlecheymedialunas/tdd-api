@@ -1,8 +1,9 @@
 import { JsonWebTokenable } from '../interfaces/services/JsonWebTokenable';
 import { WrongAuthenticationTokenException } from '../errors';
-import { Condition } from '../types/requestInputs';
 import { Permission as PermissionDto } from '../dtos/auth/Permission';
 import { Permissionable } from '../interfaces/repositories/auth/Permissionable';
+import { Operations, QueryFilter } from 'core/types/database';
+import { where } from 'sequelize';
 
 export class Authorization {
   private readonly jsonWebTokenService: JsonWebTokenable;
@@ -21,7 +22,7 @@ export class Authorization {
    * @returns {boolean} - True if there is a match, false otherwise.
    */
   checkRouteAgainstUserPermissions = (routePermission: PermissionDto, userPermissions: PermissionDto[]): boolean => {
-    const permissionsMatch = userPermissions.filter((elem) => elem.id === routePermission.id);
+    const permissionsMatch = userPermissions.filter((elem) => elem.getId() === routePermission.getId());
 
     return permissionsMatch.length > 0;
   };
@@ -33,13 +34,14 @@ export class Authorization {
    * @returns {PermissionDto} - The permission route that matches the given route and method.
    * @throws {ClientException} - If no permission route is found or if multiple permission routes are found.
    */
-  getRoutePermission = (route: string, method: string): PermissionDto => {
-    const QUERY_FILTERS = [
-      { key: 'route', condition: Condition.Equal, value: route },
-      { key: 'method', condition: Condition.Equal, value: method },
-    ];
+  getRoutePermission = async(route: string, method: string): Promise<PermissionDto> => {
+  
 
-    const permissionRoute = this.permissionRepository.filter(QUERY_FILTERS);
+    const whereClause: QueryFilter = {
+      [Operations.and]: [{ route: route }, { method: method }],      
+    };
+
+    const permissionRoute = await this.permissionRepository.filter(whereClause);
 
     if (permissionRoute.length !== 1) throw new WrongAuthenticationTokenException();
 
@@ -69,7 +71,7 @@ export class Authorization {
    * @returns {Promise<boolean>} - A promise that resolves to true if the user is authorized, false otherwise.
    */
   authorize = async (route: string, method: string, token: string): Promise<boolean> => {
-    const routePermission = this.getRoutePermission(route, method);
+    const routePermission = await this.getRoutePermission(route, method);
 
     const userPermissions = await this.getUserPermissions(token);
 

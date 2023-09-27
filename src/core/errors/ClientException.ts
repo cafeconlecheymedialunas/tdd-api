@@ -1,4 +1,4 @@
-import { ValidationError } from "core/types/validationRules";
+import { ValidationError } from 'core/types/validationRules';
 
 export default class ClientException extends Error {
   public status: number;

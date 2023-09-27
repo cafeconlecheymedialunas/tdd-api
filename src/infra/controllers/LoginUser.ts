@@ -3,26 +3,21 @@ import { Request, Response, NextFunction } from 'express';
 
 import { BaseController, PaginatedResult } from './Base';
 import { Login } from 'core/useCases/Login';
-import { User } from 'infra/repositories/mock/User';
-import { Mock } from 'infra/repositories/mock/Mock';
-import { User as UserEntity } from 'core/entities/auth/User';
-import { Role } from 'infra/repositories/mock/Role';
-import { Permission } from 'infra/repositories/mock/Permission';
 import { Hash } from 'core/services/Hash';
 import { JsonWebToken } from 'core/services/JsonWebToken';
 import { Validator } from 'core/services/Validator';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { UserPostgres } from 'infra/repositories/sequelize/User';
 
 class LoginUser extends BaseController {
   private readonly loginUseCase: Login;
   constructor() {
     super();
     this.loginUseCase = new Login(
-      new User(new Mock<UserEntity>(), new Role(new Permission())),
+      new UserPostgres(),
       new Hash(bcrypt),
-      new JsonWebToken(jwt),
-      new Validator(),
+      new JsonWebToken(jwt)
     );
   }
   /**
@@ -37,8 +32,6 @@ class LoginUser extends BaseController {
   handle = async (req: Request, res: Response, next: NextFunction): Promise<PaginatedResult | void> => {
     try {
       const { email, password } = req.body;
-
-      this.loginUseCase.validate(email, password);
 
       const token = await this.loginUseCase.login(email, password);
 

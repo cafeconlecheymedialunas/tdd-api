@@ -3,14 +3,10 @@ import { Request, Response, NextFunction } from 'express';
 
 import { BaseController, PaginatedResult } from './Base';
 import { Register } from 'core/useCases/Register';
-import { User } from 'infra/repositories/mock/User';
-import { Mock } from 'infra/repositories/mock/Mock';
-import { Role } from 'infra/repositories/mock/Role';
-import { Permission } from 'infra/repositories/mock/Permission';
 import { Hash } from 'core/services/Hash';
 import { Validator } from 'core/services/Validator';
 import bcrypt from 'bcrypt';
-import { User as UserEntity } from 'core/entities/auth/User';
+import { UserPostgres } from 'infra/repositories/sequelize/User';
 
 export class RegisterUser extends BaseController {
   private readonly registerUseCase: Register;
@@ -18,9 +14,8 @@ export class RegisterUser extends BaseController {
   constructor() {
     super();
     this.registerUseCase = new Register(
-      new User(new Mock<UserEntity>(), new Role(new Permission())),
-      new Hash(bcrypt),
-      new Validator(),
+      new UserPostgres(),
+      new Hash(bcrypt)
     );
   }
 
@@ -34,8 +29,8 @@ export class RegisterUser extends BaseController {
    */
   handle = async (req: Request, res: Response, next: NextFunction): Promise<PaginatedResult | void> => {
     try {
-      const { name, email, password, roles } = req.body;
-      const result = await this.registerUseCase.register({ name, email, password, roles });
+      const { firstName,lastName, email, password, roles } = req.body;
+      const result = await this.registerUseCase.register({ firstName,lastName,email, password, roles });
       if (!result) throw new WrongCredentialsException();
       return this.paginate(result, req);
     } catch (error) {

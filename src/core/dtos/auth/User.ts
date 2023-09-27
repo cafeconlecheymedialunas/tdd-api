@@ -1,65 +1,97 @@
 import { Role as RoleDto } from './Role';
 
-/**
- * This DTO represents the return of all methods from the User Repository. It includes the 'roles' property that will be transformed into a RoleDto[] array by the User Mapper.
- * @class User
- */
 export class User {
-  private _id: number;
-  private _name: string;
-  private _email: string;
-  private _password: string;
-  private _roles: RoleDto[];
+  private id: number = 0; // Valor por defecto para id
+  private firstName: string = '';
+  private lastName: string = '';
+  private email: string = '';
+  private password: string = '';
+  private roles: RoleDto[] = []; // Valor por defecto para roles
 
-  constructor(user: { id: number; name: string; email: string; password: string; roles: RoleDto[] }) {
-    this._id = user.id;
+  constructor(
+    user: {
+      id?: number; // El signo "?" indica que el id es opcional
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      password?: string;
+      roles?: RoleDto[];
+    } = {},
+  ) {
+    // Usamos un objeto vacío como valor por defecto del parámetro user
 
-    this._name = user.name;
+    // Si se proporcionan valores en user, los asignamos a las propiedades correspondientes
+    if (user.id !== undefined) {
+      this.id = user.id;
+    }
 
-    this._email = user.email;
+    if (user.firstName !== undefined) {
+      this.firstName = user.firstName;
+    }
 
-    this._password = user.password;
+    if (user.lastName !== undefined) {
+      this.lastName = user.lastName;
+    }
 
-    this._roles = user.roles;
+    if (user.email !== undefined) {
+      this.email = user.email;
+    }
+
+    if (user.password !== undefined) {
+      this.password = user.password;
+    }
+
+    if (user.roles !== undefined) {
+      this.roles = user.roles;
+    }
   }
 
-  public get id() {
-    return this._id;
+  // Resto de métodos de la clase
+  public getId() {
+    return this.id;
   }
 
-  public get name() {
-    return this._name;
+  public getFirstName() {
+    return this.firstName;
   }
 
-  public get email() {
-    return this._email;
+  public getLastName() {
+    return this.lastName;
   }
 
-  public get password() {
-    return this._password;
+  public getEmail() {
+    return this.email;
   }
 
-  public get roles() {
-    return this._roles;
+  public getPassword() {
+    return this.password;
   }
 
-  public set id(id: number) {
-    this._id = id;
+  public getRoles() {
+    return this.roles;
   }
 
-  public set name(name: string) {
-    this._name = name;
+  public setId(id: number) {
+    this.id = id;
   }
 
-  public set email(email: string) {
-    this._email = email;
+  public setFirstName(firstName: string) {
+    this.firstName = firstName;
   }
 
-  public set password(password: string) {
-    this._password = password;
+  setLastName(lastName: string) {
+    this.lastName = lastName;
   }
 
-  public set roles(roles: RoleDto[]) {
-    this._roles = roles;
+  public setEmail(email: string) {
+    this.email = email;
+  }
+
+  public setPassword(password: string) {
+    this.password = password;
+  }
+
+  public setRoles(roles: RoleDto[]) {
+    this.roles = roles;
   }
 }

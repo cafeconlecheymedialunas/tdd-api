@@ -1,44 +1,20 @@
 import { Userable } from '../interfaces/repositories/auth/Userable';
 import { Hashable } from '../interfaces/services/Hashable';
-import { Validatorable } from '../interfaces/services/Validatorable';
-import { UserWithThatEmailAlreadyExistsException, ValidationException } from '../errors';
+import { UserWithThatEmailAlreadyExistsException } from '../errors';
 import { UserRequestParams } from '../types/requestInputs';
-import { Condition } from '../types/requestInputs';
-import { RULES } from '../types/validationRules';
 import { User as UserDto } from '../dtos/auth/User';
+import { Operations, QueryFilter } from 'core/types/database';
 
 export class Register {
   private readonly userRepository: Userable;
   private readonly hashService: Hashable;
-  private readonly validatorService: Validatorable;
 
-  constructor(userRepository: Userable, hashService: Hashable, validatorService: Validatorable) {
+  constructor(userRepository: Userable, hashService: Hashable) {
     this.userRepository = userRepository;
 
     this.hashService = hashService;
-
-    this.validatorService = validatorService;
   }
 
-  /**
-   * Validates the provided email, password, and name using a set of ValidationRules Type Array.
-   * @param {string} email - The email to validate.
-   * @param {string} password - The password to validate.
-   * @param {string} name - The name to validate.
-   * @throws {ValidationException} - If has validation errors.
-   * @returns None
-   */
-  validate = (email: string, password: string, name: string): void => {
-    const VALIDATION_RULES = [
-      { key: 'email', rules: [RULES.isNotEmpty, RULES.isString, RULES.isEmail], value: email },
-      { key: 'password', rules: [RULES.isNotEmpty, RULES.isStrongPassword], value: password },
-      { key: 'name', rules: [RULES.isNotEmpty, RULES.isString], value: name },
-    ];
-
-    const validationErrors = this.validatorService.validate(VALIDATION_RULES);
-
-    if (validationErrors.length > 0) throw new ValidationException(validationErrors);
-  };
 
   /**
    * Checks if a user with the given email already exists in the repository.
@@ -48,9 +24,13 @@ export class Register {
    * @throws {UserWithThatEmailAlreadyExistsException} - If a user with the same email is found.
    */
   userExist = async (email: string): Promise<void> => {
-    const QUERY_FILTER = [{ key: 'email', condition: Condition.Equal, value: email }];
 
-    const userExist = await this.userRepository.filter(QUERY_FILTER);
+    const whereClause: QueryFilter = {
+      email: {
+        [Operations.eq]: email, 
+      }
+    };
+    const userExist = await this.userRepository.filter(whereClause);
 
     if (userExist.length > 0) throw new UserWithThatEmailAlreadyExistsException(email);
   };
@@ -73,9 +53,7 @@ export class Register {
    * @returns {Promise<UserDto | false>} - A promise that resolves to the newly registered user object or false if registration fails.
    */
   register = async (user: UserRequestParams): Promise<UserDto | false> => {
-    const { email, password, name } = user;
-
-    this.validate(email, password, name);
+    const { email, password, firstName ,lastName} = user;
 
     await this.userExist(email);
 
@@ -83,7 +61,7 @@ export class Register {
 
     user.password = hashedPassword;
 
-    const newUser = await this.userRepository.add(user);
+    const newUser = await this.userRepository.create(user);
 
     return newUser;
   };
