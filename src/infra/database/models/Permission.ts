@@ -1,13 +1,12 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 
-
 export class Permission extends Model {
   public id!: number;
   public route!: string;
   public method!: string;
   // Si es necesario, define relaciones aquí
 
-  public static initialize(connectionDatabase:Sequelize) {
+  public static initialize(connectionDatabase: Sequelize) {
     const sequelize: Sequelize = connectionDatabase;
     this.init(
       {
@@ -29,7 +28,7 @@ export class Permission extends Model {
         sequelize,
         modelName: 'Permission', // Nombre del modelo en la base de datos
         tableName: 'permissions', // Nombre de la tabla en la base de datos
-      }
+      },
     );
   }
 
@@ -41,7 +40,4 @@ export class Permission extends Model {
       otherKey: 'role_id', // Clave foránea en la tabla intermedia que apunta a Role
     });
   }
-
 }
-
-

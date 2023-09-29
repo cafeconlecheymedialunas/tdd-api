@@ -1,10 +1,12 @@
 // Función para comprobar si un puerto está ocupado
 import http from 'http';
 import net from 'net';
-import express, { Express } from 'express';
+import { Express } from 'express';
+import listEndpoints from 'express-list-endpoints';
+
 
 export default class Server {
-  isPortTaken = async (port: number): Promise<boolean> => {
+  async isPortTaken (port: number): Promise<boolean>{
     return new Promise((resolve) => {
       const server = net
         .createServer()
@@ -17,7 +19,7 @@ export default class Server {
     });
   };
 
-  getAvailablePort = async (initialPort: number, maxAttempts: number): Promise<number | null> => {
+  async getAvailablePort (initialPort: number, maxAttempts: number): Promise<number | null>{
     let port = initialPort;
 
     let attempts = 0;
@@ -35,7 +37,7 @@ export default class Server {
     return null; // Si no se encuentra un puerto disponible después de los intentos máximos
   };
 
-  start = async (app: Express, initialPort: number, maxAttempts: number): Promise<http.Server | null> => {
+  async start (app: Express, initialPort: number, maxAttempts: number): Promise<http.Server | null> {
     const port = await this.getAvailablePort(initialPort, maxAttempts);
 
     if (port === null) {
@@ -45,6 +47,8 @@ export default class Server {
 
     const server = app.listen(port, () => {
       console.log(`Servidor Express iniciado en el puerto ${port}`);
+      console.log("Rutas declaradas: ")
+      console.log(listEndpoints(app))
     });
 
     return server;

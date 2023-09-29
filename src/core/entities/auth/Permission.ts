@@ -1,4 +1,4 @@
-import { hasCorrectMinLength, isNotEmpty } from './validaciones';
+import { isNotEmpty } from './validaciones';
 
 export class Permission {
   private id?: number;

@@ -1,6 +1,9 @@
-import { ValidationException } from "core/errors";
-import { MESSAGES } from "core/types/validationRules";
-import { isNotEmpty,hasCorrectMaxLength,hasCorrectMinLength,isEmail,isStrongPassword } from "./validaciones";
+import { ValidationException } from '../../errors';
+import { MESSAGES } from '../../types/validationRules';
+import { Email } from './Email';
+import { Password } from './Password';
+import { Role as RoleEntity } from './Role';
+import { isNotEmpty, hasCorrectMaxLength, hasCorrectMinLength, isEmail, isStrongPassword } from './validaciones';
 /**
  * Represents a User. The 'roles' property should store an array of Roles IDs.
  */
@@ -8,26 +11,33 @@ export class User {
   private id?: number;
   private firstName!: string;
   private lastName!: string;
-  private email!: string;
-  private password!: string;
+  private email!: Email;
+  private password!: Password;
+  private roles!: RoleEntity[];
 
-  constructor(user: { id?: number; firstName: string; lastName: string; email: string; password: string }) {
-    if(user.id){
-      this.setId(user.id)
+  constructor(user: {
+    id?: number;
+    firstName: string;
+    lastName: string;
+    email: Email;
+    password: Password;
+    roles: RoleEntity[];
+  }) {
+    if (user.id) {
+      this.setId(user.id);
     }
-    this.setFirstName(user.firstName)
-    this.setLastName(user.lastName)
-    this.setEmail(user.email)
-    this.setPassword(user.password)
+    this.setFirstName(user.firstName);
+    this.setLastName(user.lastName);
+    this.setEmail(user.email);
+    this.setPassword(user.password);
+    this.setRoles(user.roles);
   }
-
 
   public getId() {
     return this.id;
   }
 
   public getFirstName() {
-    
     return this.firstName;
   }
 
@@ -43,47 +53,44 @@ export class User {
     return this.password;
   }
 
+  public getRoles() {
+    return this.roles;
+  }
+
   public setId(id: number) {
     this.id = id;
   }
 
   public setFirstName(firstName: string) {
-    if(isNotEmpty(firstName)){
-      throw new ValidationException([{key:"firstName",error:MESSAGES.isNotEmpty}])
+    if (isNotEmpty(firstName)) {
+      throw new ValidationException([{ key: 'firstName', error: MESSAGES.isNotEmpty }]);
     }
-    if(!hasCorrectMinLength(firstName,1)){
-      throw new ValidationException([{key:"firstName",error:MESSAGES.min}])
+    if (!hasCorrectMinLength(firstName, 1)) {
+      throw new ValidationException([{ key: 'firstName', error: MESSAGES.min }]);
     }
     this.firstName = firstName;
   }
 
   public setLastName(lastName: string) {
-    if(!isNotEmpty(lastName)){
-      throw new ValidationException([{key:"lastName",error:MESSAGES.isNotEmpty}])
+    if (!isNotEmpty(lastName)) {
+      throw new ValidationException([{ key: 'lastName', error: MESSAGES.isNotEmpty }]);
     }
-    if(!hasCorrectMinLength(lastName,1)){
-      throw new ValidationException([{key:"lastName",error:MESSAGES.min}])
+    if (!hasCorrectMinLength(lastName, 1)) {
+      throw new ValidationException([{ key: 'lastName', error: MESSAGES.min }]);
     }
     this.lastName = lastName;
   }
 
-  public setEmail(email: string) {
-    if(!isNotEmpty(email)){
-      throw new ValidationException([{key:"email",error:MESSAGES.isNotEmpty}])
-    }
-    if(!isEmail(email)){
-      throw new ValidationException([{key:"email",error:MESSAGES.isEmail}])
-    }
+  public setEmail(email: Email) {
+   
     this.email = email;
   }
 
-  public setPassword(password: string) {
-    if(!isNotEmpty(password)){
-      throw new ValidationException([{key:"password",error:MESSAGES.isNotEmpty}])
-    }
-    if(!isStrongPassword(password)){
-      throw new ValidationException([{key:"password",error:MESSAGES.isStrongPassword}])
-    }
+  public setPassword(password:Password) {
     this.password = password;
+  }
+
+  public setRoles(roles: RoleEntity[]) {
+    this.roles = roles;
   }
 }

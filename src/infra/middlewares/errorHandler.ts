@@ -10,6 +10,7 @@ import { resError } from '../../infra/utils';
  * @returns {Promise<void>} - A promise that resolves when the error response is sent.
  */
 const errorHandler = (err: ClientException, _req: Request, res: Response, next: NextFunction): void => {
+  console.log(err)
   resError(res, err.status, err.message, err.errors);
   next();
 };

@@ -1,3 +1,8 @@
+import { Email } from '../entities/auth/Email';
+import { Permission as PermissionEntity } from '../entities/auth/Permission';
+import { Role as RoleEntity } from '../entities/auth/Role';
+import { Password } from '../entities/auth/Password';
+
 export type PermissionRequestParams = {
   route: string;
   method: string;
@@ -5,16 +10,13 @@ export type PermissionRequestParams = {
 
 export type RoleRequestParams = {
   name: string;
-  permissions: number[];
+  permissions: PermissionEntity[];
 };
 
 export type UserRequestParams = {
   firstName: string;
   lastName: string;
-  email: string;
-  password: string;
-  roles: number[];
+  email: Email;
+  password: Password;
+  roles: RoleEntity[];
 };
-
-
-

@@ -3,7 +3,6 @@ import { DecodedToken, Payload } from '../types/responseOutputs';
 import { AuthenticationTokenMissingException, ClientException } from '../errors';
 import config from '../../config';
 import { TokenExpiredError } from 'jsonwebtoken';
-import { Permission } from '../dtos/auth/Permission';
 
 export class JsonWebToken implements JsonWebTokenable {
   private readonly jwtLibrary;
@@ -19,7 +18,7 @@ export class JsonWebToken implements JsonWebTokenable {
    * @param {string} expiresIn - The expiration time for the token.
    * @returns {Promise<string>} - A promise that resolves to the generated token.
    */
-  generateToken = async (payload: Payload, expiresIn: string): Promise<string> => {
+  async generateToken  (payload: Payload, expiresIn: string): Promise<string> {
     const token = await this.jwtLibrary.sign(payload, config.SECRET_KEY, { expiresIn });
 
     if (!token) throw new ClientException(500, "It's impossible to generate the token.");
@@ -33,7 +32,7 @@ export class JsonWebToken implements JsonWebTokenable {
    * @throws {TokenExpiredError} If token is expired
    * @returns {Promise<DecodedToken>} The decoded token payload.
    */
-  verifyToken = async (token: string): Promise<DecodedToken> => {
+  async verifyToken  (token: string): Promise<DecodedToken>  {
     const decodedData = (await this.jwtLibrary.verify(token, config.SECRET_KEY)) as DecodedToken;
 
     const currentTime = Math.floor(Date.now() / 1000);
@@ -41,7 +40,7 @@ export class JsonWebToken implements JsonWebTokenable {
     if (Math.floor(decodedData.expiresIn.getDate() / 1000) < currentTime) {
       throw new TokenExpiredError('Token is expired', decodedData.expiresIn);
     }
-    if (!decodedData.id) throw new AuthenticationTokenMissingException();
+    if (!decodedData.email) throw new AuthenticationTokenMissingException();
 
     return decodedData;
   };
@@ -51,11 +50,11 @@ export class JsonWebToken implements JsonWebTokenable {
    * @param {string} token - The token to decode.
    * @returns {Promise<Payload>} - A promise that resolves to the decoded payload.
    */
-  decodeToken = async (token: string): Promise<Payload> => {
+  async decodeToken  (token: string): Promise<Payload>  {
     const decodedData = await this.verifyToken(token);
 
     return {
-      id: decodedData.id,
+      email: decodedData.email,
       permissions: decodedData.permissions,
     };
   };

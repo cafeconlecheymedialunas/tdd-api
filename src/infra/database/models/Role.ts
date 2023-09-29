@@ -1,13 +1,12 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 
-
 export class Role extends Model {
   public id!: number;
   public name!: string;
 
   // Si es necesario, define relaciones aquí
 
-  public static initialize(connectionDatabase:Sequelize) {
+  public static initialize(connectionDatabase: Sequelize) {
     const sequelize: Sequelize = connectionDatabase;
     this.init(
       {
@@ -25,7 +24,7 @@ export class Role extends Model {
         sequelize,
         modelName: 'Role', // Nombre del modelo en la base de datos
         tableName: 'roles', // Nombre de la tabla en la base de datos
-      }
+      },
     );
   }
 
@@ -44,5 +43,3 @@ export class Role extends Model {
     });
   }
 }
-
-

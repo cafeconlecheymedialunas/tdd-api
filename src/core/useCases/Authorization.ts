@@ -1,9 +1,8 @@
 import { JsonWebTokenable } from '../interfaces/services/JsonWebTokenable';
 import { WrongAuthenticationTokenException } from '../errors';
-import { Permission as PermissionDto } from '../dtos/auth/Permission';
+import { Permission as PermissionEntity } from '../entities/auth/Permission';
 import { Permissionable } from '../interfaces/repositories/auth/Permissionable';
-import { Operations, QueryFilter } from 'core/types/database';
-import { where } from 'sequelize';
+import { QueryFilter, Operations } from '../types/database';
 
 export class Authorization {
   private readonly jsonWebTokenService: JsonWebTokenable;
@@ -21,8 +20,10 @@ export class Authorization {
    * @param {PermissionDto[]} userPermissions - The array of user permissions.
    * @returns {boolean} - True if there is a match, false otherwise.
    */
-  checkRouteAgainstUserPermissions = (routePermission: PermissionDto, userPermissions: PermissionDto[]): boolean => {
-    const permissionsMatch = userPermissions.filter((elem) => elem.getId() === routePermission.getId());
+  checkRouteAgainstUserPermissions (routePermission: PermissionEntity, userPermissions: PermissionEntity[]): boolean {
+    const permissionsMatch = userPermissions.filter((elem) => {
+      return elem.getRoute() === routePermission.getRoute() && elem.getMethod() === routePermission.getMethod()
+    });
 
     return permissionsMatch.length > 0;
   };
@@ -34,11 +35,9 @@ export class Authorization {
    * @returns {PermissionDto} - The permission route that matches the given route and method.
    * @throws {ClientException} - If no permission route is found or if multiple permission routes are found.
    */
-  getRoutePermission = async(route: string, method: string): Promise<PermissionDto> => {
-  
-
+  async getRoutePermission (route: string, method: string): Promise<PermissionEntity> {
     const whereClause: QueryFilter = {
-      [Operations.and]: [{ route: route }, { method: method }],      
+      [Operations.and]: [{ route: route }, { method: method }],
     };
 
     const permissionRoute = await this.permissionRepository.filter(whereClause);
@@ -54,7 +53,7 @@ export class Authorization {
    * @returns {Promise<PermissionDto[]>} - A promise that resolves to an array of PermissionDto objects representing the user's permissions.
    * @throws {WrongAuthenticationTokenException} - If the provided token is invalid or expired.
    */
-  getUserPermissions = async (token: string): Promise<PermissionDto[]> => {
+  async getUserPermissions (token: string): Promise<PermissionEntity[]> {
     const decodedUserData = await this.jsonWebTokenService.decodeToken(token);
 
     if (!decodedUserData) {
@@ -70,7 +69,7 @@ export class Authorization {
    * @param {string} token - The user's authentication token.
    * @returns {Promise<boolean>} - A promise that resolves to true if the user is authorized, false otherwise.
    */
-  authorize = async (route: string, method: string, token: string): Promise<boolean> => {
+  async authorize (route: string, method: string, token: string): Promise<boolean> {
     const routePermission = await this.getRoutePermission(route, method);
 
     const userPermissions = await this.getUserPermissions(token);

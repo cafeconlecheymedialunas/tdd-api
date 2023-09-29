@@ -1,7 +1,4 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
-import { Role } from './Role';
-import Application from 'Application';
-
 
 export class User extends Model {
   public id!: number;
@@ -11,8 +8,7 @@ export class User extends Model {
   public password!: string;
   // Si es necesario, define relaciones aquí
 
-  public static initialize(connectionDatabase:Sequelize) {
-
+  public static initialize(connectionDatabase: Sequelize) {
     const sequelize: Sequelize = connectionDatabase;
     this.init(
       {
@@ -42,13 +38,11 @@ export class User extends Model {
         sequelize,
         modelName: 'User', // Nombre del modelo en la base de datos
         tableName: 'users', // Nombre de la tabla en la base de datos
-      }
+      },
     );
   }
 
   public static associate(models: any) {
-
-
     this.belongsToMany(models.Role, {
       through: 'user_role', // Nombre de la tabla intermedia
       foreignKey: 'role_id', // Clave foránea en la tabla intermedia que apunta a Role
@@ -56,6 +50,3 @@ export class User extends Model {
     });
   }
 }
-
-
-

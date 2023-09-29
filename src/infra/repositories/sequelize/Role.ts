@@ -3,10 +3,9 @@ import { NotFoundException } from '../../../core/errors';
 import { RoleRequestParams } from '../../../core/types/requestInputs';
 import { Role as RoleEntity } from '../../../core/entities/auth/Role';
 import { Role as RoleDto } from '../../../core/dtos/auth/Role';
-import { Role as RoleModel } from 'infra/database/models/Role';
-import { QueryFilter } from 'core/types/database';
-import { Permission } from 'infra/database/models/Permission';
-
+import { Role as RoleModel } from '../../database/models/Role';
+import { QueryFilter } from '../../../core/types/database';
+import { Permission } from '../../database/models/Permission';
 
 export class RolePostgres implements Roleable {
   /**
@@ -15,35 +14,27 @@ export class RolePostgres implements Roleable {
    * @returns {RoleDto} - The resulting RoleDto object.
    */
 
+  toEntity(role: RoleModel): RoleEntity {
+    return new RoleEntity(role.toJSON())
+  }
   /**
    * Retrieves all RoleDto data from the collection.
    * @returns {Promise<RoleDto[]>} - A promise that resolves to an array of RoleDto objects if successful.
    */
-  getAll = async (): Promise<RoleDto[]> => {
+  async getAll(): Promise<RoleEntity[]> {
     const roles = await RoleModel.findAll({ include: RoleModel });
 
-    const rolesDto = roles.map((role) => {
-        return this.toDto(role)
+    return roles.map((role: RoleModel) => {
+      return this.toEntity(role);
     });
-
-    return rolesDto;
   };
 
-  toDto(role: RoleModel): RoleDto {
-    return new RoleDto({
-        id: role.getDataValue('id'),
-        name: role.getDataValue('name'),
-        permissions:role.getDataValue("permissions")
-      });
-  }
-
-   /**
+  /**
    * Filters roles based on given conditions.
    * @param {QueryFilter[]} conditions - The conditions to filter roles.
    * @returns {Promise<RoleDto[]>} - A promise that resolves to an array of filtered RoleDto objects if successful.
    */
-   filter = async (whereClauses: QueryFilter): Promise<RoleDto[]> => {
-
+  async filter (whereClauses: QueryFilter): Promise<RoleEntity[]>  {
     const filteredRoles = await RoleModel.findAll({
       where: whereClauses,
       include: RoleModel,
@@ -51,7 +42,7 @@ export class RolePostgres implements Roleable {
 
     // Convierte los usuarios filtrados a objetos RoleDto
     return filteredRoles.map((role) => {
-      return this.toDto(role);
+      return this.toEntity(role);
     });
   };
   /**
@@ -59,28 +50,23 @@ export class RolePostgres implements Roleable {
    * @param {RoleRequestParams} role - The role object to add.
    * @returns {Promise<RoleDto>} - A promise that resolves to the added role object (as a RoleDto) if successful.
    */
-  create = async (role: RoleRequestParams): Promise<RoleDto> => {
-    const newRole = new RoleEntity({
-      name: role.name
-    });
-
+  async create(role: RoleRequestParams): Promise<RoleEntity> {
     const permissions = await Permission.findAll({
       where: {
-        id: role.permissions, 
-      }
+        id: role.permissions,
+      },
     });
-  
-    const result = await RoleModel.create(
-      {
-        name: 'Nombre del Nuevo Rol',
-        permissions
-      }
-    );
 
+    new RoleEntity({
+      name: role.name,
+      permissions: permissions.map((item) => item.toJSON()),
+    });
 
-
-
-    return this.toDto(result);
+    const result = await RoleModel.create({
+      name: 'Nombre del Nuevo Rol',
+      permissions,
+    });
+    return this.toEntity(result)
   };
 
   /**
@@ -88,7 +74,7 @@ export class RolePostgres implements Roleable {
    * @param {number} id - The ID of the item to delete.
    * @returns {Promise<boolean>} - A promise that resolves to true if the item was successfully deleted, or false if the item was not found.
    */
-  delete = async (id: number): Promise<number> => {
+  async delete(id: number): Promise<number>{
     const indexRole = await RoleModel.destroy({
       where: {
         id,
@@ -103,19 +89,19 @@ export class RolePostgres implements Roleable {
    * @param {RoleRequestParams} role - The updated role data.
    * @returns {Promise<RoleDto>} - A promise that resolves to the updated role object if successful, or false if unsuccessful.
    */
-  update = async (id: number, role: RoleRequestParams): Promise<RoleDto> => {
+  async update (id: number, role: RoleRequestParams): Promise<RoleEntity> {
     const roleDb = await RoleModel.findByPk(id);
     if (!roleDb) {
-        throw new NotFoundException(id, 'Role');
-      }
-    const roleEntity = new RoleEntity(role);
+      throw new NotFoundException(id, 'Role');
+    }
+    new RoleEntity(role);
 
     roleDb.set('name', role.name);
 
     const permissions = await Permission.findAll({
       where: {
-        id: role.permissions, 
-      }
+        id: role.permissions,
+      },
     });
 
     roleDb.set('permissions', permissions);
@@ -123,9 +109,7 @@ export class RolePostgres implements Roleable {
     // Guarda los cambios en la base de datos
     await roleDb.save();
 
-    // Convierte el usuario actualizado a un objeto RoleDto y lo devuelve
-      
-    return this.toDto(roleDb);
+    return this.toEntity(roleDb);
   };
 
   /**
@@ -134,7 +118,7 @@ export class RolePostgres implements Roleable {
    * @returns {Promise<RoleDto | false>} - A promise that resolves to the RoleDto object if the role is found, or false if the role is not found.
   
    */
-  getById = async (id: number): Promise<RoleDto> => {
+  async getById(id: number): Promise<RoleEntity>{
     const roleDb = await RoleModel.findByPk(id, { include: RoleModel });
 
     // Si el usuario no se encuentra, devuelve false
@@ -142,6 +126,6 @@ export class RolePostgres implements Roleable {
       throw new NotFoundException(id, 'Role');
     }
 
-   return this.toDto(roleDb)
+    return this.toEntity(roleDb);
   };
 }

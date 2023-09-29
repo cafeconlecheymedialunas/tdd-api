@@ -3,9 +3,9 @@ import { NotFoundException } from '../../../core/errors';
 import { User as UserEntity } from '../../../core/entities/auth/User';
 import { UserRequestParams } from '../../../core/types/requestInputs';
 import { User as UserDto } from '../../../core/dtos/auth/User';
-import { QueryFilter } from 'core/types/database';
-import { User as UserModel } from 'infra/database/models/User';
-import { Role as RoleModel } from 'infra/database/models/Role';
+import { QueryFilter } from '../../../core/types/database';
+import { User as UserModel } from '../../database/models/User';
+import { Role as RoleModel } from '../../database/models/Role';
 
 export class UserPostgres implements Userable {
   /**
@@ -18,33 +18,25 @@ export class UserPostgres implements Userable {
    * Retrieves all UserDto data from the collection.
    * @returns {Promise<UserDto[]>} - A promise that resolves to an array of UserDto objects if successful.
    */
-  getAll = async (): Promise<UserDto[]> => {
+  async getAll(): Promise<UserEntity[]> {
     const users = await UserModel.findAll({ include: RoleModel });
 
-    const usersDto = users.map((user) => {
-        return this.toDto(user)
+    return  users.map((user) => {
+        return new UserEntity(user.toJSON())
     });
-
-    return usersDto;
   };
 
-  toDto(user: UserModel): UserDto {
-    return new UserDto({
-        id: user.getDataValue('id'),
-        firstName: user.getDataValue('firstName'),
-        lastName: user.getDataValue('lastName'),
-        email: user.getDataValue('email'),
-        password: user.getDataValue('password'),
-        roles: user.getDataValue('roles'),
-      });
+  toEntity(user: UserModel): UserEntity {
+    return new UserEntity(user.toJSON())
   }
+
 
    /**
    * Filters users based on given conditions.
    * @param {QueryFilter} conditions - The conditions to filter users.
    * @returns {Promise<UserDto[]>} - A promise that resolves to an array of filtered UserDto objects if successful.
    */
-   filter = async (whereClauses: QueryFilter): Promise<UserDto[]> => {
+   async filter(whereClauses: QueryFilter): Promise<UserEntity[]>{
 
     const filteredUsers = await UserModel.findAll({
       where: whereClauses,
@@ -53,7 +45,7 @@ export class UserPostgres implements Userable {
 
     // Convierte los usuarios filtrados a objetos UserDto
     return filteredUsers.map((user) => {
-      return this.toDto(user);
+      return this.toEntity(user);
     });
   };
   /**
@@ -61,13 +53,8 @@ export class UserPostgres implements Userable {
    * @param {UserRequestParams} user - The user object to add.
    * @returns {Promise<UserDto>} - A promise that resolves to the added user object (as a UserDto) if successful.
    */
-  create = async (user: UserRequestParams): Promise<UserDto> => {
-    const newUser = new UserEntity({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      password: user.password,
-    });
+  async create (user: UserRequestParams): Promise<UserEntity>{
+    const newUser = new UserEntity(user);
 
     const roles = await RoleModel.findAll({
       where: {
@@ -79,15 +66,9 @@ export class UserPostgres implements Userable {
         lastName : newUser.getLastName(),
         email:newUser.getEmail(),
         password:newUser.getPassword(),
-        roles:roles
+        roles
     });
-
-    
-   
-   
-
-
-    return this.toDto(userDb);
+    return this.toEntity(userDb);
   };
 
   /**
@@ -95,7 +76,7 @@ export class UserPostgres implements Userable {
    * @param {number} id - The ID of the item to delete.
    * @returns {Promise<boolean>} - A promise that resolves to true if the item was successfully deleted, or false if the item was not found.
    */
-  delete = async (id: number): Promise<number> => {
+  async delete(id: number): Promise<number> {
     const indexUser = await UserModel.destroy({
       where: {
         id,
@@ -110,7 +91,7 @@ export class UserPostgres implements Userable {
    * @param {UserRequestParams} user - The updated user data.
    * @returns {Promise<UserDto>} - A promise that resolves to the updated user object if successful, or false if unsuccessful.
    */
-  update = async (id: number, user: UserRequestParams): Promise<UserDto> => {
+  async update(id: number, user: UserRequestParams): Promise<UserEntity> {
     const userDb = await UserModel.findByPk(id);
     if (!userDb) {
         throw new NotFoundException(id, 'User');
@@ -122,12 +103,9 @@ export class UserPostgres implements Userable {
     userDb.set('email', userEntity.getEmail());
     userDb.set('password', userEntity.getPassword());
 
-    // Guarda los cambios en la base de datos
     await userDb.save();
-
-    // Convierte el usuario actualizado a un objeto UserDto y lo devuelve
       
-    return this.toDto(userDb);
+    return this.toEntity(userDb);
   };
 
   /**
@@ -136,14 +114,13 @@ export class UserPostgres implements Userable {
    * @returns {Promise<UserDto | false>} - A promise that resolves to the UserDto object if the user is found, or false if the user is not found.
   
    */
-  getById = async (id: number): Promise<UserDto> => {
+  async getById(id: number): Promise<UserEntity>  {
     const userDb = await UserModel.findByPk(id, { include: RoleModel });
 
-    // Si el usuario no se encuentra, devuelve false
     if (!userDb) {
       throw new NotFoundException(id, 'User');
     }
 
-   return this.toDto(userDb)
+   return this.toEntity(userDb.toJSON())
   };
 }

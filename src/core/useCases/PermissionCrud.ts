@@ -1,6 +1,6 @@
 import { Permissionable } from '../interfaces/repositories/auth/Permissionable';
-import { Permission as PermissionDto } from '../dtos/auth/Permission';
-import { PermissionRequestParams } from 'core/types/requestInputs';
+import { Permission as PermissionEntity } from '../entities/auth/Permission';
+import { PermissionRequestParams } from '../types/requestInputs';
 
 export class PermissionCrud {
   private readonly permissionRepo: Permissionable;
@@ -9,31 +9,31 @@ export class PermissionCrud {
     this.permissionRepo = PermissionRepository;
   }
 
-  create = async (permission:PermissionRequestParams): Promise<PermissionDto> => {
+  async create (permission: PermissionRequestParams): Promise<PermissionEntity> {
     const permissions = await this.permissionRepo.create(permission);
 
     return permissions;
   };
 
-  getAll = async (): Promise<PermissionDto[]> => {
+  async getAll(): Promise<PermissionEntity[]> {
     const permissions = await this.permissionRepo.getAll();
 
     return permissions;
   };
 
-  getById = async (id:number): Promise<PermissionDto> => {
+  async getById (id: number): Promise<PermissionEntity>  {
     const permission = await this.permissionRepo.getById(id);
 
     return permission;
   };
 
-  update = async (id:number,permission:PermissionRequestParams): Promise<PermissionDto> => {
-    const result = await this.permissionRepo.update(id,permission);
+  async update(id: number, permission: PermissionRequestParams): Promise<PermissionEntity> {
+    const result = await this.permissionRepo.update(id, permission);
 
     return result;
   };
 
-  delete = async (id:number): Promise<number> => {
+  async delete(id: number): Promise<number> {
     const result = await this.permissionRepo.delete(id);
 
     return result;
