@@ -1,6 +1,8 @@
 import { ValidationException } from '../../errors';
 import { MESSAGES } from '../../types/validationRules';
 import { Email } from './Email';
+import { SerialId } from './SerialId';
+import { Name } from './Name';
 import { Password } from './Password';
 import { Role as RoleEntity } from './Role';
 import { isNotEmpty, hasCorrectMaxLength, hasCorrectMinLength, isEmail, isStrongPassword } from './validaciones';
@@ -8,17 +10,17 @@ import { isNotEmpty, hasCorrectMaxLength, hasCorrectMinLength, isEmail, isStrong
  * Represents a User. The 'roles' property should store an array of Roles IDs.
  */
 export class User {
-  private id?: number;
-  private firstName!: string;
-  private lastName!: string;
+  private id?: SerialId;
+  private firstName!: Name;
+  private lastName!: Name;
   private email!: Email;
   private password!: Password;
   private roles!: RoleEntity[];
 
   constructor(user: {
-    id?: number;
-    firstName: string;
-    lastName: string;
+    id?: SerialId;
+    firstName: Name;
+    lastName:Name;
     email: Email;
     password: Password;
     roles: RoleEntity[];
@@ -57,27 +59,21 @@ export class User {
     return this.roles;
   }
 
-  public setId(id: number) {
+  public setId(id:SerialId) {
     this.id = id;
   }
 
-  public setFirstName(firstName: string) {
-    if (isNotEmpty(firstName)) {
+  public setFirstName(firstName:Name) {
+    if (isNotEmpty(firstName.getValue())) {
       throw new ValidationException([{ key: 'firstName', error: MESSAGES.isNotEmpty }]);
     }
-    if (!hasCorrectMinLength(firstName, 1)) {
+    if (!hasCorrectMinLength(firstName.getValue(), 1)) {
       throw new ValidationException([{ key: 'firstName', error: MESSAGES.min }]);
     }
     this.firstName = firstName;
   }
 
-  public setLastName(lastName: string) {
-    if (!isNotEmpty(lastName)) {
-      throw new ValidationException([{ key: 'lastName', error: MESSAGES.isNotEmpty }]);
-    }
-    if (!hasCorrectMinLength(lastName, 1)) {
-      throw new ValidationException([{ key: 'lastName', error: MESSAGES.min }]);
-    }
+  public setLastName(lastName: Name) {
     this.lastName = lastName;
   }
 

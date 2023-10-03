@@ -1,11 +1,16 @@
-import { isNotEmpty } from './validaciones';
+import { MESSAGES } from 'core/types/validationRules';
+import { ValidationException } from '../../errors';
+import { Method } from './Method';
+import { hasCorrectMaxLength, isNotEmpty, isString } from './validaciones';
+import {  SerialId } from './SerialId';
+import { Name } from './Name';
 
 export class Permission {
-  private id?: number;
-  private route: string;
-  private method: string;
+  private id?: SerialId;
+  private route: Name;
+  private method: Method;
 
-  constructor(user: { id?: number; route: string; method: string }) {
+  constructor(user: { id?: SerialId; route: Name; method: Method}) {
     this.id = user.id;
 
     this.route = user.route;
@@ -25,20 +30,16 @@ export class Permission {
     return this.method;
   }
 
-  public setId(id: number) {
+  public setId(id: SerialId) {
     this.id = id;
   }
 
-  public setRoute(route: string) {
-    if (isNotEmpty(route)) {
-    }
+  public setRoute(route: Name) {
+   
     this.route = route;
   }
 
-  public setMethod(method: string) {
-    if (isNotEmpty(method)) {
-    }
-
-    this.method = method;
+  public setMethod(method: Method) {
+    this.method = method
   }
 }

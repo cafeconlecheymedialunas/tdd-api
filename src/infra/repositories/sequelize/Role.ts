@@ -2,10 +2,11 @@ import { Roleable } from '../../../core/interfaces/repositories/auth/Roleable';
 import { NotFoundException } from '../../../core/errors';
 import { RoleRequestParams } from '../../../core/types/requestInputs';
 import { Role as RoleEntity } from '../../../core/entities/auth/Role';
-import { Role as RoleDto } from '../../../core/dtos/auth/Role';
 import { Role as RoleModel } from '../../database/models/Role';
 import { QueryFilter } from '../../../core/types/database';
 import { Permission } from '../../database/models/Permission';
+import { Name } from '../../../core/entities/auth/Name';
+import { SerialId } from '../../../core/entities/auth/SerialId';
 
 export class RolePostgres implements Roleable {
   /**
@@ -15,7 +16,11 @@ export class RolePostgres implements Roleable {
    */
 
   toEntity(role: RoleModel): RoleEntity {
-    return new RoleEntity(role.toJSON())
+    return new RoleEntity({
+      id: new SerialId(role.getDataValue("id")),
+      name:new Name(role.getDataValue("name")),
+      permissions: role.getDataValue("permissions")
+    })
   }
   /**
    * Retrieves all RoleDto data from the collection.
@@ -58,7 +63,7 @@ export class RolePostgres implements Roleable {
     });
 
     new RoleEntity({
-      name: role.name,
+      name: new Name(role.name),
       permissions: permissions.map((item) => item.toJSON()),
     });
 
@@ -94,7 +99,10 @@ export class RolePostgres implements Roleable {
     if (!roleDb) {
       throw new NotFoundException(id, 'Role');
     }
-    new RoleEntity(role);
+    new RoleEntity({
+      name:new Name(role.name),
+      permissions:role.permissions
+    });
 
     roleDb.set('name', role.name);
 

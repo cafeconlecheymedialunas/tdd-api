@@ -6,6 +6,9 @@ import { User as UserDto } from '../../../core/dtos/auth/User';
 import { QueryFilter } from '../../../core/types/database';
 import { User as UserModel } from '../../database/models/User';
 import { Role as RoleModel } from '../../database/models/Role';
+import { Name } from '../../../core/entities/auth/Name';
+import { Email } from '../../../core/entities/auth/Email';
+import { Password } from '../../../core/entities/auth/Password';
 
 export class UserPostgres implements Userable {
   /**
@@ -27,7 +30,13 @@ export class UserPostgres implements Userable {
   };
 
   toEntity(user: UserModel): UserEntity {
-    return new UserEntity(user.toJSON())
+    return new UserEntity({
+      firstName: new Name(user.getDataValue("firstName")),
+      lastName: new Name(user.getDataValue("lastName")),
+      email:new Email(user.getDataValue("email")),
+      password: new Password(user.getDataValue("password")),
+      roles:user.getDataValue("roles")
+    })
   }
 
 
@@ -54,7 +63,13 @@ export class UserPostgres implements Userable {
    * @returns {Promise<UserDto>} - A promise that resolves to the added user object (as a UserDto) if successful.
    */
   async create (user: UserRequestParams): Promise<UserEntity>{
-    const newUser = new UserEntity(user);
+    const newUser = new UserEntity({
+      firstName: new Name(user.firstName),
+      lastName: new Name(user.lastName),
+      email: new Email(user.email),
+      password: new Password(user.password),
+      roles:user.roles
+    });
 
     const roles = await RoleModel.findAll({
       where: {
@@ -96,7 +111,15 @@ export class UserPostgres implements Userable {
     if (!userDb) {
         throw new NotFoundException(id, 'User');
       }
-    const userEntity = new UserEntity(user);
+    const userEntity = new UserEntity(
+    {
+      firstName: new Name(user.firstName),
+      lastName: new Name(user.lastName),
+      email:new Email(user.email),
+      password: new Password(user.password),
+      roles:user.roles
+    }
+    );
 
     userDb.set('firstName', userEntity.getFirstName());
     userDb.set('lastName', userEntity.getLastName());

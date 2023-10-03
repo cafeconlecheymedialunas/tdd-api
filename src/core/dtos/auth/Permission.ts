@@ -1,3 +1,5 @@
+import { Method } from "core/entities/auth/Method";
+
 /**
  * This class represents a Permission DTO (Data Transfer Object)
  * which is returned by all methods from the Role Repository.
@@ -5,9 +7,9 @@
 export class Permission {
   private id: number;
   private route: string;
-  private method: string;
+  private method: Method;
 
-  constructor(permission: { route: string; method: string; id: number }) {
+  constructor(permission: { route: string; method: Method; id: number }) {
     this.id = permission.id;
 
     this.route = permission.route;
@@ -35,7 +37,7 @@ export class Permission {
     this.route = route;
   }
 
-  public setMethod(method: string) {
+  public setMethod(method: Method) {
     this.method = method;
   }
 }

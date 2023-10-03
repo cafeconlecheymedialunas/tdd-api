@@ -55,11 +55,11 @@ export class Register {
   async register(user: UserRequestParams): Promise<UserEntity | false>  {
     const { email, password, firstName, lastName } = user;
 
-    await this.userExist(email);
+    await this.userExist(new Email(email));
 
-    const hashedPassword = await this.generateHash(password);
+    const hashedPassword = await this.generateHash(new Password(password));
 
-    user.password = new Password(hashedPassword);
+    user.password = hashedPassword;
 
     const newUser = await this.userRepository.create(user);
 

@@ -31,6 +31,7 @@ export const MESSAGES = {
   min: `The %s have at least one digit`,
   max: `The %s have at least 120 digit`,
   isEmail: `The %s is not a valid email`,
+  isSerial: `The %s is not a serial number`,
   // eslint-disable-next-line max-len
   isStrongPassword: `The %s must be at least 8 characters long, contain at least one uppercase letter and one lowercase letter, have at least one digit, and include one special character`,
 };

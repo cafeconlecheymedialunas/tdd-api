@@ -6,6 +6,9 @@ import { QueryFilter } from '../../../core/types/database';
 import { Permission as PermissionModel } from '../../database/models/Permission';
 import { Role as RoleModel } from '../../database/models/Role';
 import { Permissionable } from '../../../core/interfaces/repositories/auth/Permissionable';
+import { Method } from '../../../core/entities/auth/Method';
+import { Name } from '../../../core/entities/auth/Name';
+import { SerialId } from '../../../core/entities/auth/SerialId';
 
 export class PermissionPostgres implements Permissionable {
   
@@ -43,7 +46,14 @@ export class PermissionPostgres implements Permissionable {
   };
 
   toEntity(permission: PermissionModel): PermissionEntity {
-    return new PermissionEntity(permission.toJSON());
+    return new PermissionEntity(
+      {
+        id: new SerialId(permission.getDataValue("id")),
+        route: new Name(permission.getDataValue("route")),
+        method : new Method(permission.getDataValue("method"))
+      }
+     
+    );
   }
   /**
    * Adds a new Permission to the collection and return a PermissionDto.
@@ -51,14 +61,14 @@ export class PermissionPostgres implements Permissionable {
    * @returns {Promise<PermissionDto>} - A promise that resolves to the added permission object (as a PermissionDto) if successful.
    */
   async create(permission: PermissionRequestParams): Promise<PermissionEntity> {
-    const newPermission = new PermissionEntity({
-      route: permission.route,
-      method: permission.method
+    const permissionEntity = new PermissionEntity({
+      route: new Name(permission.route),
+      method: new Method(permission.method)
     });
 
     const result = await PermissionModel.create({
-        route: newPermission.getRoute(),
-        method : newPermission.getMethod()
+        route: permissionEntity.getRoute(),
+        method : permissionEntity.getMethod()
     });
 
     
@@ -92,7 +102,12 @@ export class PermissionPostgres implements Permissionable {
     if (!permissionDb) {
         throw new NotFoundException(id, 'Permission');
       }
-    const permissionEntity = new PermissionEntity(permission);
+    const permissionEntity = new PermissionEntity({
+      route:new Name(permission.route),
+      method:new Method(permission.method) 
+    }
+   
+    );
 
     permissionDb.set('route', permissionEntity.getRoute());
     permissionDb.set('method', permissionEntity.getMethod());
