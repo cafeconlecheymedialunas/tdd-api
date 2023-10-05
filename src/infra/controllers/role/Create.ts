@@ -9,9 +9,8 @@ export class Create extends BaseController {
     super();
     this.roleCrudUseCase = new RoleCrud(new RolePostgres());
   }
- 
 
-  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void>  {
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const { name, permissions } = req.body;
       const roles = await this.roleCrudUseCase.create({ name: name, permissions: permissions });
@@ -20,5 +19,5 @@ export class Create extends BaseController {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

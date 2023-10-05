@@ -1,4 +1,4 @@
-import { Password } from "../../entities/auth/Password";
+import { Password } from '../../entities/auth/Password';
 
 export interface Hashable {
   hash(password: Password): Promise<string>;

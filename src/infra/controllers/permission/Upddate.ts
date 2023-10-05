@@ -10,14 +10,14 @@ export class Update extends BaseController {
     this.permissionCrudUseCase = new PermissionCrud(new PermissionPostgres());
   }
 
-  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void>{
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const { id, permission } = req.body;
       const permissions = await this.permissionCrudUseCase.update(id, permission);
 
-    return this.paginate(permissions);
+      return this.paginate(permissions);
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

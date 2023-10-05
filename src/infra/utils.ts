@@ -10,7 +10,6 @@ const resError = (res: Response, status = 500, message = 'Server Error', errors:
 };
 
 const responseSuccess = (res: Response, status = 200, data: object): void => {
-  
   res.status(status).json({
     error: false,
     data,

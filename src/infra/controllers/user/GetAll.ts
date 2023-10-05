@@ -9,14 +9,13 @@ export class GetAll extends BaseController {
     super();
     this.crudUserUseCase = new UserCrud(new UserPostgres());
   }
-  async handle(req:Request, next: NextFunction): Promise<PaginatedResult | void>  {
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const users = await this.crudUserUseCase.getAll();
 
       return this.paginate(users);
-
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

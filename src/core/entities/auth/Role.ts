@@ -27,7 +27,7 @@ export class Role {
     return this.name;
   }
 
-  public getPermissions(){
+  public getPermissions() {
     return this.permissions;
   }
 

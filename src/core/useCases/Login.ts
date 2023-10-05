@@ -26,13 +26,13 @@ export class Login {
    * @param {string} password - The password of the user.
    * @returns {Promise<UserEntity>} A promise that resolves to the user object if the sign in is successful.
    */
-  async signIn (email: Email, password: Password): Promise<UserEntity>{
+  async signIn(email: Email, password: Password): Promise<UserEntity> {
     const user = await this.checkUserEmail(email);
 
     await this.checkUserPassword(password, user.getPassword());
 
     return user;
-  };
+  }
 
   /**
    * Checks if a user with the provided email exists.
@@ -40,7 +40,7 @@ export class Login {
    * @returns {Promise<UserEntity>} A promise that resolves to the found user object.
    * @throws {WrongCredentialsException} If the user does not exist.
    */
-  async checkUserEmail (email: Email): Promise<UserEntity> {
+  async checkUserEmail(email: Email): Promise<UserEntity> {
     const whereClause: QueryFilter = {
       email: {
         [Operations.eq]: email.getValue(),
@@ -52,7 +52,7 @@ export class Login {
     if (users.length === 0) throw new WrongCredentialsException();
 
     return users[0];
-  };
+  }
 
   /**
    * Checks if the provided password matches the user's password.
@@ -61,14 +61,14 @@ export class Login {
    * @returns {Promise<boolean>} A promise that resolves to a boolean indicating password match.
    * @throws {WrongCredentialsException} If the passwords do not match.
    */
-  async checkUserPassword(password: Password, userPassword: Password): Promise<boolean>  {
+  async checkUserPassword(password: Password, userPassword: Password): Promise<boolean> {
     const passwordMatch = await this.hashService.verify(password, userPassword.getValue());
 
     if (!passwordMatch) {
       throw new WrongCredentialsException();
     }
     return passwordMatch;
-  };
+  }
 
   /**
    * Generates an authentication token using the provided payload.
@@ -76,25 +76,25 @@ export class Login {
    * @returns {Promise<string>} A promise that resolves to the generated token.
    * @throws {WrongAuthenticationTokenException} If the token generation fails.
    */
-  async generateToken (payload: Payload): Promise<string>  {
+  async generateToken(payload: Payload): Promise<string> {
     const token = await this.JsonWebTokenService.generateToken(payload, '1h');
 
     if (!token) throw new WrongAuthenticationTokenException();
     return token;
-  };
+  }
 
   /**
    * Generates a payload object based on the provided UserEntity.
    * @param {UserEntity} user - The user object to generate the payload from.
    * @returns {Payload} The generated payload object.
    */
-  generatePayload (user: UserEntity): Payload {
+  generatePayload(user: UserEntity): Payload {
     const permissions = [...new Set(user.getRoles().flatMap((item: RoleEntity) => item.getPermissions()))];
 
     const payload = { email: user.getEmail(), permissions };
 
     return payload;
-  };
+  }
 
   /**
    * Handles the login process for a user with the provided email and password.
@@ -110,5 +110,5 @@ export class Login {
     const token = await this.generateToken(payload);
 
     return token;
-  };
+  }
 }

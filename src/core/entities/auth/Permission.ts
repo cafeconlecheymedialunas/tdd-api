@@ -2,7 +2,7 @@ import { MESSAGES } from 'core/types/validationRules';
 import { ValidationException } from '../../errors';
 import { Method } from './Method';
 import { hasCorrectMaxLength, isNotEmpty, isString } from './validaciones';
-import {  SerialId } from './SerialId';
+import { SerialId } from './SerialId';
 import { Name } from './Name';
 
 export class Permission {
@@ -10,7 +10,7 @@ export class Permission {
   private route: Name;
   private method: Method;
 
-  constructor(user: { id?: SerialId; route: Name; method: Method}) {
+  constructor(user: { id?: SerialId; route: Name; method: Method }) {
     this.id = user.id;
 
     this.route = user.route;
@@ -35,11 +35,10 @@ export class Permission {
   }
 
   public setRoute(route: Name) {
-   
     this.route = route;
   }
 
   public setMethod(method: Method) {
-    this.method = method
+    this.method = method;
   }
 }

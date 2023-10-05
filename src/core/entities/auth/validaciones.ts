@@ -15,9 +15,9 @@ const hasCorrectMinLength = (value: string, min: number): boolean => {
   return value.toString().trim().length >= min;
 };
 
-const isSerial = (value:number) =>{
-  return isNumber(value) && value > 0 && value < 2147483648
-}
+const isSerial = (value: number) => {
+  return isNumber(value) && value > 0 && value < 2147483648;
+};
 
 const hasCorrectMaxLength = (value: string, max: number): boolean => {
   return value.toString().trim().length <= max;

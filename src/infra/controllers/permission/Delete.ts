@@ -12,12 +12,12 @@ export class Delete extends BaseController {
 
   async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
-        const { id } = req.body;
+      const { id } = req.body;
       const permissions = await this.permissionCrudUseCase.delete(id);
 
       return this.paginate(permissions);
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

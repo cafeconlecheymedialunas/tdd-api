@@ -10,13 +10,11 @@ import { checkAuthorization } from './infra/middlewares/CheckAuthorization';
 import { limiter } from './infra/middlewares/rateLimiter';
 import { Express } from 'express-serve-static-core';
 import ClientDatabase from './infra/database/ClientDatabase';
-import { Role } from './infra/database/models/Role';
-import { Permission } from './infra/database/models/Permission';
-import { User } from './infra/database/models/User';
-
+import listEndpoints from 'express-list-endpoints';
 class Application {
   private static _instance: Application;
   private app!: Express;
+  private models: any;
 
   static getInstance() {
     if (this._instance) {
@@ -55,6 +53,8 @@ class Application {
     this.app.use(bodyParser.urlencoded({ extended: false }));
 
     this.app.use(router);
+
+    //this.app.use(errorHandler);
   }
 
   private secure() {
@@ -63,20 +63,22 @@ class Application {
     this.app.use(helmet());
 
     this.app.use(hpp());
+
+    //this.app.use(checkAuthorization);
   }
 
-  private middlewares() {
-    this.app.use(checkAuthorization);
-
-    this.app.use(errorHandler);
-  }
+  private middlewares() {}
 
   async database() {
     const connectionDatabase = new ClientDatabase().getClient();
 
-    Role.initialize(connectionDatabase);
-    Permission.initialize(connectionDatabase);
-    User.initialize(connectionDatabase);
+    const initModels = require('./infra/database/models/init-models.js');
+
+    this.models = initModels(connectionDatabase);
+  }
+
+  public getModels() {
+    return this.models;
   }
 }
 

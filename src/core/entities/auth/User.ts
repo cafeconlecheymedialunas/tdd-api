@@ -20,7 +20,7 @@ export class User {
   constructor(user: {
     id?: SerialId;
     firstName: Name;
-    lastName:Name;
+    lastName: Name;
     email: Email;
     password: Password;
     roles: RoleEntity[];
@@ -59,11 +59,11 @@ export class User {
     return this.roles;
   }
 
-  public setId(id:SerialId) {
+  public setId(id: SerialId) {
     this.id = id;
   }
 
-  public setFirstName(firstName:Name) {
+  public setFirstName(firstName: Name) {
     if (isNotEmpty(firstName.getValue())) {
       throw new ValidationException([{ key: 'firstName', error: MESSAGES.isNotEmpty }]);
     }
@@ -78,11 +78,10 @@ export class User {
   }
 
   public setEmail(email: Email) {
-   
     this.email = email;
   }
 
-  public setPassword(password:Password) {
+  public setPassword(password: Password) {
     this.password = password;
   }
 

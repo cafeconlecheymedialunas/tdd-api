@@ -1,4 +1,3 @@
-
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -24,7 +23,7 @@ export class Login extends BaseController {
    * @returns {Promise<void>} - A promise that resolves when the login process is complete.
    * @throws {WrongAuthenticationTokenException} - If the authentication token is invalid.
    */
-  async handle (req: Request,  next: NextFunction): Promise<PaginatedResult | void> {
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const { email, password } = req.body;
 
@@ -36,5 +35,5 @@ export class Login extends BaseController {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

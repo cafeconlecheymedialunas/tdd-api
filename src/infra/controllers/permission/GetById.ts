@@ -10,7 +10,7 @@ export class getById extends BaseController {
     this.permissionCrudUseCase = new PermissionCrud(new PermissionPostgres());
   }
 
-  async handle(req: Request,  next: NextFunction): Promise<PaginatedResult | void> {
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const { id } = req.body;
       const permissions = await this.permissionCrudUseCase.getById(id);
@@ -19,5 +19,5 @@ export class getById extends BaseController {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

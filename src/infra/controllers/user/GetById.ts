@@ -10,8 +10,7 @@ export class getById extends BaseController {
     this.crudUserUseCase = new UserCrud(new UserPostgres());
   }
 
-
-  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void>  {
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const { id, name } = req.body;
       const users = await this.crudUserUseCase.getById(id);
@@ -20,5 +19,5 @@ export class getById extends BaseController {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

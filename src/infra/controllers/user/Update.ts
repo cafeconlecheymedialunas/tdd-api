@@ -10,7 +10,7 @@ export class Update extends BaseController {
     this.crudUserUseCase = new UserCrud(new UserPostgres());
   }
 
-  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void>  {
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const { id, user } = req.body;
       const users = await this.crudUserUseCase.update(id, user);
@@ -19,5 +19,5 @@ export class Update extends BaseController {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

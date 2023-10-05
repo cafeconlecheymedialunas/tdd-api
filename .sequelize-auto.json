@@ -1,0 +1,15 @@
+{
+  "dialect": "postgres",
+  "directory": "./src/infra/database/models",
+  "additional": {
+    "timestamps": false,
+    "freezeTableName": true
+  },
+  "typescript": {
+    "modelPath": "./src/infra/database/models",
+    "interface": "interface",
+    "enum": "enum"
+  },
+  "camelCaseForFileName": true,
+  "camelCaseForTableName": true
+}

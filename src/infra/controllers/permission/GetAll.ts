@@ -10,14 +10,13 @@ export class GetAll extends BaseController {
     this.permissionCrudUseCase = new PermissionCrud(new PermissionPostgres());
   }
 
-  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void>{
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const permissions = await this.permissionCrudUseCase.getAll();
-        
+
       return this.paginate(permissions);
     } catch (error) {
       next(error);
     }
-  };
-
+  }
 }

@@ -10,7 +10,7 @@ export class Delete extends BaseController {
     this.roleCrudUseCase = new RoleCrud(new RolePostgres());
   }
 
-  async handle  (req: Request, next: NextFunction): Promise<PaginatedResult | void>  {
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const { id } = req.body;
       const roles = await this.roleCrudUseCase.delete(id);
@@ -19,6 +19,5 @@ export class Delete extends BaseController {
     } catch (error) {
       next(error);
     }
-  };
-
+  }
 }

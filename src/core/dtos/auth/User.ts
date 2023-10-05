@@ -5,7 +5,7 @@ export class User {
   private firstName: string = '';
   private lastName: string = '';
   private email: string = '';
-  private password:string = '';
+  private password: string = '';
   private roles: RoleDto[] = []; // Valor por defecto para roles
 
   constructor(
@@ -14,7 +14,7 @@ export class User {
       firstName?: string;
       lastName?: string;
       email?: string;
-      password?:string;
+      password?: string;
       roles?: RoleDto[];
     } = {},
   ) {

@@ -13,10 +13,10 @@ export class getById extends BaseController {
     try {
       const { id, name } = req.body;
       const roles = await this.roleCrudUseCase.getById(id);
-        
+
       return this.paginate(roles);
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

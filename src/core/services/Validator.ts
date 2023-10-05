@@ -14,16 +14,16 @@ export class Validator implements Validatorable {
    * @param {RuleTypes} rule - The rule for which the error message is retrieved.
    * @returns The formatted error message with the field name inserted.
    */
-  getErrorMessage (field: string, rule: RuleTypes): string  {
+  getErrorMessage(field: string, rule: RuleTypes): string {
     return this.messages[rule].split('%s').join(field);
-  };
+  }
 
   /**
    * Validates a set of validation rules against a given set of values.
    * @param {ValidationRule[]} validations - An array of validation rules to apply.
    * @returns {ValidationError[]} An array of validation errors, if any.
    */
-  validate (validations: ValidationRule[]): ValidationError[]  {
+  validate(validations: ValidationRule[]): ValidationError[] {
     this.validations = validations;
     this.errors = [];
 
@@ -38,7 +38,7 @@ export class Validator implements Validatorable {
     });
 
     return this.errors;
-  };
+  }
 
   /**
    * Executes a validation method based on the given rule type.
@@ -46,7 +46,7 @@ export class Validator implements Validatorable {
    * @param {unknown} value - The value to validate.
    * @returns {boolean} - The result of the validation.
    */
-  executeMethod (rule: RuleTypes, value: unknown): boolean  {
+  executeMethod(rule: RuleTypes, value: unknown): boolean {
     switch (rule) {
       case RULES.isNotEmpty:
         return this.isNotEmpty(value);
@@ -67,7 +67,7 @@ export class Validator implements Validatorable {
       default:
         throw new ClientException(500, 'Undefined Types');
     }
-  };
+  }
 
   /**
    * Sets an error message for a given key and adds it to the list of errors.
@@ -75,11 +75,11 @@ export class Validator implements Validatorable {
    * @param {string} message - The error message.
    * @returns None
    */
-  setError (key: string, message: string): void  {
+  setError(key: string, message: string): void {
     this.errors.push({ key: key, error: message });
-  };
+  }
 
-  isNotEmpty (value: unknown): boolean  {
+  isNotEmpty(value: unknown): boolean {
     if (typeof value === 'string') {
       return value.trim().length > 0;
     }
@@ -87,15 +87,15 @@ export class Validator implements Validatorable {
       return true;
     }
     return false;
-  };
+  }
 
-  isString  (value: unknown): boolean {
+  isString(value: unknown): boolean {
     return typeof value === 'string';
-  } 
+  }
 
-  isNumber  (value: unknown): boolean {
+  isNumber(value: unknown): boolean {
     return typeof value === 'number';
-  } 
+  }
 
   isBoolean(value: unknown): boolean {
     return typeof value === 'boolean';
@@ -109,7 +109,7 @@ export class Validator implements Validatorable {
     return actual >= max;
   }
 
-  isEmail  (value: unknown): boolean {
+  isEmail(value: unknown): boolean {
     if (typeof value === 'string') {
       const regex = /\S+@\S+\.\S+/;
 

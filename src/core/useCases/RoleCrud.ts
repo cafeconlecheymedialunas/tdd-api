@@ -9,33 +9,33 @@ export class RoleCrud {
     this.roleRepo = RoleRepository;
   }
 
-  async create (role: RoleRequestParams): Promise<RoleEntity> {
+  async create(role: RoleRequestParams): Promise<RoleEntity> {
     const roles = await this.roleRepo.create(role);
 
     return roles;
-  };
+  }
 
-  async getAll (): Promise<RoleEntity[]> {
+  async getAll(): Promise<RoleEntity[]> {
     const roles = await this.roleRepo.getAll();
 
     return roles;
-  };
+  }
 
-  async getById (id: number): Promise<RoleEntity> {
+  async getById(id: number): Promise<RoleEntity> {
     const role = await this.roleRepo.getById(id);
 
     return role;
-  };
+  }
 
-  async update (id: number, role: RoleRequestParams): Promise<RoleEntity>  {
+  async update(id: number, role: RoleRequestParams): Promise<RoleEntity> {
     const result = await this.roleRepo.update(id, role);
 
     return result;
-  };
+  }
 
-  async delete (id: number): Promise<number> {
+  async delete(id: number): Promise<number> {
     const result = await this.roleRepo.delete(id);
 
     return result;
-  };
+  }
 }

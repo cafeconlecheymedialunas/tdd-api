@@ -32,5 +32,5 @@ export class Register extends BaseController {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

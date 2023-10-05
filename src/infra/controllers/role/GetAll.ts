@@ -9,7 +9,7 @@ export class GetAll extends BaseController {
     super();
     this.roleCrudUseCase = new RoleCrud(new RolePostgres());
   }
-  async handle  (req: Request, next: NextFunction): Promise<PaginatedResult | void>  {
+  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
     try {
       const roles = await this.roleCrudUseCase.getAll();
 
@@ -17,7 +17,5 @@ export class GetAll extends BaseController {
     } catch (error) {
       next(error);
     }
-  };
-
- 
+  }
 }

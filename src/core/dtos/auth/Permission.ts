@@ -1,4 +1,4 @@
-import { Method } from "core/entities/auth/Method";
+import { Method } from 'core/entities/auth/Method';
 
 /**
  * This class represents a Permission DTO (Data Transfer Object)

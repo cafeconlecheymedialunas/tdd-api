@@ -20,13 +20,13 @@ export class Authorization {
    * @param {PermissionDto[]} userPermissions - The array of user permissions.
    * @returns {boolean} - True if there is a match, false otherwise.
    */
-  checkRouteAgainstUserPermissions (routePermission: PermissionEntity, userPermissions: PermissionEntity[]): boolean {
+  checkRouteAgainstUserPermissions(routePermission: PermissionEntity, userPermissions: PermissionEntity[]): boolean {
     const permissionsMatch = userPermissions.filter((elem) => {
-      return elem.getRoute() === routePermission.getRoute() && elem.getMethod() === routePermission.getMethod()
+      return elem.getRoute() === routePermission.getRoute() && elem.getMethod() === routePermission.getMethod();
     });
 
     return permissionsMatch.length > 0;
-  };
+  }
 
   /**
    * Retrieves the permission route based on the given route and method. Each route has a unique permission.
@@ -35,7 +35,7 @@ export class Authorization {
    * @returns {PermissionDto} - The permission route that matches the given route and method.
    * @throws {ClientException} - If no permission route is found or if multiple permission routes are found.
    */
-  async getRoutePermission (route: string, method: string): Promise<PermissionEntity> {
+  async getRoutePermission(route: string, method: string): Promise<PermissionEntity> {
     const whereClause: QueryFilter = {
       [Operations.and]: [{ route: route }, { method: method }],
     };
@@ -45,7 +45,7 @@ export class Authorization {
     if (permissionRoute.length !== 1) throw new WrongAuthenticationTokenException();
 
     return permissionRoute[0];
-  };
+  }
 
   /**
    *  Decodes the user data contained in the token. This method checks the user's login credentials.
@@ -53,14 +53,14 @@ export class Authorization {
    * @returns {Promise<PermissionDto[]>} - A promise that resolves to an array of PermissionDto objects representing the user's permissions.
    * @throws {WrongAuthenticationTokenException} - If the provided token is invalid or expired.
    */
-  async getUserPermissions (token: string): Promise<PermissionEntity[]> {
+  async getUserPermissions(token: string): Promise<PermissionEntity[]> {
     const decodedUserData = await this.jsonWebTokenService.decodeToken(token);
 
     if (!decodedUserData) {
       throw new WrongAuthenticationTokenException();
     }
     return decodedUserData.permissions;
-  };
+  }
 
   /**
    * Authorize a user to access a specific route and method using a token.
@@ -69,7 +69,7 @@ export class Authorization {
    * @param {string} token - The user's authentication token.
    * @returns {Promise<boolean>} - A promise that resolves to true if the user is authorized, false otherwise.
    */
-  async authorize (route: string, method: string, token: string): Promise<boolean> {
+  async authorize(route: string, method: string, token: string): Promise<boolean> {
     const routePermission = await this.getRoutePermission(route, method);
 
     const userPermissions = await this.getUserPermissions(token);
@@ -77,5 +77,5 @@ export class Authorization {
     const permissionsMatch = this.checkRouteAgainstUserPermissions(routePermission, userPermissions);
 
     return permissionsMatch;
-  };
+  }
 }
