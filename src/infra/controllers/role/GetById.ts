@@ -14,7 +14,7 @@ export class getById extends BaseController {
       const { id, name } = req.body;
       const roles = await this.roleCrudUseCase.getById(id);
 
-      return this.paginate(roles);
+      return this.paginate(roles,req);
     } catch (error) {
       next(error);
     }

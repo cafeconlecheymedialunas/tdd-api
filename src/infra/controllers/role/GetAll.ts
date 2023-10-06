@@ -13,7 +13,7 @@ export class GetAll extends BaseController {
     try {
       const roles = await this.roleCrudUseCase.getAll();
 
-      return this.paginate(roles);
+      return this.paginate(roles,req);
     } catch (error) {
       next(error);
     }

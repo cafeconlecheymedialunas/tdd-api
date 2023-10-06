@@ -13,7 +13,7 @@ export class GetAll extends BaseController {
     try {
       const users = await this.crudUserUseCase.getAll();
 
-      return this.paginate(users);
+      return this.paginate(users,req);
     } catch (error) {
       next(error);
     }

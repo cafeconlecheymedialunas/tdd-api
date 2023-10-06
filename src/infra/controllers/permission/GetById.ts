@@ -15,7 +15,7 @@ export class getById extends BaseController {
       const { id } = req.body;
       const permissions = await this.permissionCrudUseCase.getById(id);
 
-      return this.paginate(permissions);
+      return this.paginate(permissions,req);
     } catch (error) {
       next(error);
     }

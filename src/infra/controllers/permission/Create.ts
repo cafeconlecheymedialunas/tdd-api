@@ -16,7 +16,7 @@ export class Create extends BaseController {
       const { route, method } = req.body;
       const permissions = await this.permissionCrudUseCase.create({ route, method });
 
-      return this.paginate(permissions);
+      return this.paginate(permissions,req);
     } catch (error) {
       next(error);
     }

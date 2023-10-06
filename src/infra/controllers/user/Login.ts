@@ -31,7 +31,7 @@ export class Login extends BaseController {
 
       if (!token) throw new WrongAuthenticationTokenException();
 
-      return this.paginate({ token });
+      return this.paginate({ token },req);
     } catch (error) {
       next(error);
     }

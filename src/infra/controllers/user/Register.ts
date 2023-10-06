@@ -28,7 +28,7 @@ export class Register extends BaseController {
       const { firstName, lastName, email, password, roles } = req.body;
       const result = await this.registerUseCase.register({ firstName, lastName, email, password, roles });
       if (!result) throw new WrongCredentialsException();
-      return this.paginate(result);
+      return this.paginate(result,req);
     } catch (error) {
       next(error);
     }

@@ -14,7 +14,7 @@ export class GetAll extends BaseController {
     try {
       const permissions = await this.permissionCrudUseCase.getAll();
 
-      return this.paginate(permissions);
+      return this.paginate(permissions,req);
     } catch (error) {
       next(error);
     }

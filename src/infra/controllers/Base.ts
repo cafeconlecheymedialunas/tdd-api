@@ -11,17 +11,17 @@ export abstract class BaseController {
     return res.status(code).json({ message });
   }
 
-  public paginate(model: any): PaginatedResult {
+  public paginate(model: any,req:express.Request): PaginatedResult {
     const result: PaginatedResult = {
       data: [],
       meta: {
         next: undefined,
         previous: undefined,
-      },
+      }
     };
-    if (express.request.query.page) {
-      const page = parseInt(express.request.query.page as string);
-      const limit = parseInt(express.request.query.limit as string);
+    if (req.query.page) {
+      const page = parseInt(req.query.page as string);
+      const limit = parseInt(req.query.limit as string);
       const startIndex = (page - 1) * limit;
       const endIndex = page * limit;
 

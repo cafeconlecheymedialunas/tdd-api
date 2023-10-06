@@ -15,7 +15,7 @@ export class Delete extends BaseController {
       const { id } = req.body;
       const roles = await this.roleCrudUseCase.delete(id);
 
-      return this.paginate(roles);
+      return this.paginate(roles,req);
     } catch (error) {
       next(error);
     }

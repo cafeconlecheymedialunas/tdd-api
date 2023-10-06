@@ -15,7 +15,8 @@ export class Update extends BaseController {
       const { id, permission } = req.body;
       const permissions = await this.permissionCrudUseCase.update(id, permission);
 
-      return this.paginate(permissions);
+      return this.paginate(permissions,req);
+      
     } catch (error) {
       next(error);
     }

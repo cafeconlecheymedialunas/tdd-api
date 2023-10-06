@@ -15,7 +15,7 @@ export class Delete extends BaseController {
       const { id } = req.body;
       const permissions = await this.permissionCrudUseCase.delete(id);
 
-      return this.paginate(permissions);
+      return this.paginate(permissions,req);
     } catch (error) {
       next(error);
     }

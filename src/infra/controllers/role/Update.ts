@@ -15,7 +15,7 @@ export class Update extends BaseController {
       const { id, role } = req.body;
       const roles = await this.roleCrudUseCase.update(id, role);
 
-      return this.paginate(roles);
+      return this.paginate(roles,req);
     } catch (error) {
       next(error);
     }

@@ -15,7 +15,7 @@ export class Update extends BaseController {
       const { id, user } = req.body;
       const users = await this.crudUserUseCase.update(id, user);
 
-      return this.paginate(users);
+      return this.paginate(users,req);
     } catch (error) {
       next(error);
     }

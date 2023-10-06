@@ -25,20 +25,22 @@ class Application {
     return this._instance;
   }
 
-  run() {
+  async run() {
     if (this.app) {
       return this.app;
     }
 
     this.app = express();
 
-    this.database();
-
     this.config();
+
+   
 
     this.secure();
 
     this.middlewares();
+
+    await this.database();
 
     return this.app;
   }
@@ -69,6 +71,7 @@ class Application {
 
   private middlewares() {}
 
+
   async database() {
     const connectionDatabase = new ClientDatabase().getClient();
 
@@ -77,6 +80,11 @@ class Application {
     this.models = initModels(connectionDatabase);
   }
 
+  getRoutes(){
+    return listEndpoints(this.app);
+  }
+
+  
   public getModels() {
     return this.models;
   }
