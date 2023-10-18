@@ -1,22 +1,23 @@
 import express from 'express';
-import cors from 'cors';
+import cors from "cors"
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import config from './config';
-import router from './infra/routes/index';
+import { router } from './infra/routes/index';
 import errorHandler from './infra/middlewares/errorHandler';
-import { checkAuthorization } from './infra/middlewares/CheckAuthorization';
+import { checkAuthorization } from 'infra/middlewares/checkAuthorization';
 import { limiter } from './infra/middlewares/rateLimiter';
 import { Express } from 'express-serve-static-core';
 import ClientDatabase from './infra/database/ClientDatabase';
 import listEndpoints from 'express-list-endpoints';
+import { loggerError } from './infra/middlewares/loggerError';
 class Application {
   private static _instance: Application;
   private app!: Express;
   private models: any;
 
-  static getInstance() {
+  public static getInstance() {
     if (this._instance) {
       return this._instance;
     }
@@ -25,7 +26,7 @@ class Application {
     return this._instance;
   }
 
-  async run() {
+  public async run() {
     if (this.app) {
       return this.app;
     }
@@ -33,8 +34,6 @@ class Application {
     this.app = express();
 
     this.config();
-
-   
 
     this.secure();
 
@@ -56,7 +55,10 @@ class Application {
 
     this.app.use(router);
 
+
     //this.app.use(errorHandler);
+
+    //this.app.use(loggerError)
   }
 
   private secure() {
@@ -69,10 +71,9 @@ class Application {
     //this.app.use(checkAuthorization);
   }
 
-  private middlewares() {}
+  private middlewares() { }
 
-
-  async database() {
+  public async database() {
     const connectionDatabase = new ClientDatabase().getClient();
 
     const initModels = require('./infra/database/models/init-models.js');
@@ -80,11 +81,10 @@ class Application {
     this.models = initModels(connectionDatabase);
   }
 
-  getRoutes(){
+  public getRoutes() {
     return listEndpoints(this.app);
   }
 
-  
   public getModels() {
     return this.models;
   }

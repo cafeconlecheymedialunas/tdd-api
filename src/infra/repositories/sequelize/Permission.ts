@@ -3,22 +3,18 @@ import { Permission as PermissionEntity } from '../../../core/entities/auth/Perm
 import { PermissionRequestParams } from '../../../core/types/requestInputs';
 import { QueryFilter } from '../../../core/types/database';
 import { Permissionable } from '../../../core/interfaces/repositories/auth/Permissionable';
-import { Method } from '../../../core/entities/auth/Method';
-import { Name } from '../../../core/entities/auth/Name';
-import { SerialId } from '../../../core/entities/auth/SerialId';
-import ClientDatabase from 'infra/database/ClientDatabase';
 import Application from '../../../Application';
 
-export class PermissionPostgres implements Permissionable {
-  protected models: any;
+export class Permission implements Permissionable {
+  protected permissionModel: any;
+  protected roleModel: any;
+  protected rolePermissionModel: any
+
   constructor() {
-    this.models = new Promise((resolve, reject) => {
-      Application.getInstance()
-        .database()
-        .then((result) => {
-          return result;
-        });
-    });
+    const models = Application.getInstance().getModels()
+    this.permissionModel = models.permissions
+    this.roleModel = models.roles
+    this.rolePermissionModel = models.role_permission
   }
 
   /**
@@ -26,7 +22,17 @@ export class PermissionPostgres implements Permissionable {
    * @returns {Promise<PermissionDto[]>} - A promise that resolves to an array of PermissionDto objects if successful.
    */
   async getAll(): Promise<PermissionEntity[]> {
-    const permissionsDb = await this.models.permission.getAll();
+
+
+    const permissionsDb = await this.permissionModel.findAll({
+      include: [
+        {
+          model: this.roleModel,
+          as: 'role_id_roles_role_permissions'
+        },
+      ]
+    });
+
 
     const permissions = permissionsDb.map((permission: any) => {
       return this.toEntity(permission.toJSON());
@@ -41,9 +47,14 @@ export class PermissionPostgres implements Permissionable {
    * @returns {Promise<PermissionDto[]>} - A promise that resolves to an array of filtered PermissionDto objects if successful.
    */
   async filter(whereClauses: QueryFilter): Promise<PermissionEntity[]> {
-    const filteredPermissions = await this.models.permission.findAll({
-      where: whereClauses,
-      include: this.models.role,
+    const filteredPermissions = await this.permissionModel.findAll({
+      whereClauses,
+      include: [
+        {
+          model: this.roleModel,
+          as: 'role_id_roles_role_permissions'
+        },
+      ]
     });
 
     return filteredPermissions.map((permission: any) => {
@@ -57,11 +68,11 @@ export class PermissionPostgres implements Permissionable {
    */
 
   async create(permission: PermissionRequestParams): Promise<PermissionEntity> {
-    this.validate(permission);
 
-    const result = await this.models.permission.create({
-      route: permission.method,
-      method: permission.route,
+
+    const result = await this.permissionModel.create({
+      route: permission.route,
+      method: permission.method,
     });
     return this.toEntity(result);
   }
@@ -72,15 +83,16 @@ export class PermissionPostgres implements Permissionable {
    * @returns {Promise<boolean>} - A promise that resolves to true if the item was successfully deleted, or false if the item was not found.
    */
   async delete(id: number): Promise<number> {
-    const permissionDb = await this.models.permission.findByPk(id);
+    const permissionDb = await this.permissionModel.findByPk(id);
     if (!permissionDb) {
       throw new NotFoundException(id, 'Permission');
     }
-    const indexPermission = await this.models.permission.destroy({
+    const indexPermission = await this.permissionModel.destroy({
       where: {
         id,
       },
     });
+    console.log(indexPermission)
     return indexPermission;
   }
 
@@ -91,11 +103,12 @@ export class PermissionPostgres implements Permissionable {
    * @returns {Promise<PermissionDto>} - A promise that resolves to the updated permission object if successful, or false if unsuccessful.
    */
   async update(id: number, permission: PermissionRequestParams): Promise<PermissionEntity> {
-    const permissionDb = await this.models.permission.findByPk(id);
+
+    const permissionDb = await this.permissionModel.findByPk(id);
     if (!permissionDb) {
       throw new NotFoundException(id, 'Permission');
     }
-    this.validate(permission);
+
 
     permissionDb.set('route', permission.route);
     permissionDb.set('method', permission.method);
@@ -110,12 +123,10 @@ export class PermissionPostgres implements Permissionable {
    * Retrieves a PermissionDto by their ID from the collection.
    * @param {number} id - The ID of the permission to retrieve.
    * @returns {Promise<PermissionDto | false>} - A promise that resolves to the PermissionDto object if the permission is found, or false if the permission is not found.
-  
    */
   async getById(id: number): Promise<PermissionEntity> {
-    const permissionDb = await this.models.permission.findByPk(id);
+    const permissionDb = await this.permissionModel.findByPk(id);
 
-    // Si el usuario no se encuentra, devuelve false
     if (!permissionDb) {
       throw new NotFoundException(id, 'Permission');
     }
@@ -124,17 +135,13 @@ export class PermissionPostgres implements Permissionable {
   }
 
   toEntity(permission: any): PermissionEntity {
+
     return new PermissionEntity({
-      id: new SerialId(permission.getDataValue('id')),
-      route: new Name(permission.getDataValue('route')),
-      method: new Method(permission.getDataValue('method')),
+      id: permission.id,
+      route: permission.route,
+      method: permission.method,
     });
   }
 
-  private validate(permission: PermissionRequestParams): void {
-    new PermissionEntity({
-      route: new Name(permission.route),
-      method: new Method(permission.method),
-    });
-  }
+
 }

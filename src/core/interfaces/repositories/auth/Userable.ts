@@ -1,7 +1,6 @@
 import { UserRequestParams } from '../../../types/requestInputs';
 import { QueryFilter } from '../../../types/database';
 import { User as UserEntity } from '../../../entities/auth/User';
-import { User as UserModel } from '../../../../infra/database/models/User';
 
 export interface Userable {
   getAll(): Promise<UserEntity[]>;
@@ -11,6 +10,7 @@ export interface Userable {
   update(id: number, user: UserRequestParams): Promise<UserEntity>;
   getById(id: number): Promise<UserEntity>;
   //getRoles(roles: number[]): RoleEntity[];
-  toEntity(user: UserModel): UserEntity;
+  toEntity(user: UserRequestParams): Promise<UserEntity>;
+  userExist(email: string): Promise<boolean>
   //entityList(users: UserEntity[] | UserModel[]): UserEntity[];
 }

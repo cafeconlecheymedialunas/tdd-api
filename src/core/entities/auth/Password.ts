@@ -18,9 +18,7 @@ export class Password {
   }
 
   private ensureIsValid(value: string) {
-    if (!isNotEmpty(value)) {
-      throw new ValidationException([{ key: 'password', error: MESSAGES.isNotEmpty }]);
-    }
+
     if (!isStrongPassword(value)) {
       throw new ValidationException([{ key: 'password', error: MESSAGES.isStrongPassword }]);
     }

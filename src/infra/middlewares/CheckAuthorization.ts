@@ -3,7 +3,7 @@ import { JsonWebToken } from '../../core/services/JsonWebToken';
 import { Authorization } from '../../core/useCases/Authorization';
 import { Request, Response, NextFunction } from 'express';
 import jsonwebtoken from 'jsonwebtoken';
-import { PermissionPostgres } from '../repositories/sequelize/Permission';
+import { Permission as PermissionPostgres } from '../repositories/sequelize/Permission';
 
 /**
  * Checks the authorization of a request validating the token, route, and method.

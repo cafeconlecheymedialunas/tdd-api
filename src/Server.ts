@@ -6,8 +6,7 @@ import listEndpoints from 'express-list-endpoints';
 import Application from './Application';
 
 export default class Server {
-
-  private routes:any;
+  private routes: any;
 
   async isPortTaken(port: number): Promise<boolean> {
     return new Promise((resolve) => {
@@ -50,42 +49,9 @@ export default class Server {
 
     const server = app.listen(port, async () => {
       console.log(`Servidor Express iniciado en el puerto ${port}`);
-      this.setPermissionRoute()
+      //console.log(listEndpoints(app))
     });
-
-
 
     return server;
   }
-
-
-  async setPermissionRoute(){
- 
-
-    const routes = Application.getInstance().getRoutes()
-    const models = Application.getInstance().getModels()
-
-    
-
-    const extractedMethods = routes.map(route => {
-      const { path, methods } = route;
-      const extractedVerbs = methods.map(verb => {
-        return { route: path, method: verb };
-      });
-      return extractedVerbs;
-    });
-  
-    const permissionRoutes = extractedMethods.flat();
-    
-    console.log(permissionRoutes)
-
-    let existingPermission = await models.permissions.findAll()
-    
-    existingPermission = existingPermission.map((item:any)=>{
-      return item.toJSON()
-    })
-
-    console.log(existingPermission)
-  }
-
 }

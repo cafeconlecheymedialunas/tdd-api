@@ -4,15 +4,18 @@ import { JsonWebTokenable } from '../interfaces/services/JsonWebTokenable';
 import { Payload } from '../types/responseOutputs';
 import { User as UserEntity } from '../entities/auth/User';
 import { Role as RoleEntity } from '../entities/auth/Role';
-import { Operations, QueryFilter } from '../types/database';
+
 import { WrongAuthenticationTokenException, WrongCredentialsException } from '../errors';
-import { Email } from '../entities/auth/Email';
-import { Password } from '../entities/auth/Password';
+import { Request } from 'express';
+import { Operations } from '../types/database';
 
 export class Login {
   private readonly UserRepository: Userable;
   private readonly hashService: Hashable;
   private readonly JsonWebTokenService: JsonWebTokenable;
+  private hashedPassword!: string;
+  private password!: string;
+  private email!: string;
 
   constructor(UserRepository: Userable, hashService: Hashable, JsonWebTokenService: JsonWebTokenable) {
     this.UserRepository = UserRepository;
@@ -26,43 +29,43 @@ export class Login {
    * @param {string} password - The password of the user.
    * @returns {Promise<UserEntity>} A promise that resolves to the user object if the sign in is successful.
    */
-  async signIn(email: Email, password: Password): Promise<UserEntity> {
-    const user = await this.checkUserEmail(email);
+  async signIn(): Promise<UserEntity> {
 
-    await this.checkUserPassword(password, user.getPassword());
+    const user = await this.checkUserEmail();
+
+    this.hashedPassword = user.getPassword()
+
+    await this.checkUserPassword();
 
     return user;
   }
 
   /**
    * Checks if a user with the provided email exists.
-   * @param {string} email - The email to check.
    * @returns {Promise<UserEntity>} A promise that resolves to the found user object.
    * @throws {WrongCredentialsException} If the user does not exist.
    */
-  async checkUserEmail(email: Email): Promise<UserEntity> {
-    const whereClause: QueryFilter = {
-      email: {
-        [Operations.eq]: email.getValue(),
-      },
-    };
+  async checkUserEmail(): Promise<UserEntity> {
+    const whereClauses = {
+      [Operations.and]: [
+        { email: this.email },
+        { password: this.hashedPassword }
+      ]
+    }
+    const users = await this.UserRepository.filter(whereClauses);
 
-    const users = await this.UserRepository.filter(whereClause);
-
-    if (users.length === 0) throw new WrongCredentialsException();
+    if (!users) throw new WrongCredentialsException();
 
     return users[0];
   }
 
   /**
    * Checks if the provided password matches the user's password.
-   * @param {string} password - The password to check.
-   * @param {string} userPassword - The user's hashed password.
    * @returns {Promise<boolean>} A promise that resolves to a boolean indicating password match.
    * @throws {WrongCredentialsException} If the passwords do not match.
    */
-  async checkUserPassword(password: Password, userPassword: Password): Promise<boolean> {
-    const passwordMatch = await this.hashService.verify(password, userPassword.getValue());
+  async checkUserPassword(): Promise<boolean> {
+    const passwordMatch = await this.hashService.verify(this.password, this.hashedPassword);
 
     if (!passwordMatch) {
       throw new WrongCredentialsException();
@@ -80,6 +83,7 @@ export class Login {
     const token = await this.JsonWebTokenService.generateToken(payload, '1h');
 
     if (!token) throw new WrongAuthenticationTokenException();
+
     return token;
   }
 
@@ -89,21 +93,29 @@ export class Login {
    * @returns {Payload} The generated payload object.
    */
   generatePayload(user: UserEntity): Payload {
+
     const permissions = [...new Set(user.getRoles().flatMap((item: RoleEntity) => item.getPermissions()))];
 
-    const payload = { email: user.getEmail(), permissions };
+    const payload = { email: this.email, permissions };
 
     return payload;
   }
 
   /**
    * Handles the login process for a user with the provided email and password.
-   * @param {string} email - The email of the user.
-   * @param {string} password - The password of the user.
+   * @param {req} Request - The Request Express Object
    * @returns {Promise<string>} A promise that resolves to the authentication token on successful login.
    */
-  async login(email: Email, password: Password): Promise<string> {
-    const userEntity = await this.signIn(email, password);
+  async login(req: Request): Promise<string> {
+
+
+    const { email, password } = req.body;
+
+    this.email = email;
+
+    this.password = password;
+
+    const userEntity = await this.signIn();
 
     const payload = this.generatePayload(userEntity);
 

@@ -4,6 +4,7 @@ import { MESSAGES } from '../../types/validationRules';
 
 export class Email {
   private value!: string;
+
   constructor(value: string) {
     this.setValue(value);
   }
@@ -16,9 +17,6 @@ export class Email {
     return this.value;
   }
   private ensureIsValid(value: string) {
-    if (!isNotEmpty(value)) {
-      throw new ValidationException([{ key: 'email', error: MESSAGES.isEmail }]);
-    }
     if (!isEmail(value)) {
       throw new ValidationException([{ key: 'email', error: MESSAGES.isEmail }]);
     }

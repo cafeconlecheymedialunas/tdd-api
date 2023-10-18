@@ -10,26 +10,26 @@ import { isNotEmpty, hasCorrectMaxLength, hasCorrectMinLength, isEmail, isStrong
  * Represents a User. The 'roles' property should store an array of Roles IDs.
  */
 export class User {
-  private id?: SerialId;
-  private firstName!: Name;
-  private lastName!: Name;
-  private email!: Email;
-  private password!: Password;
+  private id?: number;
+  private firstname!: string;
+  private lastname!: string;
+  private email!: string;
+  private password!: string;
   private roles!: RoleEntity[];
 
   constructor(user: {
-    id?: SerialId;
-    firstName: Name;
-    lastName: Name;
-    email: Email;
-    password: Password;
+    id?: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
     roles: RoleEntity[];
   }) {
     if (user.id) {
       this.setId(user.id);
     }
-    this.setFirstName(user.firstName);
-    this.setLastName(user.lastName);
+    this.setFirstName(user.firstname);
+    this.setLastName(user.lastname);
     this.setEmail(user.email);
     this.setPassword(user.password);
     this.setRoles(user.roles);
@@ -40,11 +40,11 @@ export class User {
   }
 
   public getFirstName() {
-    return this.firstName;
+    return this.firstname;
   }
 
   public getLastName() {
-    return this.lastName;
+    return this.lastname;
   }
 
   public getEmail() {
@@ -59,30 +59,29 @@ export class User {
     return this.roles;
   }
 
-  public setId(id: SerialId) {
-    this.id = id;
+  public setId(value: number) {
+    const id = new SerialId(value)
+    this.id = id.getValue();
   }
 
-  public setFirstName(firstName: Name) {
-    if (isNotEmpty(firstName.getValue())) {
-      throw new ValidationException([{ key: 'firstName', error: MESSAGES.isNotEmpty }]);
-    }
-    if (!hasCorrectMinLength(firstName.getValue(), 1)) {
-      throw new ValidationException([{ key: 'firstName', error: MESSAGES.min }]);
-    }
-    this.firstName = firstName;
+  public setFirstName(value: string) {
+    const firstname = new Name(value)
+    this.firstname = firstname.getValue();
   }
 
-  public setLastName(lastName: Name) {
-    this.lastName = lastName;
+  public setLastName(value: string) {
+    const lastname = new Name(value)
+    this.lastname = lastname.getValue();
   }
 
-  public setEmail(email: Email) {
-    this.email = email;
+  public setEmail(value: string) {
+    const email = new Email(value)
+    this.email = email.getValue();
   }
 
-  public setPassword(password: Password) {
-    this.password = password;
+  public setPassword(value: string) {
+    const password = new Password(value)
+    this.password = password.getValue();
   }
 
   public setRoles(roles: RoleEntity[]) {

@@ -2,7 +2,10 @@ import { ValidationException } from '../../errors';
 import { MESSAGES } from '../../types/validationRules';
 
 const isNotEmpty = (value: string | number): boolean => {
-  return value.toString().trim().length === 0;
+  if (typeof value === "string") {
+    return value.trim().length === 0
+  }
+  return value.toString().trim().length === 0
 };
 
 const isString = (value: unknown): boolean => typeof value === 'string';

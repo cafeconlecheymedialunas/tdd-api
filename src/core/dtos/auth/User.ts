@@ -2,8 +2,8 @@ import { Role as RoleDto } from './Role';
 
 export class User {
   private id: number = 0; // Valor por defecto para id
-  private firstName: string = '';
-  private lastName: string = '';
+  private firstname: string = '';
+  private lastname: string = '';
   private email: string = '';
   private password: string = '';
   private roles: RoleDto[] = []; // Valor por defecto para roles
@@ -11,8 +11,8 @@ export class User {
   constructor(
     user: {
       id?: number; // El signo "?" indica que el id es opcional
-      firstName?: string;
-      lastName?: string;
+      firstname?: string;
+      lastname?: string;
       email?: string;
       password?: string;
       roles?: RoleDto[];
@@ -25,12 +25,12 @@ export class User {
       this.id = user.id;
     }
 
-    if (user.firstName !== undefined) {
-      this.firstName = user.firstName;
+    if (user.firstname !== undefined) {
+      this.firstname = user.firstname;
     }
 
-    if (user.lastName !== undefined) {
-      this.lastName = user.lastName;
+    if (user.lastname !== undefined) {
+      this.lastname = user.lastname;
     }
 
     if (user.email !== undefined) {
@@ -52,11 +52,11 @@ export class User {
   }
 
   public getFirstName() {
-    return this.firstName;
+    return this.firstname;
   }
 
   public getLastName() {
-    return this.lastName;
+    return this.lastname;
   }
 
   public getEmail() {
@@ -75,12 +75,12 @@ export class User {
     this.id = id;
   }
 
-  public setFirstName(firstName: string) {
-    this.firstName = firstName;
+  public setFirstName(firstname: string) {
+    this.firstname = firstname;
   }
 
-  setLastName(lastName: string) {
-    this.lastName = lastName;
+  setLastName(lastname: string) {
+    this.lastname = lastname;
   }
 
   public setEmail(email: string) {

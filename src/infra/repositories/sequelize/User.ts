@@ -8,30 +8,34 @@ import { Email } from '../../../core/entities/auth/Email';
 import { Password } from '../../../core/entities/auth/Password';
 
 import Application from '../../../Application';
-export class UserPostgres implements Userable {
-  protected models: any;
+import { Permission as PermissionEntity } from '../../../core/entities/auth/Permission';
+import { Role as RoleEntity } from '../../../core/entities/auth/Role';
+export class User implements Userable {
+  protected userModel: any;
+  protected roleModel: any;
   constructor() {
-    this.models = new Promise((resolve, reject) => {
-      Application.getInstance()
-        .database()
-        .then((result) => {
-          return result;
-        });
-    });
+    const models = Application.getInstance().getModels()
+    this.userModel = models.users
+    this.roleModel = models.roles
   }
   /**
    * Retrieves all UserDto data from the collection.
    * @returns {Promise<UserDto[]>} - A promise that resolves to an array of UserDto objects if successful.
    */
   async getAll(): Promise<UserEntity[]> {
-    const users = await this.models.user.findAll({ include: this.models.role });
+    const users = await this.userModel.findAll({
+      include: [
+        {
+          model: this.roleModel,
+          as: 'role_id_roles_user_roles'
+        },
+      ]
+    });
 
-    return users.map((user: any) => {
-      return new UserEntity(user.toJSON());
+    return users.map(async (user: any) => {
+      return await this.toEntity(user);
     });
   }
-
-
 
   /**
    * Filters users based on given conditions.
@@ -39,14 +43,19 @@ export class UserPostgres implements Userable {
    * @returns {Promise<UserDto[]>} - A promise that resolves to an array of filtered UserDto objects if successful.
    */
   async filter(whereClauses: QueryFilter): Promise<UserEntity[]> {
-    const filteredUsers = await this.models.user.findAll({
+    const filteredUsers = await this.userModel.findAll({
       where: whereClauses,
-      include: this.models.role,
+      include: [
+        {
+          model: this.roleModel,
+          as: 'role_id_roles_user_roles'
+        },
+      ]
     });
 
     // Convierte los usuarios filtrados a objetos UserDto
-    return filteredUsers.map((user: any) => {
-      return this.toEntity(user);
+    return filteredUsers.map(async (user: any) => {
+      return await this.toEntity(user);
     });
   }
   /**
@@ -55,27 +64,36 @@ export class UserPostgres implements Userable {
    * @returns {Promise<UserDto>} - A promise that resolves to the added user object (as a UserDto) if successful.
    */
   async create(user: UserRequestParams): Promise<UserEntity> {
-    const newUser = new UserEntity({
-      firstName: new Name(user.firstName),
-      lastName: new Name(user.lastName),
-      email: new Email(user.email),
-      password: new Password(user.password),
-      roles: user.roles,
+
+
+
+    const roleDb = await this.userModel.create({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
+      roles: user.roles
     });
 
-    const roles = await this.models.role.findAll({
-      where: {
-        id: user.roles,
-      },
-    });
-    const userDb = await this.models.user.create({
-      firstName: newUser.getFirstName(),
-      lastName: newUser.getLastName(),
-      email: newUser.getEmail(),
-      password: newUser.getPassword(),
-      roles,
-    });
-    return this.toEntity(userDb);
+
+
+    // Asocia los permisos al rol
+    if (user.roles && user.roles.length > 0) {
+      const selectedRoles = await this.roleModel.findAll({
+        where: {
+          id: user.roles,
+        },
+      });
+
+      await roleDb.addRole_id_roles_user_roles(selectedRoles)
+      await roleDb.save()
+
+
+
+    }
+
+
+    return await this.toEntity(roleDb)
   }
 
   /**
@@ -84,7 +102,7 @@ export class UserPostgres implements Userable {
    * @returns {Promise<boolean>} - A promise that resolves to true if the item was successfully deleted, or false if the item was not found.
    */
   async delete(id: number): Promise<number> {
-    const indexUser = await this.models.user.destroy({
+    const indexUser = await this.userModel.destroy({
       where: {
         id,
       },
@@ -99,21 +117,19 @@ export class UserPostgres implements Userable {
    * @returns {Promise<UserDto>} - A promise that resolves to the updated user object if successful, or false if unsuccessful.
    */
   async update(id: number, user: UserRequestParams): Promise<UserEntity> {
-    const userDb = await this.models.user.findByPk(id);
+    const userDb = await this.userModel.findByPk(id);
     if (!userDb) {
       throw new NotFoundException(id, 'User');
     }
-  
-    this.validate(user)
 
-    userDb.set('firstName', user.firstName);
-    userDb.set('lastName', user.lastName);
+    userDb.set('firstname', user.firstname);
+    userDb.set('lastname', user.lastname);
     userDb.set('email', user.email);
     userDb.set('password', user.password);
 
     await userDb.save();
 
-    return this.toEntity(userDb);
+    return await this.toEntity(userDb);
   }
 
   /**
@@ -123,32 +139,59 @@ export class UserPostgres implements Userable {
   
    */
   async getById(id: number): Promise<UserEntity> {
-    const userDb = await this.models.user.findByPk(id, { include: this.models.role });
+    const userDb = await this.userModel.findByPk(id, {
+      include: [
+        {
+          model: this.roleModel,
+          as: 'role_id_roles_user_roles'
+        },
+      ]
+    });
 
     if (!userDb) {
       throw new NotFoundException(id, 'User');
     }
 
-    return this.toEntity(userDb.toJSON());
+    return await this.toEntity(userDb);
   }
 
-  toEntity(user: any): UserEntity {
+  async userExist(email: string): Promise<boolean> {
+    const userDb = await this.userModel.findOne({ where: { email: email } });
+    if (userDb) {
+      return true
+    }
+    return false
+  }
+
+  async toEntity(user: any): Promise<UserEntity> {
+    console.log(await user.getUser_roles())
+
+    const roleEntitys = await Promise.all(
+      user.getUser_roles().map(async (role: any) => {
+
+        console.log(role)
+        const permissionEntities = role.permission_id_permissions.map((permission: any) => {
+          return new PermissionEntity({
+            id: permission.id,
+            route: permission.route,
+            method: permission.id
+          })
+        })
+        return new RoleEntity({
+          id: role.id,
+          name: role.name,
+          permissions: permissionEntities
+        })
+      })
+    )
+
     return new UserEntity({
-      firstName: new Name(user.getDataValue('firstName')),
-      lastName: new Name(user.getDataValue('lastName')),
-      email: new Email(user.getDataValue('email')),
-      password: new Password(user.getDataValue('password')),
-      roles: user.getDataValue('roles'),
-    });
-  }
-
-  validate(user:UserRequestParams):void{
-    new UserEntity({
-      firstName: new Name(user.firstName),
-      lastName: new Name(user.lastName),
-      email: new Email(user.email),
-      password: new Password(user.password),
-      roles: user.roles,
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
+      roles: roleEntitys,
     });
   }
 }

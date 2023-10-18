@@ -7,14 +7,14 @@ import { Permission as PermissionEntity } from '../entities/auth/Permission';
 import { Email } from '../entities/auth/Email';
 
 export type Payload = {
-  email: Email;
+  email: string;
   permissions: PermissionEntity[];
 };
 
 export type DecodedToken = {
   exp: string;
   expiresIn: Date;
-  email: Email;
+  email: string;
   permissions: PermissionEntity[];
 };
 

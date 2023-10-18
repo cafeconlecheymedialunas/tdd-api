@@ -1,21 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
 import { RoleCrud } from '../../../core/useCases/RoleCrud';
-import { BaseController, PaginatedResult } from '../Base';
-import { RolePostgres } from '../../repositories/sequelize/Role';
+import { Role as RolePostgres } from '../../repositories/sequelize/Role';
 
-export class Update extends BaseController {
+export class Update {
   private readonly roleCrudUseCase: RoleCrud;
   constructor() {
-    super();
     this.roleCrudUseCase = new RoleCrud(new RolePostgres());
   }
 
-  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id, role } = req.body;
-      const roles = await this.roleCrudUseCase.update(id, role);
 
-      return this.paginate(roles,req);
+      const roles = await this.roleCrudUseCase.update(req);
+
+      res.json(roles);
     } catch (error) {
       next(error);
     }

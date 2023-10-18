@@ -1,12 +1,12 @@
 import { Userable } from '../interfaces/repositories/auth/Userable';
 import { Hashable } from '../interfaces/services/Hashable';
-import { UserWithThatEmailAlreadyExistsException } from '../errors';
+import { ClientException, UserWithThatEmailAlreadyExistsException } from '../errors';
 import { UserRequestParams } from '../types/requestInputs';
 import { User as UserEntity } from '../entities/auth/User';
 import { Operations, QueryFilter } from '../types/database';
 import { Email } from '../entities/auth/Email';
 import { Password } from '../entities/auth/Password';
-
+import { Request } from 'express';
 export class Register {
   private readonly userRepository: Userable;
   private readonly hashService: Hashable;
@@ -24,15 +24,14 @@ export class Register {
    * @returns {Promise<void>} - A promise that resolves if no user with the same email is found.
    * @throws {UserWithThatEmailAlreadyExistsException} - If a user with the same email is found.
    */
-  async userExist(email: Email): Promise<void> {
-    const whereClause: QueryFilter = {
-      email: {
-        [Operations.eq]: email.getValue(),
-      },
-    };
-    const userExist = await this.userRepository.filter(whereClause);
+  async userExist(email: string): Promise<void> {
 
-    if (userExist.length > 0) throw new UserWithThatEmailAlreadyExistsException(email);
+    const userExist = await this.userRepository.userExist(email);
+
+    if (userExist) {
+      throw new UserWithThatEmailAlreadyExistsException(email);
+    }
+
   }
 
   /**
@@ -41,7 +40,7 @@ export class Register {
    * @returns {Promise<string>} A promise that resolves to the generated hash.
    * @throws {ClientException} If the password hash is not generated successfully.
    */
-  async generateHash(password: Password): Promise<string> {
+  async generateHash(password: string): Promise<string> {
     const hashedPassword = await this.hashService.hash(password);
 
     return hashedPassword;
@@ -52,12 +51,12 @@ export class Register {
    * @param {UserRequestParams} user - The user information, including email, password, and name.
    * @returns {Promise<UserEntity | false>} - A promise that resolves to the newly registered user object or false if registration fails.
    */
-  async register(user: UserRequestParams): Promise<UserEntity | false> {
-    const { email, password, firstName, lastName } = user;
+  async register(req: Request): Promise<UserEntity | false> {
+    const user: UserRequestParams = req.body;
 
-    await this.userExist(new Email(email));
+    await this.userExist(user.email);
 
-    const hashedPassword = await this.generateHash(new Password(password));
+    const hashedPassword = await this.generateHash(user.password);
 
     user.password = hashedPassword;
 

@@ -7,11 +7,11 @@ import { hasCorrectMaxLength, hasCorrectMinLength, isNotEmpty } from './validaci
  * Represents a Role. The 'permissions' property should store an array of Permission IDs.
  */
 export class Role {
-  private id?: SerialId;
-  private name!: Name;
+  private id?: number;
+  private name!: string;
   private permissions!: PermissionEntity[];
 
-  constructor(user: { id?: SerialId; name: Name; permissions: PermissionEntity[] }) {
+  constructor(user: { id?: number; name: string; permissions: PermissionEntity[] }) {
     if (user.id) {
       this.setId(user.id);
     }
@@ -31,12 +31,14 @@ export class Role {
     return this.permissions;
   }
 
-  public setId(id: SerialId) {
-    this.id = id;
+  public setId(value: number) {
+    const id = new SerialId(value)
+    this.id = id.getValue();
   }
 
-  public setName(name: Name) {
-    this.name = name;
+  public setName(value: string) {
+    const name = new Name(value)
+    this.name = name.getValue();
   }
 
   public setPermissions(permissions: PermissionEntity[]) {

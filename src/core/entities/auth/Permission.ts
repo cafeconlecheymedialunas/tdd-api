@@ -1,4 +1,4 @@
-import { MESSAGES } from 'core/types/validationRules';
+import { MESSAGES } from '../../../core/types/validationRules';
 import { ValidationException } from '../../errors';
 import { Method } from './Method';
 import { hasCorrectMaxLength, isNotEmpty, isString } from './validaciones';
@@ -6,16 +6,16 @@ import { SerialId } from './SerialId';
 import { Name } from './Name';
 
 export class Permission {
-  private id?: SerialId;
-  private route: Name;
-  private method: Method;
+  private id?: number;
+  private route!: string;
+  private method!: string;
 
-  constructor(user: { id?: SerialId; route: Name; method: Method }) {
-    this.id = user.id;
-
-    this.route = user.route;
-
-    this.method = user.method;
+  constructor(user: { id?: number; route: string; method: string }) {
+    if (user.id) {
+      this.setId(user.id);
+    }
+    this.setRoute(user.route);
+    this.setMethod(user.method);
   }
 
   public getId() {
@@ -30,15 +30,18 @@ export class Permission {
     return this.method;
   }
 
-  public setId(id: SerialId) {
-    this.id = id;
+  public setId(value: number) {
+    const serialId = new SerialId(value);
+    this.id = serialId.getValue();
   }
 
-  public setRoute(route: Name) {
-    this.route = route;
+  public setRoute(value: string) {
+    const route = new Name(value)
+    this.route = route.getValue();
   }
 
-  public setMethod(method: Method) {
-    this.method = method;
+  public setMethod(value: string) {
+    const method = new Method(value)
+    this.method = method.getValue();
   }
 }

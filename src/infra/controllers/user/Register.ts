@@ -1,17 +1,14 @@
 import { WrongCredentialsException } from '../../../core/errors';
 import { Request, Response, NextFunction } from 'express';
-
-import { BaseController, PaginatedResult } from '../Base';
 import { Register as RegisterUseCase } from '../../../core/useCases/Register';
 import { Hash } from '../../../core/services/Hash';
 import bcrypt from 'bcrypt';
-import { UserPostgres } from '../../repositories/sequelize/User';
+import { User as UserPostgres } from '../../repositories/sequelize/User';
 
-export class Register extends BaseController {
+export class Register {
   private readonly registerUseCase: RegisterUseCase;
 
   constructor() {
-    super();
     this.registerUseCase = new RegisterUseCase(new UserPostgres(), new Hash(bcrypt));
   }
 
@@ -23,12 +20,12 @@ export class Register extends BaseController {
    * @returns {Promise<void>} - A promise that resolves when the registration is complete.
    * @throws {WrongCredentialsException} - If the registration fails.
    */
-  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { firstName, lastName, email, password, roles } = req.body;
-      const result = await this.registerUseCase.register({ firstName, lastName, email, password, roles });
+
+      const result = await this.registerUseCase.register(req);
       if (!result) throw new WrongCredentialsException();
-      return this.paginate(result,req);
+      res.json(result);
     } catch (error) {
       next(error);
     }

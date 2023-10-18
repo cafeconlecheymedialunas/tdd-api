@@ -1,21 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserCrud } from '../../../core/useCases/UserCrud';
-import { BaseController, PaginatedResult } from '../Base';
-import { UserPostgres } from '../../repositories/sequelize/User';
+import { User as UserPostgres } from '../../repositories/sequelize/User';
 
-export class getById extends BaseController {
+export class getById {
   private readonly crudUserUseCase: UserCrud;
   constructor() {
-    super();
     this.crudUserUseCase = new UserCrud(new UserPostgres());
   }
 
-  async handle(req: Request, next: NextFunction): Promise<PaginatedResult | void> {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id, name } = req.body;
-      const users = await this.crudUserUseCase.getById(id);
 
-      return this.paginate(users,req);
+      const users = await this.crudUserUseCase.getById(req);
+
+      res.json(users)
     } catch (error) {
       next(error);
     }
