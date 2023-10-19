@@ -2,6 +2,7 @@ import { Roleable } from '../../../core/interfaces/repositories/auth/Roleable';
 import { NotFoundException } from '../../../core/errors';
 import { RoleRequestParams } from '../../../core/types/requestInputs';
 import { Role as RoleEntity } from '../../../core/entities/auth/Role';
+import { Permission as PermissionEntity } from '../../../core/entities/auth/Permission';
 import { QueryFilter } from '../../../core/types/database';
 import { Name } from '../../../core/entities/auth/Name';
 import { SerialId } from '../../../core/entities/auth/SerialId';
@@ -36,17 +37,7 @@ export class Role implements Roleable {
       ]
     });
 
-    roles.forEach((role: any) => {
-      const permissions = role.permission_id_permissions; // Accede a la propiedad de permisos asociados
-
-      // Haz algo con los permisos, por ejemplo, imprímelos en la consola
-      console.log(`Permisos para el rol ${role.name}:`, permissions);
-    });
-
-
-    return roles.map((role: any) => {
-      return this.toEntity(role);
-    });
+    return await this.mapEntities(roles)
   }
 
   /**
@@ -64,12 +55,7 @@ export class Role implements Roleable {
         },
       ]
     });
-
-
-    // Convierte los usuarios filtrados a objetos RoleDto
-    return filteredRoles.map((role: any) => {
-      return this.toEntity(role);
-    });
+    return await this.mapEntities(filteredRoles)
   }
   /**
    * Adds a new Role to the collection and return a RoleDto.
@@ -117,7 +103,6 @@ export class Role implements Roleable {
         id,
       },
     });
-    console.log(indexRole)
 
     return indexRole;
   }
@@ -175,11 +160,51 @@ export class Role implements Roleable {
     return this.toEntity(roleDb);
   }
 
-  private toEntity(role: any): RoleEntity {
+  async toEntity(role: any): Promise<RoleEntity> {
+    //const roles = await role.getRole_roles()
+    let permissionEntities: PermissionEntity[] = []
+
+    let permissions = await role.getPermission_id_permissions()
+
+
+
+    await Promise.all(
+
+      Object.keys(permissions).map(async (indexPermission) => {
+
+
+
+
+        permissionEntities.push(new PermissionEntity({
+          id: permissions[indexPermission].id,
+          route: permissions[indexPermission].route,
+          method: permissions[indexPermission].method
+        }))
+
+
+
+
+      })
+
+
+    )
+
     return new RoleEntity({
       id: role.id,
       name: role.name,
-      permissions: role.permissions,
+      permissions: permissionEntities
     });
+
+
+  }
+
+  async mapEntities(roles: any) {
+    const roleEntities = await Promise.all(
+      Object.keys(roles).map(async (indexRole) => {
+        return await this.toEntity(roles[indexRole])
+      })
+    )
+
+    return roleEntities;
   }
 }

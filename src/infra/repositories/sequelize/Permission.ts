@@ -34,11 +34,7 @@ export class Permission implements Permissionable {
     });
 
 
-    const permissions = permissionsDb.map((permission: any) => {
-      return this.toEntity(permission.toJSON());
-    });
-
-    return permissions;
+    return this.mapEntities(permissionsDb)
   }
 
   /**
@@ -57,9 +53,7 @@ export class Permission implements Permissionable {
       ]
     });
 
-    return filteredPermissions.map((permission: any) => {
-      return this.toEntity(permission);
-    });
+    return this.mapEntities(filteredPermissions)
   }
   /**
    * Adds a new Permission to the collection and return a PermissionDto.
@@ -92,7 +86,6 @@ export class Permission implements Permissionable {
         id,
       },
     });
-    console.log(indexPermission)
     return indexPermission;
   }
 
@@ -141,6 +134,15 @@ export class Permission implements Permissionable {
       route: permission.route,
       method: permission.method,
     });
+  }
+
+  async mapEntities(permissions: any) {
+    const permissionEntities = Object.keys(permissions).map((indexPermission) => {
+      return this.toEntity(permissions[indexPermission])
+    })
+
+
+    return permissionEntities;
   }
 
 
