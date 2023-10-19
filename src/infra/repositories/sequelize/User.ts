@@ -10,6 +10,7 @@ import { Password } from '../../../core/entities/auth/Password';
 import Application from '../../../Application';
 import { Permission as PermissionEntity } from '../../../core/entities/auth/Permission';
 import { Role as RoleEntity } from '../../../core/entities/auth/Role';
+import { Role } from './Role';
 export class User implements Userable {
   protected userModel: any;
   protected roleModel: any;
@@ -32,10 +33,11 @@ export class User implements Userable {
       ]
     });
 
-    return users.map(async (user: any) => {
-      return await this.toEntity(user);
-    });
+    return await this.mapEntities(users)
+
   }
+
+
 
   /**
    * Filters users based on given conditions.
@@ -53,10 +55,7 @@ export class User implements Userable {
       ]
     });
 
-    // Convierte los usuarios filtrados a objetos UserDto
-    return filteredUsers.map(async (user: any) => {
-      return await this.toEntity(user);
-    });
+    return await this.mapEntities(filteredUsers)
   }
   /**
    * Adds a new User to the collection and return a UserDto.
@@ -164,26 +163,44 @@ export class User implements Userable {
   }
 
   async toEntity(user: any): Promise<UserEntity> {
-    console.log(await user.getUser_roles())
+    //const roles = await user.getUser_roles()
+    let roleEntities: RoleEntity[] = []
 
-    const roleEntitys = await Promise.all(
-      user.getUser_roles().map(async (role: any) => {
+    let roles = await user.getRole_id_roles_user_roles()
 
-        console.log(role)
-        const permissionEntities = role.permission_id_permissions.map((permission: any) => {
+
+
+    await Promise.all(
+
+      Object.keys(roles).map(async (indexRole) => {
+
+
+        const permissions = await roles[indexRole].getPermission_id_permissions()
+        //console.log(permissions)
+
+        const permissionEntities = Object.keys(permissions).map((indexPermission) => {
+          console.log(permissions[indexPermission].route)
           return new PermissionEntity({
-            id: permission.id,
-            route: permission.route,
-            method: permission.id
+            id: permissions[indexPermission].id,
+            route: permissions[indexPermission].route,
+            method: permissions[indexPermission].method
           })
-        })
-        return new RoleEntity({
-          id: role.id,
-          name: role.name,
-          permissions: permissionEntities
-        })
+        });
+
+        roleEntities.push(
+          new RoleEntity({
+            id: roles[indexRole].id,
+            name: roles[indexRole].name,
+            permissions: permissionEntities
+          })
+        )
+
       })
+
+
     )
+
+
 
     return new UserEntity({
       id: user.id,
@@ -191,7 +208,17 @@ export class User implements Userable {
       lastname: user.lastname,
       email: user.email,
       password: user.password,
-      roles: roleEntitys,
+      roles: roleEntities
     });
+  }
+
+  async mapEntities(users: any) {
+    const userEntities = await Promise.all(
+      Object.keys(users).map(async (indexUser) => {
+        return await this.toEntity(users[indexUser])
+      })
+    )
+
+    return userEntities;
   }
 }
