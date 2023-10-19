@@ -163,7 +163,7 @@ export class User implements Userable {
   }
 
   async toEntity(user: any): Promise<UserEntity> {
-    //const roles = await user.getUser_roles()
+
     let roleEntities: RoleEntity[] = []
 
     let roles = await user.getRole_id_roles_user_roles()
@@ -176,10 +176,9 @@ export class User implements Userable {
 
 
         const permissions = await roles[indexRole].getPermission_id_permissions()
-        //console.log(permissions)
 
         const permissionEntities = Object.keys(permissions).map((indexPermission) => {
-          console.log(permissions[indexPermission].route)
+
           return new PermissionEntity({
             id: permissions[indexPermission].id,
             route: permissions[indexPermission].route,

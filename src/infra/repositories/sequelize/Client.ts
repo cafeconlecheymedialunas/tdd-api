@@ -1,6 +1,6 @@
 import { Clientable } from '../../../core/interfaces/repositories/auth/Clientable';
 import { NotFoundException } from '../../../core/errors';
-import { Client as ClientEntity } from '../../../core/entities/auth/Client';
+
 import { ClientRequestParams } from '../../../core/types/requestInputs';
 import { QueryFilter } from '../../../core/types/database';
 import { Name } from '../../../core/entities/auth/Name';
@@ -8,7 +8,9 @@ import { Email } from '../../../core/entities/auth/Email';
 import { Password } from '../../../core/entities/auth/Password';
 
 import Application from '../../../Application';
-import { Role } from '../../../core/entities/auth/Role';
+import { Role as RoleEntity } from '../../../core/entities/auth/Role';
+import { Client as ClientEntity } from '../../../core/entities/auth/Client';
+import { Permission as PermissionEntity } from '../../../core/entities/auth/Permission';
 
 export class Client implements Clientable {
     protected clientModel: any;
@@ -32,9 +34,7 @@ export class Client implements Clientable {
             ]
         });
 
-        return clients.map(async (client: any) => {
-            return await this.toEntity(client);
-        });
+        return await this.mapEntities(clients)
     }
 
     /**
@@ -53,10 +53,7 @@ export class Client implements Clientable {
             ]
         });
 
-        // Convierte los usuarios filtrados a objetos ClientDto
-        return filteredClients.map(async (client: any) => {
-            return await this.toEntity(client);
-        });
+        return await this.mapEntities(filteredClients)
     }
     /**
      * Adds a new Client to the collection and return a ClientDto.
@@ -158,25 +155,55 @@ export class Client implements Clientable {
     }
 
     async toEntity(client: any): Promise<ClientEntity> {
+        //const roles = await client.getClient_roles()
+        let roleEntities: RoleEntity[] = []
 
-        const roles = await client.getRole_id_roles()
-        const roleEntities = await Promise.all(
-            roles.map(async (role: any) => {
-                const permissions = await role.getPermission_id_permissions()
-                console.log(permissions)
-                return new Role({
-                    name: role.name,
-                    permissions: permissions
-                })
+        let roles = await client.getRole_id_roles()
+
+
+
+        await Promise.all(
+
+            Object.keys(roles).map(async (indexRole) => {
+                const permissions = await roles[indexRole].getPermission_id_permissions()
+
+                const permissionEntities = Object.keys(permissions).map((indexPermission) => {
+                    return new PermissionEntity({
+                        id: permissions[indexPermission].id,
+                        route: permissions[indexPermission].route,
+                        method: permissions[indexPermission].method
+                    })
+                });
+
+                roleEntities.push(
+                    new RoleEntity({
+                        id: roles[indexRole].id,
+                        name: roles[indexRole].name,
+                        permissions: permissionEntities
+                    })
+                )
+
             })
-        );
-        console.log(roleEntities)
+
+
+        )
+
 
 
         return new ClientEntity({
             id: client.id,
             name: client.name,
-            roles: client.roles
+            roles: roleEntities
         });
+    }
+
+    async mapEntities(clients: any) {
+        const clientEntities = await Promise.all(
+            Object.keys(clients).map(async (indexClient) => {
+                return await this.toEntity(clients[indexClient])
+            })
+        )
+
+        return clientEntities;
     }
 }

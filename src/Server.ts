@@ -49,7 +49,6 @@ export default class Server {
 
     const server = app.listen(port, async () => {
       console.log(`Servidor Express iniciado en el puerto ${port}`);
-      //console.log(listEndpoints(app))
     });
 
     return server;
