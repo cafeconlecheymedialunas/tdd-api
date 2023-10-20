@@ -26,7 +26,7 @@ export type ValidationRule = {
 export const MESSAGES = {
   isNotEmpty: `The %s is required`,
   isString: `The %s must be a string`,
-  isNumber: `The %s must be a string`, // Corrected typo here
+  isNumber: `The %s must be a string`,
   isBoolean: `The %s must be a boolean`,
   min: `The %s have at least one digit`,
   max: `The %s have at least 120 digit`,

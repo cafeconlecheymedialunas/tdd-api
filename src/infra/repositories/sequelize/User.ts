@@ -34,7 +34,6 @@ export class User implements Userable {
     });
 
     return await this.mapEntities(users)
-
   }
 
 
@@ -57,14 +56,13 @@ export class User implements Userable {
 
     return await this.mapEntities(filteredUsers)
   }
+
   /**
    * Adds a new User to the collection and return a UserDto.
    * @param {UserRequestParams} user - The user object to add.
    * @returns {Promise<UserDto>} - A promise that resolves to the added user object (as a UserDto) if successful.
    */
   async create(user: UserRequestParams): Promise<UserEntity> {
-
-
 
     const roleDb = await this.userModel.create({
       firstname: user.firstname,
@@ -74,9 +72,6 @@ export class User implements Userable {
       roles: user.roles
     });
 
-
-
-    // Asocia los permisos al rol
     if (user.roles && user.roles.length > 0) {
       const selectedRoles = await this.roleModel.findAll({
         where: {
@@ -86,11 +81,7 @@ export class User implements Userable {
 
       await roleDb.addRole_id_roles_user_roles(selectedRoles)
       await roleDb.save()
-
-
-
     }
-
 
     return await this.toEntity(roleDb)
   }

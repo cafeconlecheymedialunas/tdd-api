@@ -1,16 +1,16 @@
 import { Role as RoleDto } from './Role';
 
 export class User {
-  private id: number = 0; // Valor por defecto para id
+  private id: number = 0;
   private firstname: string = '';
   private lastname: string = '';
   private email: string = '';
   private password: string = '';
-  private roles: RoleDto[] = []; // Valor por defecto para roles
+  private roles: RoleDto[] = [];
 
   constructor(
     user: {
-      id?: number; // El signo "?" indica que el id es opcional
+      id?: number;
       firstname?: string;
       lastname?: string;
       email?: string;
@@ -18,9 +18,7 @@ export class User {
       roles?: RoleDto[];
     } = {},
   ) {
-    // Usamos un objeto vacío como valor por defecto del parámetro user
 
-    // Si se proporcionan valores en user, los asignamos a las propiedades correspondientes
     if (user.id !== undefined) {
       this.id = user.id;
     }
@@ -46,7 +44,6 @@ export class User {
     }
   }
 
-  // Resto de métodos de la clase
   public getId() {
     return this.id;
   }

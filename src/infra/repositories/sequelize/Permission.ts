@@ -106,7 +106,6 @@ export class Permission implements Permissionable {
     permissionDb.set('route', permission.route);
     permissionDb.set('method', permission.method);
 
-    // Guarda los cambios en la base de datos
     await permissionDb.save();
 
     return this.toEntity(permissionDb);

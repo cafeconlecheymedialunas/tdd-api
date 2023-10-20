@@ -68,7 +68,6 @@ export class Role implements Roleable {
       name: role.name,
     });
 
-    // Asocia los permisos al rol
     if (role.permissions && role.permissions.length > 0) {
       const selectedPermissions = await this.permissionModel.findAll({
         where: {
@@ -152,7 +151,6 @@ export class Role implements Roleable {
 
     });
 
-    // Si el usuario no se encuentra, devuelve false
     if (!roleDb) {
       throw new NotFoundException(id, 'Role');
     }
@@ -161,7 +159,7 @@ export class Role implements Roleable {
   }
 
   async toEntity(role: any): Promise<RoleEntity> {
-    //const roles = await role.getRole_roles()
+
     let permissionEntities: PermissionEntity[] = []
 
     let permissions = await role.getPermission_id_permissions()
