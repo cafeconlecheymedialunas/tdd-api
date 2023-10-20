@@ -6,7 +6,6 @@ export class Hash implements Hashable {
   private readonly hashLibrary;
   saltRounds;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(hashLibrary: any, saltRounds = 10) {
     this.hashLibrary = hashLibrary;
 

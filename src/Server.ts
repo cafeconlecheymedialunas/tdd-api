@@ -1,4 +1,3 @@
-// Función para comprobar si un puerto está ocupado
 import http from 'http';
 import net from 'net';
 import { Express } from 'express';
@@ -36,7 +35,7 @@ export default class Server {
       attempts++;
     }
 
-    return null; // Si no se encuentra un puerto disponible después de los intentos máximos
+    return null;
   }
 
   async start(app: Express, initialPort: number, maxAttempts: number): Promise<http.Server | null> {
