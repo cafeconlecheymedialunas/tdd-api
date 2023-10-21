@@ -93,13 +93,18 @@ export class Client implements Clientable {
      * @param {number} id - The ID of the item to delete.
      * @returns {Promise<boolean>} - A promise that resolves to true if the item was successfully deleted, or false if the item was not found.
      */
-    async delete(id: number): Promise<number> {
-        const indexClient = await this.clientModel.destroy({
+    async delete(id: number): Promise<boolean> {
+
+        const affectedRows = await this.clientModel.destroy({
             where: {
                 id,
             },
         });
-        return indexClient;
+
+        if (affectedRows === 0) {
+            throw new NotFoundException(id, 'Client');
+        }
+        return affectedRows
     }
 
     /**
@@ -115,6 +120,8 @@ export class Client implements Clientable {
         }
 
         clientDb.set('firstname', client.name);
+
+        await this.syncRoles(client.roles, clientDb)
 
 
 
@@ -155,7 +162,7 @@ export class Client implements Clientable {
     }
 
     async toEntity(client: any): Promise<ClientEntity> {
-        //const roles = await client.getClient_roles()
+
         let roleEntities: RoleEntity[] = []
 
         let roles = await client.getRole_id_roles()
@@ -205,5 +212,21 @@ export class Client implements Clientable {
         )
 
         return clientEntities;
+    }
+
+    async syncRoles(roles: any, client: any) {
+
+        console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(client)))
+        const rolesDb = await client.getRole_id_roles()
+        await client.removeRole_id_roles(rolesDb);
+
+        if (roles && roles.length > 0) {
+            const selectedRoles = await this.roleModel.findAll({
+                where: {
+                    id: roles,
+                },
+            });
+            await client.addRole_id_roles(selectedRoles);
+        }
     }
 }

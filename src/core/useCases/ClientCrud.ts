@@ -47,7 +47,7 @@ export class ClientCrud {
     return result;
   }
 
-  async delete(req: Request): Promise<number> {
+  async delete(req: Request): Promise<boolean> {
 
     const id = parseInt(req.params.id);
 

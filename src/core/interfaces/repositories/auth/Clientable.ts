@@ -6,7 +6,7 @@ export interface Clientable {
     getAll(): Promise<ClientEntity[]>;
     filter(conditions: QueryFilter): Promise<ClientEntity[]>;
     create(client: ClientRequestParams): Promise<ClientEntity>;
-    delete(id: number): Promise<number>;
+    delete(id: number): Promise<boolean>;
     update(id: number, client: ClientRequestParams): Promise<ClientEntity>;
     getById(id: number): Promise<ClientEntity>;
     //getRoles(roles: number[]): RoleEntity[];
