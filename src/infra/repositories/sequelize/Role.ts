@@ -121,13 +121,7 @@ export class Role implements Roleable {
 
     roleDb.set('name', role.name);
 
-    const permissions = await this.permissionModel.findAll({
-      where: {
-        id: role.permissions,
-      },
-    });
-
-    roleDb.set('permissions', permissions);
+    await this.syncPermissions(role.permissions, roleDb)
 
     await roleDb.save();
 
@@ -204,5 +198,22 @@ export class Role implements Roleable {
     )
 
     return roleEntities;
+  }
+
+  async syncPermissions(permissions: any, role: any) {
+
+    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(role)))
+    const rolesDb = await role.getRole_permissions()
+    await role.removePermission_id_permission(rolesDb); // Elimina todas las relaciones de roles para este usuario
+
+    if (permissions && permissions.length > 0) {
+      const selectedPermissions = await this.permissionModel.findAll({
+        where: {
+          id: permissions,
+        },
+      });
+
+      await role.addPermission_id_permissions(selectedPermissions); // Establece las nuevas relaciones de roles para este usuario
+    }
   }
 }

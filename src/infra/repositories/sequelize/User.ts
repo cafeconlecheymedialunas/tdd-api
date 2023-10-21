@@ -112,14 +112,35 @@ export class User implements Userable {
       throw new NotFoundException(id, 'User');
     }
 
+
+    //console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(userDb)))
     userDb.set('firstname', user.firstname);
     userDb.set('lastname', user.lastname);
     userDb.set('email', user.email);
     userDb.set('password', user.password);
 
+    console.log(user.roles)
+    await this.syncRoles(user.roles, userDb);
+
     await userDb.save();
 
     return await this.toEntity(userDb);
+  }
+
+  async syncRoles(roles: any, user: any) {
+
+    const rolesDb = await user.getRole_id_roles_user_roles()
+    await user.removeRole_id_roles_user_roles(rolesDb); // Elimina todas las relaciones de roles para este usuario
+
+    if (roles && roles.length > 0) {
+      const selectedRoles = await this.roleModel.findAll({
+        where: {
+          id: roles,
+        },
+      });
+
+      await user.addRole_id_roles_user_role(selectedRoles); // Establece las nuevas relaciones de roles para este usuario
+    }
   }
 
   /**
