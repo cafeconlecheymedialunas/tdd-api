@@ -12,11 +12,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     lugar_nacimiento: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     id_ciudadano: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     fecha_defuncion: {

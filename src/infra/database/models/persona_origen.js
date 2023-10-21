@@ -12,11 +12,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     codigo_visita: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     alias: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     fecha_importacion: {

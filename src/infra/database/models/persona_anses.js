@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     cuil: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     fecha_defuncion: {
@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     archivo_origen: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     }
   }, {

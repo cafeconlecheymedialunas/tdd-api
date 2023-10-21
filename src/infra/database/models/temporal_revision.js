@@ -8,23 +8,23 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     nombre: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     apellodo: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     documento_tipo: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     documento_nro: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     genero: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     fecha_nacimiento: {
@@ -40,11 +40,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     telefono: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     tipo_revision: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     impacto: {
