@@ -1,0 +1,14 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "arselocura1234",
+      "database": "sisu_core",
+      "host": "localhost",
+      "dialect": "postgres",
+      "port": 5433,
+      "dialectOptions": {
+        "bigNumberStrings": true
+      }
+    }
+  }
+  

@@ -1,0 +1,68 @@
+{
+  "env": {
+    "browser": false,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error"
+    ],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": [
+      "error"
+    ],
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "max-len": [
+      "warn",
+      {
+        "code": 120,
+        "ignoreComments": true,
+        "ignoreUrls": true
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "prefer-arrow-callback": [
+      "error"
+    ],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": [
+          "const",
+          "let",
+          "var"
+        ],
+        "next": "*"
+      }
+    ],
+    "require-await": "error"
+  }
+}

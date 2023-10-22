@@ -11,12 +11,11 @@ pids
 logs
 results
 tmp
-*.json
+
 # Build
 public/css/main.css
 # Coverage reports
 coverage
-jest.config.js
 # API keys and secrets
 .env
 # Dependency directory
@@ -32,3 +31,6 @@ Thumbs.db
 public/**/*
 # ignore yarn.lock
 yarn.lock
+
+
+src/infrastructure/repositories/users.json
