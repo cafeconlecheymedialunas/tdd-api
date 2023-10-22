@@ -113,13 +113,11 @@ export class User implements Userable {
     }
 
 
-    //console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(userDb)))
     userDb.set('firstname', user.firstname);
     userDb.set('lastname', user.lastname);
     userDb.set('email', user.email);
     userDb.set('password', user.password);
 
-    console.log(user.roles)
     await this.syncRoles(user.roles, userDb);
 
     await userDb.save();

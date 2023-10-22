@@ -202,7 +202,7 @@ export class Role implements Roleable {
 
   async syncPermissions(permissions: any, role: any) {
 
-    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(role)))
+
     const rolesDb = await role.getRole_permissions()
     await role.removePermission_id_permission(rolesDb); // Elimina todas las relaciones de roles para este usuario
 

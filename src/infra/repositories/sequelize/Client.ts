@@ -216,7 +216,6 @@ export class Client implements Clientable {
 
     async syncRoles(roles: any, client: any) {
 
-        console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(client)))
         const rolesDb = await client.getRole_id_roles()
         await client.removeRole_id_roles(rolesDb);
 
